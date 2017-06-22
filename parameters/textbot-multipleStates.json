@@ -1,0 +1,57 @@
+{
+    "conversation": {
+        "context": {
+            "conversation_id": "500012f5-4d93-4588-9b69-03993d7b37a2",
+            "date": "Thursday",
+            "summary": "asking for location",
+            "system": {
+                "dialog_request_counter": 2,
+                "dialog_stack": [
+                    {
+                        "dialog_node": "node_2_1471378528322"
+                    }
+                ],
+                "dialog_turn_counter": 2
+            },
+            "today": "Thursday",
+            "tomorrow": "Friday"
+        },
+        "entities": [],
+        "input": {
+            "text": "Hello"
+        },
+        "intents": [
+            {
+                "confidence": 1,
+                "intent": "greeting"
+            }
+        ],
+        "output": {
+            "log_messages": [],
+            "nodes_visited": [
+                "node_5_1469743379091",
+                "node_1_1471376546498",
+                "node_2_1471378528322"
+            ],
+            "text": [
+                "",
+                "Hello there! I'm Watson weather bot. Let's talk about weather, shall we?",
+                "To get started, tell me the name of your city. It’ll help me send you weather forecasts for your area."
+            ]
+        }
+    },
+    "location": {
+        "city": "",
+        "isCity": false,
+        "locationInfo": null,
+        "type": ""
+    },
+    "message": {
+        "context": {
+            "date": "Thursday",
+            "today": "Thursday",
+            "tomorrow": "Friday"
+        },
+        "input": "Austin"
+    }
+}
