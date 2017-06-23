@@ -85,57 +85,57 @@ Parameters for the sequence can be found in the parameters folder. Since there i
 This will produce an initial context that will be used in the next execution of the sequence.
 
 2. Next, you can choose whether to input a city name that applies to only one state or that applies to many states.
-   * For a city name that applies to only one state:
-   i. Edit the textbot-city.json file to include the city name of your choice.
-      ```none
-      "message": {
-        "context": {
-            "date": "Thursday",
-            "today": "Thursday",
-            "tomorrow": "Friday"
-        },
-        "input": "Chicopee" <====== This is where the city name goes
+### For a city name that applies to only one state:
+1. Edit the textbot-city.json file to include the city name of your choice.
+   ```none
+   "message": {
+       "context": {
+           "date": "Thursday",
+           "today": "Thursday",
+           "tomorrow": "Friday"
+       },
+       "input": "Chicopee" <====== This is where the city name goes
     }
     ```
-    ii. Save this file and then execute the sequence once more with:
-    ```none
+2. Save this file and then execute the sequence once more with:
+   ```none
     wsk action invoke <sequence name> --param-file textbot-city.json
     ```
-    iii. On your terminal window, look for the field that says "output" as this will contain your weather forcast for that city.
+3. On your terminal window, look for the field that says "output" as this will contain your weather forcast for that city.
 
-    * For a city name that exists in multiple U.S. states:
-    i. Edit the textbot-multipleStates.json file to include the city name of your choice.
-    ```none
-    "message": {
-        "context": {
-            "date": "Thursday",
-            "today": "Thursday",
-            "tomorrow": "Friday"
-        },
-	"input": "Austin" <======= This is where the city name goes
-    }
-	```
-    ii. Save this file and then execute the sequence with that parameter file.
-    	```none
-	wsk action invoke <sequence name> --param-file textbot-multipleStates.json
-    	```
-    iii. Copy the terminal window output from that sequence and paste it into the textbot-state.json file.
-    iv. Change the following field to include the name of the state for the city you are querying:
-    	```none
-	"message": {
-       	    "context": {
-            	"date": "Thursday",
-                "today": "Thursday",
-                "tomorrow": "Friday"
-            },
-        "input": "Texas" <======= This is where the state name goes
-        }
-    	```
-     v. Execute the sequence once more with this file:
-     ```none
-     wsk action invoke <sequence name> --param-file textbot-state,json
-     ```
-     vi. Look for the field that says "output" on your terminal window to see the weather forecast for your city.
+### For a city name that exists in multiple U.S. states:
+1. Edit the textbot-multipleStates.json file to include the city name of your choice.
+   ```none
+   "message": {
+       "context": {
+           "date": "Thursday",
+           "today": "Thursday",
+           "tomorrow": "Friday"
+       },
+       "input": "Austin" <======= This is where the city name goes
+   }
+   ```
+2. Save this file and then execute the sequence with that parameter file.
+   ```none
+   wsk action invoke <sequence name> --param-file textbot-multipleStates.json
+   ```
+3. Copy the terminal window output from that sequence and paste it into the textbot-state.json file.
+4. Change the following field to include the name of the state for the city you are querying:
+   ```none
+   "message": {
+       "context": {
+           "date": "Thursday",
+           "today": "Thursday",
+           "tomorrow": "Friday"
+       },
+       "input": "Texas" <======= This is where the state name goes
+   }
+   ```
+5. Execute the sequence once more with this file:
+   ```none
+   wsk action invoke <sequence name> --param-file textbot-state,json
+   ```
+6. Look for the field that says "output" on your terminal window to see the weather forecast for your city.
 
 ## Future Updates
 * Cloudant DB integration and the creation of actions to get and store information within the database
