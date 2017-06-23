@@ -80,7 +80,7 @@ Parameters for the sequence can be found in the parameters folder. Since there i
 1. To initialize the Conversation context, and begin the chat bot service, run the following:
 
    ```none
-   wsk action invoke <sequence name> --param-file textbot-init.json
+   wsk action invoke --result <sequence name> --param-file textbot-init.json
    ```
 This will produce an initial context that will be used in the next execution of the sequence.
 
@@ -99,7 +99,7 @@ This will produce an initial context that will be used in the next execution of 
     ```
 2. Save this file and then execute the sequence once more with:
    ```none
-    wsk action invoke <sequence name> --param-file textbot-city.json
+    wsk action invoke --result <sequence name> --param-file textbot-city.json
     ```
 3. On your terminal window, look for the field that says "output" as this will contain your weather forcast for that city.
 
@@ -117,7 +117,7 @@ This will produce an initial context that will be used in the next execution of 
    ```
 2. Save this file and then execute the sequence with that parameter file.
    ```none
-   wsk action invoke <sequence name> --param-file textbot-multipleStates.json
+   wsk action invoke --result <sequence name> --param-file textbot-multipleStates.json
    ```
 3. Copy the terminal window output from that sequence and paste it into the textbot-state.json file.
 4. Change the following field to include the name of the state for the city you are querying:
@@ -133,7 +133,7 @@ This will produce an initial context that will be used in the next execution of 
    ```
 5. Execute the sequence once more with this file:
    ```none
-   wsk action invoke <sequence name> --param-file textbot-state.json
+   wsk action invoke --result <sequence name> --param-file textbot-state.json
    ```
 6. Look for the field that says "output" on your terminal window to see the weather forecast for your city.
 
