@@ -4,9 +4,16 @@ This project gives you the current weather forecast for your city (U.S. only as 
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
+## Table of Contents
+ - [Getting Started](#getting-started)
+   - [Setting up Bluemix and the Watson Services](#setting-up-bluemix-and-the-watson-services)
+   - [OpenWhisk Setup](#openwhisk-setup)
+ - [Running the sequence](#running-the-sequence)
+ - [Future Updates](#future-updates)
+
 ## Getting Started
 
-### Setting up Bluemix and Watson Services
+### Setting up Bluemix and the Watson Services
 
 1. If you do not already have an existing IBM Bluemix account, sign up [here](https://bluemix.net/).
 2. Clone this repository and go to the cloned directory.
@@ -35,7 +42,8 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    wsk action create getWeather actions/getWeather.js --web true
    ```
 3. Change to the config directory and Replace the default parameters with your Watson service credentials. Your credentials can be found by heading to your [dashboard](https://console.bluemix.net/dashboard/apps), clicking on the service name, and then the Service Credentials tab.
-   * Conversation Credentials
+
+   **Conversation Credentials**
    ```none
    {
     "CONVERSATION_USERNAME": "<YOUR CONVERSATION SERVICE USERNAME>",
@@ -46,14 +54,14 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    Your workspace ID can be found by going to your [dashboard](https://console.bluemix.net/dashboard/apps), clicking on your Conversation service,
    then clicking on the Launch Tool button.
 
-   * NLU Credentials
+   **NLU Credentials**
    ```none
    {
     "NLU_USERNAME": "<YOUR NLU SERVICE USERNAME>",
     "NLU_PASSWORD": "<YOUR NLU SERVICE PASSWORD>"
    }
    ```
-   * Weather Company Data Credentials
+   **Weather Company Data Credentials**
    ```none
    {
     "WEATHER_URL": "<YOUR WEATHER SERVICE URL>",
@@ -85,7 +93,8 @@ Parameters for the sequence can be found in the parameters folder. Since there i
 This will produce an initial context that will be used in the next execution of the sequence.
 
 2. Next, you can choose whether to input a city name that applies to only one state or that applies to many states.
-### For a city name that applies to only one state:
+
+### For a city name the exists in only one U.S. state
 1. Edit the textbot-city.json file to include the city name of your choice.
    ```none
    "message": {
@@ -103,7 +112,7 @@ This will produce an initial context that will be used in the next execution of 
     ```
 3. On your terminal window, look for the field that says "output" as this will contain your weather forcast for that city.
 
-### For a city name that exists in multiple U.S. states:
+### For a city name that exists in multiple U.S. states
 1. Edit the textbot-multipleStates.json file to include the city name of your choice.
    ```none
    "message": {
