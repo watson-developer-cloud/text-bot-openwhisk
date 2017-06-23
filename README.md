@@ -133,7 +133,7 @@ This will produce an initial context that will be used in the next execution of 
    ```
 5. Execute the sequence once more with this file:
    ```none
-   wsk action invoke <sequence name> --param-file textbot-state,json
+   wsk action invoke <sequence name> --param-file textbot-state.json
    ```
 6. Look for the field that says "output" on your terminal window to see the weather forecast for your city.
 
