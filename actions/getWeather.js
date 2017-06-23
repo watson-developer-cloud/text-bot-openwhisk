@@ -1,6 +1,6 @@
 console.log("doing weather");
 /**
- * Calls the Weather API and returns the Geolocation for a given city.
+ * Calls the Weather API and returns the Weather for a given city.
  * @param {Object} params The parameters
  * @param {Object} params.latitude The latitude of the city, if null this action doesn't do anything.
  * @param {String} params.longitude The longitude of the city, if null this action doesn't do anything.

@@ -1,3 +1,10 @@
+/**
+ * Calls the Natural Language Understanding service and returns a location type and disambiguation.
+ * @param {Object} params The parameters
+ * @param {String} params.NLU_USERNAME The username for the NLU service.
+ * @param {String} params.NLU_PASSWORD The password for the NLU service.
+ */
+
 console.log("doing nlu");
 function main(params) {
     console.log("calling nlu");

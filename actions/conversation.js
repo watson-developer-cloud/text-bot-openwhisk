@@ -1,3 +1,10 @@
+/**
+ * Calls the Conversation service and returns a conversation context.
+ * @param {Object} params The parameters
+ * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.
+ * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.
+ */
+
 console.log("doing conversation");
 function main(params) {
     console.log("calling conversation");
