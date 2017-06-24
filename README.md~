@@ -4,7 +4,6 @@ This project gives you the current weather forecast for your city (U.S. only as 
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
-## OpenWhisk Action Architecture
 ![**OpenWhisk Action Architecture**](openwhiskflow.png?raw=true)
 
 ## Table of Contents
