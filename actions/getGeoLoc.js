@@ -8,6 +8,15 @@ console.log("doing geoloc");
  */
 function main(params) {
     if (!params || !params.location || !params.location.isCity || params.location.state) {
+        console.log("not enough params");
+        delete params.WEATHER_USERNAME;
+        delete params.WEATHER_PASSWORD;
+        delete params.WEATHER_URL;
+        if (params.__ow_method) {
+            delete params.__ow_method;
+            delete params.__ow_headers;
+            delete params.__ow_path;
+        }
         return params;
     }else {
         return new Promise(function(resolve, reject) {
@@ -19,7 +28,7 @@ function main(params) {
                 url: params.WEATHER_URL + method,
                 auth: {
                     username: params.WEATHER_USERNAME,
-                    password: params.WEATHER_PASSWORD, 
+                    password: params.WEATHER_PASSWORD,
                     sendImmediately: true
                 },
                 jar: true,
@@ -63,6 +72,15 @@ function main(params) {
                 console.log(city_states[0].abbreviation);
                 
                 var output = Object.assign({}, params, {geolocation: city_states});
+                delete output.WEATHER_USERNAME;
+                delete output.WEATHER_PASSWORD;
+                delete output.WEATHER_URL;
+                if (output.__ow_method) {
+                    delete output.__ow_method;
+                    delete output.__ow_headers;
+                    delete output.__ow_path;
+                }
+                console.log(output);
 
                 if (error || response.statusCode != 200) {
                     reject(error);

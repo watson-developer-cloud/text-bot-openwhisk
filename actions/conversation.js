@@ -1,8 +1,8 @@
-/**
- * Calls the Conversation service and returns a conversation context.
- * @param {Object} params The parameters
- * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.
- * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.
+/**                                                                                                                                   
+ * Calls the Conversation service and returns a conversation context.                                                                 
+ * @param {Object} params The parameters                                                                                              
+ * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.                                            
+ * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.                                            
  */
 
 console.log("doing conversation");
@@ -51,8 +51,7 @@ function main(params) {
         console.log("checking if context is empty");
         console.log(params.message.context);
         console.log("debug");
-        //console.log(params.conversation.context.weather_conditions.get(Monday).day);
-        
+
         var city_name;
         var state_name;
         var coordinates;
@@ -111,6 +110,15 @@ function main(params) {
                 console.log("no error");
                 
                 var output = Object.assign({}, params, {conversation: response });
+                delete output.CONVERSATION_USERNAME;
+                delete output.CONVERSATION_PASSWORD;
+                delete output.WORKSPACE_ID;
+                if (output.__ow_method) {
+                    delete output.__ow_method;
+                    delete output.__ow_headers;
+                    delete output.__ow_path;
+                }
+                output.message.context = output.conversation.context;
                 console.log(JSON.stringify(output))
                 return resolve(output);
         });

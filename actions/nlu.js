@@ -1,8 +1,8 @@
-/**
- * Calls the Natural Language Understanding service and returns a location type and disambiguation.
- * @param {Object} params The parameters
- * @param {String} params.NLU_USERNAME The username for the NLU service.
- * @param {String} params.NLU_PASSWORD The password for the NLU service.
+/**                                                                                                                                   
+ * Calls the Natural Language Understanding service and returns a location type and disambiguation.                                   
+ * @param {Object} params The parameters                                                                                              
+ * @param {String} params.NLU_USERNAME The username for the NLU service.                                                              
+ * @param {String} params.NLU_PASSWORD The password for the NLU service.                                                              
  */
 
 console.log("doing nlu");
@@ -49,6 +49,15 @@ function main(params) {
                     isCity: false,
                     locationInfo: (location && location.length > 0 ? location[0] : null)}
                 });
+                
+                delete output.NLU_USERNAME;
+                delete output.NLU_PASSWORD;
+                if (output.__ow_method) {
+                    delete output.__ow_method;
+                    delete output.__ow_headers;
+                    delete output.__ow_path;
+                }
+                console.log(output);
                 return resolve(output);
             }
             else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.location.city !== "") {
@@ -66,7 +75,7 @@ function main(params) {
                 params.conversation.context.city.number_of_states = 1;
                 params.location.geolocation = entry.coordinates;
             }
-            else
+            else {
                 var entities = response.entities;
                 var location = response.entities
                     .filter(e => e.type === 'Location');
@@ -89,9 +98,18 @@ function main(params) {
                 else {
                     params.location.state = location[0].text;
                 }
+            }
                 
-
+                
                 var output = Object.assign({}, params);
+                delete output.NLU_USERNAME;
+                delete output.NLU_PASSWORD;
+                if (output.__ow_method) {
+                    delete output.__ow_method;
+                    delete output.__ow_headers;
+                    delete output.__ow_path;
+                }
+                console.log(output);
 
                 return resolve(output);
         });

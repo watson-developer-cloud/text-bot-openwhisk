@@ -1,6 +1,6 @@
 console.log("doing weather");
 /**
- * Calls the Weather API and returns the Weather for a given city.
+ * Calls the Weather API and returns the Geolocation for a given city.
  * @param {Object} params The parameters
  * @param {Object} params.latitude The latitude of the city, if null this action doesn't do anything.
  * @param {String} params.longitude The longitude of the city, if null this action doesn't do anything.
@@ -8,6 +8,14 @@ console.log("doing weather");
  */
 function main(params) {
     if (!params || !params.location || !params.location.isCity || !params.conversation.context.state) {
+        delete params.WEATHER_USERNAME;
+        delete params.WEATHER_PASSWORD;
+        delete params.WEATHER_URL;
+        if (params.__ow_method) {
+            delete params.__ow_method;
+            delete params.__ow_headers;
+            delete params.__ow_path;
+        }
         return params;
     } else {
         return new Promise(function(resolve, reject) {
@@ -118,6 +126,14 @@ function main(params) {
                         params.conversation.context.weather_conditions = weather_conditions; 
                     }
                     var output = Object.assign({}, params, {forecasts: forecastList});
+                    delete output.WEATHER_USERNAME;
+                    delete output.WEATHER_PASSWORD;
+                    delete output.WEATHER_URL;
+                    if (output.__ow_method) {
+                        delete output.__ow_method;
+                        delete output.__ow_headers;
+                        delete output.__ow_path;
+                    }
                     resolve(output);
                 }
             });
