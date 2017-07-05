@@ -1,0 +1,4 @@
+export default {
+    OPENWHISK_BACKEND: "YOUR API ROUTE/PATH",
+    IBM_KEY: "YOUR API KEY"
+}
