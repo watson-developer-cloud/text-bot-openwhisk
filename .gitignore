@@ -2,4 +2,4 @@ actions-test/
 *.*~
 .pem
 app-test/
-parameters/
+.DS_Store
