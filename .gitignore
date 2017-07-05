@@ -1,6 +1,5 @@
 actions-test/
 *.*~
-.pem
 app-test/
 .DS_Store
 test.js

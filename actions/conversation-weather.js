@@ -33,13 +33,7 @@ function main(params) {
             version: 'v1',
             version_date: '2017-05-26'
         });
-        //check
-        console.log("checking for number of states");
-        if (params.conversation.context.city && params.conversation.context.city.number_of_states === 1) {
-            console.log("one state");
-            
-        }
-        console.log("==============");
+
         var city_name = params.conversation.context.city.name;
         console.log(city_name);
         var context = (params.conversation && params.conversation.context ? params.conversation.context : {});

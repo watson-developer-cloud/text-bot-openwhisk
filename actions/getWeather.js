@@ -2,19 +2,13 @@ console.log("doing weather");
 /**
  * Calls the Weather API and returns the Weather for a given city.
  * @param {Object} params The parameters
- * @param {Object} params.latitude The latitude of the city, if null this action doesn't do anything.
- * @param {String} params.longitude The longitude of the city, if null this action doesn't do anything.
- * @param {String} params.location.type The location type.
+ * @param {String} params.conversation.context.city.number_of_states The number of states for a city. If > 1, this is skipped.
+ * @param {Object} params.conversation.context.city.states[state].latitude The latitude of the city.
+ * @param {String} params.conversation.context.city.states[state].longitude The longitude of the city.
  */
 function main(params) {
-    if (!params || !params.message.context.location || !params.message.context.location.isCity || !params.message.context.conversation.context.state) {
-        
-        if (params.message.context.conversation.context.city && !params.message.context.conversation.context.city.states) {
-            console.log("STATE DOESN'T EXIST");
-            params.message.context.conversation.context.system.dialog_stack[0].dialog_node = "node_2_1471378528322";
-            console.log(params.message.context.conversation.context.system.dialog_stack[0].dialog_node);
-        }
-        
+    if (!params || params.conversation.context.city.number_of_states !== 1) {
+
         delete params.WEATHER_USERNAME;
         delete params.WEATHER_PASSWORD;
         delete params.WEATHER_URL;
@@ -33,14 +27,13 @@ function main(params) {
             var PASSWORD = params.WEATHER_PASSWORD;
             var URL = params.WEATHER_URL;
             
-            var city = params.message.context.conversation.context.location.city;
+            var city = params.conversation.context.city;
             console.log(city);
-            var state = params.message.context.conversation.context.state;
-            console.log(state);
-            console.log(params.message.context.location.geolocation.latitude);
-            var latitude = params.message.context.location.geolocation.latitude;
+            var state = params.conversation.context.state;
+            
+            var latitude = city.states[state].latitude;
             console.log(latitude);
-            var longitude = params.message.context.location.geolocation.longitude;
+            var longitude = city.states[state].longitude;
             console.log(longitude);
             var range = "7day";
             var method = "/v1/geocode/";
@@ -132,14 +125,11 @@ function main(params) {
                 if (error || response.statusCode != 200) {
                     reject(error);
                 } else {
-                    if (!params.message.context.conversation.context.hasOwnProperty("weather_conditions")) {
+                    if (!params.conversation.context.hasOwnProperty("weather_conditions")) {
                         console.log("adding weather property");
-                        params.message.context.conversation.context.weather_conditions = weather_conditions; 
+                        params.conversation.context.weather_conditions = weather_conditions; 
                     }
                     var output = Object.assign({}, params);
-                    
-                    //output.message.context.conversation = output.conversation;
-                    
                     
                     delete output.WEATHER_USERNAME;
                     delete output.WEATHER_PASSWORD;

@@ -19,17 +19,15 @@ function main(params) {
         });
         console.log("validated credentials");
         var parameters = {
-            text: params.message.input,
+            text: params.conversation.input.text,
             language: 'en',
             features: {
                 entities: {
                     limit: 1,
-                    Location: params.message.input
+                    Location: params.conversation.input.text
                 }
             }
         };
-        console.log("defined params");
-        console.log("input:" + parameters.text);
 
         console.log("analyzing nlu");
         natural_language_understanding.analyze(parameters, function(err, response) {
@@ -38,13 +36,15 @@ function main(params) {
                 return reject(err);
             }
             else if (parameters.text === "" || response.entities.length === 0 || response.entities[0].type !== 'Location') {
-                console.log("no text");
+                console.log("no city");
                 var output = Object.assign({}, params);
-                output.message.context.location = {
-                    city: "",
-                    type: "",
-                    isCity: false,
-                    locationInfo: (location && location.length > 0 ? location[0] : null)};
+                    
+                output.conversation.context.city = {
+                    name: "",
+                    number_of_states: null,
+                    alternate_name: "",
+                    states: {}
+                }
                 
                 delete output.NLU_USERNAME;
                 delete output.NLU_PASSWORD;
@@ -56,24 +56,23 @@ function main(params) {
                 console.log(output);
                 return resolve(output);
             }
-            else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.message.context.location.city !== "") {
-                var entry = params.message.context.geolocation.find(x => x.state === parameters.text) || params.message.context.geolocation.find(x => x.abbreviation === parameters.text);
+            else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.conversation.context.city.name) {
+                var state = params.conversation.input.text;
+                
+                if (!params.conversation.context.city.states[state]) {
+                    return reject(err);
+                }
+                params.conversation.context.state = state;
                 console.log("found state");
-                console.log(entry);
-                params.message.context.conversation.context.state = entry.state;
-                params.message.context.conversation.context.city.states = {
-                    [entry.state]: {
-                        latitude: entry.coordinates.latitude,
-                        longitude: entry.coordinates.longitude
+                console.log(state);
+                
+                params.conversation.context.city.states = {
+                    [state]: {
+                        longitude: params.conversation.context.city.states[state].longitude,
+                        latitude: params.conversation.context.city.states[state].latitude
                     }
                 }
-                params.message.context.state = entry.state;
-                
-                params.message.context.location.geolocation = entry.coordinates;
-                console.log("=========");
-                console.log(params.message.context.conversation.context.state);
-                params.message.context.conversation.context.city.number_of_states = 1;
-                delete params.message.context.geolocation;
+                params.conversation.context.city.number_of_states = 1;
             }
             else {
                 var location = response.entities
@@ -84,28 +83,18 @@ function main(params) {
                     var city_name = location[0].text;
                     console.log(city_name);
                     console.log("get disambiguation");
-                    var location_type  = location[0].disambiguation.subtype[0];
+                    var location_type = location[0].disambiguation.subtype[0];
                     console.log(location_type);
                     var isCity = (location[0].disambiguation.subtype[0] === 'City' || location[0].disambiguation.subtype[0] === 'city');
                     console.log(isCity);
                     // replace empty location field with new details of the detected city                                                  
-                    params.message.context.location.city = city_name;
-                    console.log("==============");
-                    console.log(params.message.context.location.city);
-                    params.message.context.location.type = location_type.toLowerCase();
-                    params.message.context.location.isCity = isCity;
-                    params.message.context.location.locationInfo = (location && location.length > 0 ? location[0] : null);
-                    console.log(params.message.context.location);
-                    params.message.context.conversation.context.location = params.message.context.location;
-                    params.message.context.conversation.context.state = "";
-                } else {
-                    params.location.state = locatoin[0].text;
+                    params.conversation.context.city.name = city_name;
+                    params.conversation.context.city.alternate_name = city_name;
+                    params.conversation.context.state = "";
                 }
             }
-                
-                
+    
             var output = Object.assign({}, params);
-            console.log("********************");
 
             delete output.NLU_USERNAME;
             delete output.NLU_PASSWORD;

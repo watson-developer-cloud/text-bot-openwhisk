@@ -39,7 +39,8 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
 2. You will be creating 4 actions (not including actions for the Cloudant DB) for the weather chat bot as follows:
    ```none
-   wsk action create conversation actions/conversation.js --web true
+   wsk action create conversation1 actions/conversation.js --web true
+   wsk action create conversation2 actions/conversation-weather.js --web true
    wsk action create nlu actions/nlu.js --web true
    wsk action create getGeoLoc actions/getGeoLoc.js --web true
    wsk action create getWeather actions/getWeather.js --web true
@@ -74,14 +75,15 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    ```
 4. Export your service credentials by performing the following:
    ```none
-   wsk action update conversation --param-file config/conversation-config.json
+   wsk action update conversation1 --param-file config/conversation-config.json
+   wsk action update conversation2 --param-file config/conversation-config.json
    wsk action update nlu --param-file config/nlu-config.json
    wsk action update getGeoLoc --param-file config/weather-config.json
    wsk action update getWeather --param-file config/weather-config.json
    ```
 5. Finally, create an OpenWhisk sequence to connect the actions:
    ```none
-   wsk action create <sequence name> --sequence nlu,getGeoLoc,conversation,getWeather,conversation
+   wsk action create <sequence name> --sequence nlu,getGeoLoc,conversation1,getWeather,conversation2
    ```
 
 ## Running the sequence
