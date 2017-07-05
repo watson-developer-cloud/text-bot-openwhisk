@@ -7,8 +7,8 @@ console.log("doing geoloc");
  * @param {String} params.location.type The location type.
  */
 function main(params) {
-    if (!params || !params.location || !params.location.isCity || params.location.state) {
-        console.log("not enough params");
+    if (!params || !params.message.context.location || !params.message.context.location.isCity || params.message.context.location.state) {
+        console.log("No params");
         delete params.WEATHER_USERNAME;
         delete params.WEATHER_PASSWORD;
         delete params.WEATHER_URL;
@@ -19,6 +19,7 @@ function main(params) {
         }
         return params;
     }else {
+        console.log("There are params");
         return new Promise(function(resolve, reject) {
             const request = require('request');
             var method = "/v3/location/search"; 
@@ -34,8 +35,8 @@ function main(params) {
                 jar: true,
                 json: true,
                 qs: {
-                    query: params.location.city,
-                    locationType: params.location.type,
+                    query: params.message.context.location.city,
+                    locationType: params.message.context.location.type,
                     countryCode: 'US',
                     language: 'en-US'
                 }
@@ -71,7 +72,15 @@ function main(params) {
                 console.log("***testing map***");
                 console.log(city_states[0].abbreviation);
                 
-                var output = Object.assign({}, params, {geolocation: city_states});
+                var output = Object.assign({}, params);
+                output.message.context.geolocation = city_states;
+                
+                if (output.message.context.conversation.context.city && output.message.context.conversation.context.city.states) {
+                    console.log("STATE EXISTS");
+                    output.message.context.conversation.context.system.dialog_stack[0].dialog_node = "node_1_1471971854852";
+                    console.log(output.message.context.conversation.context.system.dialog_stack[0].dialog_node);
+                }
+                
                 delete output.WEATHER_USERNAME;
                 delete output.WEATHER_PASSWORD;
                 delete output.WEATHER_URL;

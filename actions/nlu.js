@@ -4,7 +4,6 @@
  * @param {String} params.NLU_USERNAME The username for the NLU service.                                                              
  * @param {String} params.NLU_PASSWORD The password for the NLU service.                                                              
  */
-
 console.log("doing nlu");
 function main(params) {
     console.log("calling nlu");
@@ -34,21 +33,18 @@ function main(params) {
 
         console.log("analyzing nlu");
         natural_language_understanding.analyze(parameters, function(err, response) {
-        console.log(response);
-        console.log("response.entities");
-        console.log(response.entities);
             if (err && parameters.text != "") {
                 console.log("error");
                 return reject(err);
             }
             else if (parameters.text === "" || response.entities.length === 0 || response.entities[0].type !== 'Location') {
                 console.log("no text");
-                var output = Object.assign({}, params, {location: {
+                var output = Object.assign({}, params);
+                output.message.context.location = {
                     city: "",
                     type: "",
                     isCity: false,
-                    locationInfo: (location && location.length > 0 ? location[0] : null)}
-                });
+                    locationInfo: (location && location.length > 0 ? location[0] : null)};
                 
                 delete output.NLU_USERNAME;
                 delete output.NLU_PASSWORD;
@@ -60,23 +56,26 @@ function main(params) {
                 console.log(output);
                 return resolve(output);
             }
-            else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.location.city !== "") {
-                var entry = params.geolocation.find(x => x.state === parameters.text) || params.geolocation.find(x => x.abbreviation === parameters.text);
+            else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.message.context.location.city !== "") {
+                var entry = params.message.context.geolocation.find(x => x.state === parameters.text) || params.message.context.geolocation.find(x => x.abbreviation === parameters.text);
                 console.log("found state");
                 console.log(entry);
-                params.location.state = entry.state;
-                params.conversation.context.city.states = {
+                params.message.context.conversation.context.state = entry.state;
+                params.message.context.conversation.context.city.states = {
                     [entry.state]: {
                         latitude: entry.coordinates.latitude,
                         longitude: entry.coordinates.longitude
                     }
                 }
-                params.conversation.context.state = entry.state;
-                params.conversation.context.city.number_of_states = 1;
-                params.location.geolocation = entry.coordinates;
+                params.message.context.state = entry.state;
+                
+                params.message.context.location.geolocation = entry.coordinates;
+                console.log("=========");
+                console.log(params.message.context.conversation.context.state);
+                params.message.context.conversation.context.city.number_of_states = 1;
+                delete params.message.context.geolocation;
             }
             else {
-                var entities = response.entities;
                 var location = response.entities
                     .filter(e => e.type === 'Location');
                     
@@ -90,28 +89,34 @@ function main(params) {
                     var isCity = (location[0].disambiguation.subtype[0] === 'City' || location[0].disambiguation.subtype[0] === 'city');
                     console.log(isCity);
                     // replace empty location field with new details of the detected city                                                  
-                    params.location.city = city_name;
-                    params.location.type = location_type.toLowerCase();
-                    params.location.isCity = isCity;
-                    params.location.locationInfo = (location && location.length > 0 ? location[0] : null);
-                }
-                else {
-                    params.location.state = location[0].text;
+                    params.message.context.location.city = city_name;
+                    console.log("==============");
+                    console.log(params.message.context.location.city);
+                    params.message.context.location.type = location_type.toLowerCase();
+                    params.message.context.location.isCity = isCity;
+                    params.message.context.location.locationInfo = (location && location.length > 0 ? location[0] : null);
+                    console.log(params.message.context.location);
+                    params.message.context.conversation.context.location = params.message.context.location;
+                    params.message.context.conversation.context.state = "";
+                } else {
+                    params.location.state = locatoin[0].text;
                 }
             }
                 
                 
-                var output = Object.assign({}, params);
-                delete output.NLU_USERNAME;
-                delete output.NLU_PASSWORD;
-                if (output.__ow_method) {
-                    delete output.__ow_method;
-                    delete output.__ow_headers;
-                    delete output.__ow_path;
-                }
-                console.log(output);
+            var output = Object.assign({}, params);
+            console.log("********************");
 
-                return resolve(output);
+            delete output.NLU_USERNAME;
+            delete output.NLU_PASSWORD;
+            if (output.__ow_method) {
+                delete output.__ow_method;
+                delete output.__ow_headers;
+                delete output.__ow_path;
+            }
+            console.log(output);
+
+            return resolve(output);
         });
     });
 }

@@ -1,13 +1,20 @@
 console.log("doing weather");
 /**
- * Calls the Weather API and returns the Geolocation for a given city.
+ * Calls the Weather API and returns the Weather for a given city.
  * @param {Object} params The parameters
  * @param {Object} params.latitude The latitude of the city, if null this action doesn't do anything.
  * @param {String} params.longitude The longitude of the city, if null this action doesn't do anything.
  * @param {String} params.location.type The location type.
  */
 function main(params) {
-    if (!params || !params.location || !params.location.isCity || !params.conversation.context.state) {
+    if (!params || !params.message.context.location || !params.message.context.location.isCity || !params.message.context.conversation.context.state) {
+        
+        if (params.message.context.conversation.context.city && !params.message.context.conversation.context.city.states) {
+            console.log("STATE DOESN'T EXIST");
+            params.message.context.conversation.context.system.dialog_stack[0].dialog_node = "node_2_1471378528322";
+            console.log(params.message.context.conversation.context.system.dialog_stack[0].dialog_node);
+        }
+        
         delete params.WEATHER_USERNAME;
         delete params.WEATHER_PASSWORD;
         delete params.WEATHER_URL;
@@ -26,15 +33,19 @@ function main(params) {
             var PASSWORD = params.WEATHER_PASSWORD;
             var URL = params.WEATHER_URL;
             
-            var city = params.location.city;
-            var state = params.location.state;
-            var latitude = params.location.geolocation.latitude;
-            var longitude = params.location.geolocation.longitude;
+            var city = params.message.context.conversation.context.location.city;
+            console.log(city);
+            var state = params.message.context.conversation.context.state;
+            console.log(state);
+            console.log(params.message.context.location.geolocation.latitude);
+            var latitude = params.message.context.location.geolocation.latitude;
+            console.log(latitude);
+            var longitude = params.message.context.location.geolocation.longitude;
+            console.log(longitude);
             var range = "7day";
             var method = "/v1/geocode/";
             var URL = URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json' || params.WEATHER_URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json'
 
-    
             request({
                 method: 'GET',
                 url: URL,
@@ -121,11 +132,15 @@ function main(params) {
                 if (error || response.statusCode != 200) {
                     reject(error);
                 } else {
-                    if (!params.conversation.context.hasOwnProperty("weather_conditions")) {
+                    if (!params.message.context.conversation.context.hasOwnProperty("weather_conditions")) {
                         console.log("adding weather property");
-                        params.conversation.context.weather_conditions = weather_conditions; 
+                        params.message.context.conversation.context.weather_conditions = weather_conditions; 
                     }
-                    var output = Object.assign({}, params, {forecasts: forecastList});
+                    var output = Object.assign({}, params);
+                    
+                    //output.message.context.conversation = output.conversation;
+                    
+                    
                     delete output.WEATHER_USERNAME;
                     delete output.WEATHER_PASSWORD;
                     delete output.WEATHER_URL;

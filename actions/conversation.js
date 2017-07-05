@@ -4,9 +4,9 @@
  * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.                                            
  * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.                                            
  */
-
 console.log("doing conversation");
 function main(params) {
+    //console.log(params.message.context.conversation.intents);
     console.log("calling conversation");
     return new Promise(function(resolve, reject) {
         var watson = require('watson-developer-cloud');
@@ -22,94 +22,97 @@ function main(params) {
         });
         //check
         console.log("checking for number of states");
-        if (params.hasOwnProperty("geolocation") && params.geolocation.length > 1) {
-            console.log("Too many options; Ask for state");
-        }
-        if (params.geolocation && params.geolocation.length == 1) {
+        if (params.message.context.geolocation && params.message.context.geolocation.length === 1) {
             console.log("one state");
-            var entry = params.geolocation.find(x => x.city === params.location.city);
+            var entry = params.message.context.geolocation.find(x => x.city === params.message.context.location.city);
             console.log("found state");
             console.log(entry);
-            params.location.state = entry.state;
+            params.message.context.location.state = entry.state;
             console.log(entry.state);
-            params.conversation.context.city = {
+            params.message.context.conversation.context.city = {
                 name: entry.city,
                 alternate_name: entry.city
             }
-            params.conversation.context.city.states = {
+            params.message.context.conversation.context.city.states = {
                 [entry.state]: {
                     latitude: entry.coordinates.latitude,
                     longitude: entry.coordinates.longitude
                 }
             }
-            console.log(params.conversation.context.city.states);
-            params.conversation.context.state = entry.state;
-            params.conversation.context.city.number_of_states = 1;
-            params.location.geolocation = entry.coordinates;
+            console.log(params.message.context.conversation.context.city.states);
+            params.message.context.conversation.context.state = entry.state;
+            params.message.context.conversation.context.city.number_of_states = 1;
+            params.message.context.location.geolocation = entry.coordinates;
             console.log("done");
         }
-        console.log("checking if context is empty");
-        console.log(params.message.context);
-        console.log("debug");
 
         var city_name;
         var state_name;
         var coordinates;
         
-        if (params.location.isCity && params.hasOwnProperty("conversation") && params.conversation.context != {}) {   
+        if (params.message.context.location.isCity && params.message.context.hasOwnProperty("conversation") && params.message.context.conversation.context) {   
             console.log("context is not empty");
-            city_name = params.location.city;
+            city_name = params.message.context.location.city;
             console.log(city_name);
-            state_name = (params.conversation.context.state !== null ? params.conversation.context.state : "");
+            state_name = (params.message.context.conversation.context.state !== null ? params.message.context.conversation.context.state : "");
             console.log(state_name);
-            coordinates = (params.location.geolocation !== null ? params.location.geolocation : {});
+            coordinates = (params.message.context.location.geolocation !== null ? params.message.context.location.geolocation : {});
             console.log(' ');
         }
         else {
+            console.log("city and state are empty");
             city_name = "";
             state_name = "";
         }
         var text = (city_name != "" ? city_name : params.message.input);
         console.log(text);
         
-        
-        var daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        var context = (params.message.context.hasOwnProperty("conversation") && params.message.context.conversation.context !== {} ? params.message.context.conversation.context : params.message.context);
+
+        var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         var date = new Date();
-        var today = daysOfWeek[date.getDay()-1];
-        var tomorrow = daysOfWeek[date.getDay()];
-        console.log(daysOfWeek[date.getDay()-1]);
-        
-        var context = (params.hasOwnProperty("conversation") && params.conversation.context != {} ? params.conversation.context : params.message.context);
-        console.log(context);
-        if (!context.hasOwnProperty("date")) {
-            context.date = today;
-            context.today = today;
-            context.tomorrow = tomorrow;
-            console.log("added date");
-            console.log(context);
-        }
-        if (params.location.isCity == true && (!context.hasOwnProperty("city") || !context.hasOwnProperty("state"))) {
+        console.log(date);
+        var today = daysOfWeek[date.getDay()];
+        context.date = today;
+        context.today = today;
+        console.log(today);
+        //var tomorrow = daysOfWeek[date.getDay()+1];
+        //context.tomorrow = tomorrow;
+
+        console.log("added date");
+
+        if (params.message.context.location.isCity == true && !context.hasOwnProperty("city")) {
+            console.log("coordinates");
+            console.log(params.message.context.location.coordinates);
             context.city = {
                 name: city_name,
-                geolocation: params.location.coordinates,
-                number_of_states: params.geolocation.length,
+                geolocation: params.message.context.location.coordinates,
+                number_of_states: params.message.context.geolocation.length,
                 alternate_name: city_name
             };
             console.log("added city");
-            console.log(context);
         }
-
+        console.log("CONTEXT");
+        console.log(context);
+        
         conversation.message({
             workspace_id: WORKSPACE_ID,
-            input: {text: text/*, language: 'english'*/},
-            context: context//(params.hasOwnProperty("conversation") && params.conversation.context != {} ? params.conversation.context : params.message.context)
+            input: {text: text, language: 'en'},
+            context: context
         }, function(err, response) {
                 if (err) {
                     return reject(err);
                 }
                 console.log("no error");
                 
-                var output = Object.assign({}, params, {conversation: response });
+                var output = Object.assign({}, params);
+                console.log("OUTPUT");
+                console.log(output);
+                output.message.context.conversation = response;
+                console.log("RESPONSE");
+                console.log(response);
+                
+                
                 delete output.CONVERSATION_USERNAME;
                 delete output.CONVERSATION_PASSWORD;
                 delete output.WORKSPACE_ID;
@@ -118,7 +121,6 @@ function main(params) {
                     delete output.__ow_headers;
                     delete output.__ow_path;
                 }
-                output.message.context = output.conversation.context;
                 console.log(JSON.stringify(output))
                 return resolve(output);
         });
