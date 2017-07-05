@@ -5,13 +5,14 @@ This project gives you the current weather forecast for your city (U.S. only as 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
 ## OpenWhisk Action Architecture
-![**OpenWhisk Action Architecture**](openwhiskflow.png?raw=true)
+![**OpenWhisk Action Architecture**](readme_images/openwhiskflow.png)
 
 ## Table of Contents
  - [Getting Started](#getting-started)
    - [Setting up Bluemix and the Watson Services](#setting-up-bluemix-and-the-watson-services)
    - [OpenWhisk Setup](#openwhisk-setup)
- - [Running the sequence](#running-the-sequence)
+     - [Testing the sequence](#testing-the-sequence)
+ - [Create an API](#create-an-api)
  - [Future Updates](#future-updates)
 
 ## Getting Started
@@ -85,71 +86,34 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    ```none
    wsk action create <sequence name> --sequence nlu,getGeoLoc,conversation1,getWeather,conversation2
    ```
+### Testing the sequence
 
-## Running the sequence
+Copy and paste the following command in a terminal window and replace <sequence name> with the name of your OpenWhisk sequence. If you get a JSON response with no status error messages, then your sequence has been successfully created.
 
-Parameters for the sequence can be found in the parameters folder. Since there is no Cloudant DB implemented as of yet, these parameter files do the job of initializing the Conversation context, saving it accross the sequence, and using it to output the weather to the user.
+  ```bash
+  wsk action invoke --blocking <sequence name> --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }'
+  ```
 
-1. To initialize the Conversation context, and begin the chat bot service, run the following:
+## Create an API
 
-   ```none
-   wsk action invoke --result <sequence name> --param-file textbot-init.json
+1. Go to the [OpenWhisk API Management Console](https://console.bluemix.net/openwhisk/) and then click on ![Create Managed API](readme_images/createapibutton.png).
+2. Enter a name for your API and specify a base path:
+   ![API Name](readme_images/nameapi.png)
+3. Next, click on ![Create Operation](readme_images/createopbutton.png).
+4. Create a POST operation for your API and specify the OpenWhisk sequence created earlier as the Action that will be used:
+
+   ![API POST](readme_images/opcreate.png)
+5. In the **Security and Rate Limiting** section, enable the following:
+   1. **Application authentication**
+   ![App Auth](readme_images/appauth.png)
+   2. **CORS**
+   ![CORS](readme_images/cors.png)
+6. Then, click **Save and expose**.
+7. Now, create API keys for sharing within Bluemix and outside of Bluemix by clicking ![Keys](readme_images/createkey.png).
+8. To test your API, navigate to the **API Explorer** tab. Copy and paste the following command in a terminal window. Replace the ```--url``` flag with the route and path for your POST request, and replace the ```default``` API key with yours. To generate an ```id```, click on **Try it**, which is to the right of **Examples**, and then click **Generate** under the **Parameters** section to generate an ID.
+   ```bash
+   curl --request POST --url <YOUR POST PATH> --header 'accept: application/json' --header 'content-type: application/json' --header 'x-ibm-client-key: <YOUR API KEY>' --data '{"id":<GENERATED ID>, "conversation": { "input": { "text": "Hello", "language": "en"}, "context": {}}}'
    ```
-This will produce an initial context that will be used in the next execution of the sequence.
-
-2. Next, you can choose whether to input a city name that applies to only one state or that applies to many states.
-
-### For a city name the exists in only one U.S. state
-1. Edit the textbot-city.json file to include the city name of your choice.
-   ```none
-   "message": {
-       "context": {
-           "date": "Thursday",
-           "today": "Thursday",
-           "tomorrow": "Friday"
-       },
-       "input": "Chicopee" <====== This is where the city name goes
-    }
-    ```
-2. Save this file and then execute the sequence once more with:
-   ```none
-    wsk action invoke --result <sequence name> --param-file textbot-city.json
-    ```
-3. On your terminal window, look for the field that says "output" as this will contain your weather forcast for that city.
-
-### For a city name that exists in multiple U.S. states
-1. Edit the textbot-multipleStates.json file to include the city name of your choice.
-   ```none
-   "message": {
-       "context": {
-           "date": "Thursday",
-           "today": "Thursday",
-           "tomorrow": "Friday"
-       },
-       "input": "Austin" <======= This is where the city name goes
-   }
-   ```
-2. Save this file and then execute the sequence with that parameter file.
-   ```none
-   wsk action invoke --result <sequence name> --param-file textbot-multipleStates.json
-   ```
-3. Copy the terminal window output from that sequence and paste it into the textbot-state.json file.
-4. Change the following field to include the name of the state for the city you are querying:
-   ```none
-   "message": {
-       "context": {
-           "date": "Thursday",
-           "today": "Thursday",
-           "tomorrow": "Friday"
-       },
-       "input": "Texas" <======= This is where the state name goes
-   }
-   ```
-5. Execute the sequence once more with this file:
-   ```none
-   wsk action invoke --result <sequence name> --param-file textbot-state.json
-   ```
-6. Look for the field that says "output" on your terminal window to see the weather forecast for your city.
 
 ## Future Updates
 * Cloudant DB integration and the creation of actions to get and store information within the database
