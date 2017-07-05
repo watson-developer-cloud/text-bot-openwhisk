@@ -3,7 +3,6 @@ import { Header, TextInput, Colors } from 'watson-react-components/dist/componen
 import './App.css';
 import env from './env.js';
 
-
 const OPENWHISK_BACKEND = env.OPENWHISK_BACKEND;
 const IBM_KEY = env.IBM_KEY;
 
