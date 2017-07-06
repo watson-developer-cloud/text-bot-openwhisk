@@ -2,8 +2,8 @@ console.log("doing geoloc");
 /**
  * Calls the Weather API and returns the Geolocation for a given city.
  * @param {Object} params The parameters
- * @param {Object} params.conversation.context.city The conversation city parameter, if null this action doesn't do anything.
- * @param {String} params.conversation.context.city.name The city name.
+ * @param {Object} params.conversation.city The conversation city parameter, if null this action doesn't do anything.
+ * @param {String} params.conversation.city.name The city name.
  */
 function main(params) {
     if (!params || !params.conversation.context.city.name || params.conversation.context.state) {
@@ -60,7 +60,6 @@ function main(params) {
                 });
                 
                 var output = Object.assign({}, params);
-                output.geolocation = states;
                 output.conversation.context.city.states = states;
                 
                 if (output.conversation.context.city.number_of_states === null) {

@@ -7,8 +7,8 @@ console.log("doing weather");
  * @param {String} params.conversation.context.city.states[state].longitude The longitude of the city.
  */
 function main(params) {
-    if (!params || params.conversation.context.city.number_of_states !== 1) {
-
+    if (!params || params.conversation.context.city.number_of_states !== 1 || params.conversation.context.weather_conditions) {
+        console.log("skipping get weather");
         delete params.WEATHER_USERNAME;
         delete params.WEATHER_PASSWORD;
         delete params.WEATHER_URL;
@@ -30,6 +30,7 @@ function main(params) {
             var city = params.conversation.context.city;
             console.log(city);
             var state = params.conversation.context.state;
+            console.log(state);
             
             var latitude = city.states[state].latitude;
             console.log(latitude);

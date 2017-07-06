@@ -37,20 +37,6 @@ function main(params) {
         var city_name = params.conversation.context.city.name;
         console.log(city_name);
         var context = (params.conversation && params.conversation.context ? params.conversation.context : {});
-
-        var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        var date = new Date();
-        console.log(date);
-        var today = daysOfWeek[date.getDay()];
-        context.date = today;
-        context.today = today;
-        console.log(today);
-        var tomorrow = daysOfWeek[date.getDay()+1];
-        context.tomorrow = tomorrow;
-
-        console.log("added date");
-        console.log("CONTEXT");
-        console.log(context);
         
         conversation.message({
             workspace_id: WORKSPACE_ID,

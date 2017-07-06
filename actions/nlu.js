@@ -11,6 +11,8 @@ function main(params) {
         var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
         var USERNAME = params.NLU_USERNAME;
         var PASSWORD = params.NLU_PASSWORD;
+        
+        var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             
         var natural_language_understanding = new NaturalLanguageUnderstandingV1({
             username: USERNAME,
@@ -31,11 +33,12 @@ function main(params) {
 
         console.log("analyzing nlu");
         natural_language_understanding.analyze(parameters, function(err, response) {
+            console.log(response);
             if (err && parameters.text != "") {
                 console.log("error");
                 return reject(err);
             }
-            else if (parameters.text === "" || response.entities.length === 0 || response.entities[0].type !== 'Location') {
+            else if (parameters.text === "" || parameters.text === "Hello" /*response.entities.length === 0*/ || (response.entities.type && response.entities[0].type !== 'Location') && !params.conversation.context.city) {
                 console.log("no city");
                 var output = Object.assign({}, params);
                     
@@ -56,6 +59,13 @@ function main(params) {
                 console.log(output);
                 return resolve(output);
             }
+            else if (daysOfWeek.indexOf(parameters.text) >= 0) {
+                params.conversation.context.date = parameters.text;
+                params.conversation.context.today = parameters.text;
+                // to determine if the day of the week for tomorrow falls at the end of the week
+                var tomorrow = (daysOfWeek.indexOf(parameters.text) < daysOfWeek.length-2 ? daysOfWeek.indexOf(parameters.text) + 1 : 0);
+                params.conversation.context.tomorrow = daysOfWeek[tomorrow];
+            }
             else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.conversation.context.city.name) {
                 var state = params.conversation.input.text;
                 
@@ -74,26 +84,27 @@ function main(params) {
                 }
                 params.conversation.context.city.number_of_states = 1;
             }
-            else {
+            else if (response.entities[0].disambiguation.subtype[0] === 'City') {
                 var location = response.entities
                     .filter(e => e.type === 'Location');
                     
-                if (location[0].disambiguation.subtype[0] === 'City' || location[0].disambiguation.subtype[0] === 'city') {
-                    console.log("get city name");
-                    var city_name = location[0].text;
-                    console.log(city_name);
-                    console.log("get disambiguation");
-                    var location_type = location[0].disambiguation.subtype[0];
-                    console.log(location_type);
-                    var isCity = (location[0].disambiguation.subtype[0] === 'City' || location[0].disambiguation.subtype[0] === 'city');
-                    console.log(isCity);
-                    // replace empty location field with new details of the detected city                                                  
-                    params.conversation.context.city.name = city_name;
-                    params.conversation.context.city.alternate_name = city_name;
-                    params.conversation.context.state = "";
+                console.log("get city name");
+                var city_name = location[0].text;
+                console.log(city_name);
+
+                if (params.conversation.context.city.name !== parameters.text && params.conversation.context.weather_conditions) {
+                    console.log("new city");
+                    delete params.conversation.context.weather_conditions;
+                    params.conversation.context.city.states = {};
+                    params.conversation.context.city.number_of_states = null;
                 }
+
+                // replace empty location field with new details of the detected city                                                  
+                params.conversation.context.city.name = city_name;
+                params.conversation.context.city.alternate_name = city_name;
+                params.conversation.context.state = "";
             }
-    
+
             var output = Object.assign({}, params);
 
             delete output.NLU_USERNAME;
