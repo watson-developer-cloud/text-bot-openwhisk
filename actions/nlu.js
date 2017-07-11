@@ -13,6 +13,7 @@ function main(params) {
         var PASSWORD = params.NLU_PASSWORD;
         
         var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var stateTypes = ['StateOrCounty', 'AdministrativeDivision'];
             
         var natural_language_understanding = new NaturalLanguageUnderstandingV1({
             username: USERNAME,
@@ -34,6 +35,7 @@ function main(params) {
         console.log("analyzing nlu");
         natural_language_understanding.analyze(parameters, function(err, response) {
             console.log(response);
+            //console.log(response.entities[0].disambiguation.subtype[0]);
             if (err && parameters.text != "") {
                 console.log("error");
                 return reject(err);
@@ -66,7 +68,7 @@ function main(params) {
                 var tomorrow = (daysOfWeek.indexOf(parameters.text) < daysOfWeek.length-2 ? daysOfWeek.indexOf(parameters.text) + 1 : 0);
                 params.conversation.context.tomorrow = daysOfWeek[tomorrow];
             }
-            else if (response.entities[0].disambiguation.subtype[0] === 'StateOrCounty' && params.conversation.context.city.name) {
+            else if ((stateTypes.indexOf(response.entities[0].disambiguation.subtype[0]) >= 0 || params.conversation.context.city.states[parameters.text]) && params.conversation.context.city.name) {
                 var state = params.conversation.input.text;
                 
                 if (!params.conversation.context.city.states[state]) {
