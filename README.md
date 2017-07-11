@@ -116,7 +116,7 @@ Copy and paste the following command in a terminal window and replace <sequence 
    ```
 
 ## Future Updates
-* Cloudant DB integration and the creation of actions to get and store information within the database
+* ~~Cloudant DB integration and the creation of actions to get and store information within the database~~
 * ~~Ability to query a certain day within the 7-day forecast for your city~~
 * Build a UI
 * Output a list of states for the user to choose from should a city name occur in more than one state
