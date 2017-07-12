@@ -45,24 +45,37 @@ function main(params) {
                 
                 var latitudes = body.location.latitude;
                 var longitudes = body.location.longitude;
+                var abbrList = body.location.adminDistrictCode;
+                var statesList = body.location.adminDistrict;
                 // map the latitude and longitude values to each other
                 var coordinates = latitudes.map( (x, i) => {
                     return {"latitude": x, "longitude": longitudes[i]}        
                 });
                 
-                var states = {}
+                var states = {};
+                var abbreviations = {};
                 
-                body.location.adminDistrict.forEach(function(state, i) {
+                statesList.forEach(function(state, i) {
                     states[state] = {
                         longitude: coordinates[i].longitude,
                         latitude: coordinates[i].latitude
                     };
                 });
+                abbrList.forEach(function(abbr, i) {
+                    abbreviations[abbr] = {
+                        full: statesList[i]
+                    }
+                })
                 
+                console.log('abbr');
+                console.log(abbreviations);
                 var output = Object.assign({}, params);
                 output.conversation.context.city.states = states;
+                output.conversation.context.abbreviations = abbreviations;
+                console.log(output.conversation.context.abbreviations);
                 
                 if (output.conversation.context.city.number_of_states === null) {
+                    console.log('num of states null');
                     output.conversation.context.city.number_of_states = body.location.adminDistrict.length;
                     
                     if (output.conversation.context.city.number_of_states === 1) {
@@ -78,11 +91,15 @@ function main(params) {
                     delete output.__ow_headers;
                     delete output.__ow_path;
                 }
-                console.log(output);
-
+                console.log('test');
+                //console.log(output.conversation.context.abbreviations);
+                
                 if (error || response.statusCode != 200) {
+                    console.log('error');
                     reject(error);
                 } else {
+                    console.log('no error');
+                    console.log(output.conversation.context.abbreviations);
                     resolve(output);
                 }
             });
