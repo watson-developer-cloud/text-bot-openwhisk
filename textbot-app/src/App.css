@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 /** Normalize **/
+
 Skip to content
 Features Business Explore Marketplace Pricing
 This repository
@@ -506,7 +507,7 @@ body {
   line-height: 1;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary, time {
   display: block;
 }
 
@@ -706,7 +707,7 @@ body *+* {
 
 .base--h5 {
   font-size: 1em;
-  font-weight: 400;
+  font-weight: 100;
 }
 
 .base--h6 {
@@ -717,10 +718,11 @@ body *+* {
 .base--a {
   color: #121212;
   border-bottom: 2px solid #121212;
-  font-weight: 400;
+  font-weight: 100;
   text-decoration: none;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+
 }
 
 .base--a:visited {
@@ -2218,6 +2220,8 @@ header .main-nav {
   display: none;
 }
 
+
+
 @media (min-width: 1140px) {
   /* line 34, /home/vcap/app/public-site-src/documents/css/_header.scss */
   header .main-nav {
@@ -2594,6 +2598,16 @@ header .top-bar {
   margin-top: 0rem;
 }
 
+.header--breadcrumbs {
+  font-size: 20px;
+  color: #000000;
+}
+
+.base--a:visited {
+    color: #FFFFFF;
+    border-bottom: 2px solid #121212;
+}
+
 .header--icon {
   width: 8rem;
 }
@@ -2752,8 +2766,9 @@ header h1.base--h1 a {
 }
 
 .base--a {
-  color: inherit;
+  color: #FFFFFF;
   border-bottom: none;
+  font-weight: 100;
 }
 
 .main-page {
@@ -2844,6 +2859,7 @@ header h1.base--h1 a {
 
 .scrollingChat {
   padding: 0.625rem;
+  overflow: auto;
 }
 
 .message-inner {
@@ -2965,13 +2981,31 @@ header h1.base--h1 a {
 
 .from-user .summary {
   margin: 0 2.1875rem 1.125rem 0;
-  padding-right: 1.5rem;
+  padding-left: 1.5rem;
   background-size: 0.625rem;
 }
 
 .from-watson .summary {
   margin: 0 0 1.125rem 2.1875rem;
   padding-left: 1.5rem;
+  background-size: 0.625rem;
+}
+
+.from-user .time, .from-watson .time {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.8125rem;
+  color: #959595;
+}
+
+.from-user .time {
+  margin: 0 0rem 0rem 0;
+  padding-right: 0rem;
+  background-size: 0.625rem;
+}
+
+.from-watson .time {
+  margin: 0 0 0rem 0rem;
+  padding-left: 0rem;
   background-size: 0.625rem;
 }
 
@@ -3172,14 +3206,42 @@ html, body, #root {
 
 .text-input[for="text-input-1"] {
   max-width: 40rem;
-  min-width: 9.375rem;
+  min-width: 30rem;
   width: 100%;
-  padding-bottom: 1rem;
+  padding-bottom: 3rem;
   display: inline-block;
+  overflow: visible;
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.text-input--input.base--input {
+  max-width: 40rem;
+  min-width: 30rem;
+  width: 100%;
+  border: none;
+  padding-left: 0rem;
+  padding-right: 0rem;
+  box-shadow: 0px 2px 0px 0px color('purple', 40);
+  overflow: visible;
+  border-bottom: 0.0625rem solid;
+}
+
+.text-input--input.base--input.empty {
+  max-width: 40rem;
+  min-width: 30rem;
+  width: 100%;
+  border: none;
+  display: inline-block;
+  padding-left: 0rem;
+  padding-right: 0rem;
+  box-shadow: 0px 2px 0px 0px color('purple', 40);
+  overflow: visible;
+  border-bottom: 0.0625rem solid;
 }
 
 .header {
-  max-width: 40rem;
-  min-width: 9.375rem;
   width: 100%;
+  background-color: #323232;
+
 }

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Header, TextInput, Colors } from 'watson-react-components/dist/components';
+import { Header, Footer, TextInput, Colors } from 'watson-react-components/dist/components';
+import uuidv1 from 'uuid/v1';
+
 import './App.css';
 import env from './env.js';
 
 const OPENWHISK_BACKEND = env.OPENWHISK_BACKEND;
 const IBM_KEY = env.IBM_KEY;
+
+const Timestamp = require('react-timestamp');
 
 const Message = (props) => (
   <div className="segments load">
@@ -13,6 +17,7 @@ const Message = (props) => (
       <div className="message-inner">
         <p>{props.message}</p>
       </div>
+      <div className="time">{props.time}</div>
     </div>
   </div>
 );
@@ -24,7 +29,8 @@ class App extends Component {
     this.state = {
       context: {},
       messages: [],
-      sender: 'watson'
+      sender: 'watson'/*,
+      _id: uuidv1()*/
     };
 
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -32,6 +38,9 @@ class App extends Component {
 
   sendMessage(input, context) {
     const self = this;
+    let now = new Date();
+    let hhmmss = now.toISOString().substr(11, 8);
+    console.log(now.full);
     fetch(OPENWHISK_BACKEND, {
       method: 'POST',
       headers: {
@@ -39,11 +48,11 @@ class App extends Component {
         'Content-Type': 'application/json',
         'X-IBM-Client-Key': IBM_KEY,
       },
-      body: JSON.stringify({ conversation: { input: { text: input, language: 'en' }, context: context } })
+      body: JSON.stringify({ conversation: { input: { text: input, language: 'en' }, context: context/*, _id: self.state._id */} })
     })
       .then(response => response.json())
       .then(function(messageResponse) {
-        console.log("Response" + messageResponse);
+//        console.log(`Response: ${messageResponse}`);
         console.log("Text" + messageResponse.conversation.input.text);
         console.log(messageResponse.conversation.context);
         console.log(messageResponse.conversation.output.text.join('\n'));
@@ -52,6 +61,7 @@ class App extends Component {
           messages: self.state.messages.concat({
             message: messageResponse.conversation.output.text.join('\n'),
             type: 'watson',
+            time: hhmmss,
             summary: messageResponse.conversation.context.summary
           })});
       })
@@ -66,13 +76,16 @@ class App extends Component {
       console.log(this.state.context);
       this.sendMessage(this.state.text, this.state.context);
       event.target.value = '';
+      let now = new Date();
+      let hhmmss = now.toISOString().substr(11, 8);
 
       this.setState({
         context: '',
         messages: this.state.messages.concat({
           message: this.state.text,
           type: 'user',
-          summary: ''
+          time: hhmmss,
+          summary: 'from user'
         })});
     }
   }
@@ -82,6 +95,7 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
         <Header
@@ -95,7 +109,7 @@ class App extends Component {
           <div className="chat-column">
             <div id="scrollingChat" className="scrollingChat">
               {!this.state.error ? JSON.stringify(this.state.error) : null}
-              {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} summary={m.summary} />) : null}
+              {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} />) : null}
             </div>
           </div>
         </div>
@@ -108,7 +122,6 @@ class App extends Component {
           }}
           onKeyPress={this.handleKeyPress}
         />
-
       </div>
     );
   }
