@@ -109,8 +109,6 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    wsk action create cloudant-write actions/cloudant-write.js --web true
    ```
 2. Navigate to the config folder and replace the placeholder text with your Cloudant credentials. 
-
-   **CLOUDANT Credentials**
    ```none
    {
     "CLOUDANT_URL": "<YOUR CLOUDANT URL>"
