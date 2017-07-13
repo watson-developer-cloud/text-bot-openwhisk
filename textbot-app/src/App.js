@@ -3,8 +3,8 @@ import { Header, Footer, TextInput, Colors } from 'watson-react-components/dist/
 import uuidv1 from 'uuid/v1';
 
 import './App.css';
-import env from './env.js';
 
+var env = require('./env.json');
 const OPENWHISK_BACKEND = env.OPENWHISK_BACKEND;
 const IBM_KEY = env.IBM_KEY;
 
