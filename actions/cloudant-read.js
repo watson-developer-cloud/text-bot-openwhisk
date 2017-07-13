@@ -1,6 +1,5 @@
-console.log("reading from cloudant");
+console.log('reading from cloudant');
 function main(params) {
-    
     if (!params._id) {
         Promise.reject(new Error('id cannot be null'))
     }
@@ -19,14 +18,14 @@ function main(params) {
     
     console.log("checking if exists");
     try {
-        console.log("creating");
+        console.log('creating');
         owdb = cloudant.db.create(dbname);
         if (db != null) {
-            console.log("db exists");
+            console.log('db exists');
             owdb = cloudant.db.use(dbname);
         }
     } catch(e) {
-        console.log("catching");    
+        console.log('catching');    
         owdb = cloudant.db.use(dbname);
     }
     
@@ -38,10 +37,12 @@ function main(params) {
                 console.log("get doc ", err.message);
                 return reject(err);
             }
-            console.log("Got doc");
-            console.log(body);
-            var output = Object.assign({}, {conversation: {context: body.context}});
-            output.input = params.input;
+            console.log('Got doc');
+            var output = Object.assign({}, {conversation: params.conversation});
+            console.log(output.conversation);
+            output.conversation.context = body.context;
+            console.log('test');
+            console.log(output);
             output._id = body._id;
             output._rev = body._rev;
             

@@ -1,4 +1,4 @@
-console.log("reading from cloudant");
+console.log('reading from cloudant');
 function main(params) {
     
     if (!params._id) {
@@ -32,10 +32,12 @@ function main(params) {
     
     return new Promise(function(resolve, reject) {
         console.log('writing');
-        var doc = Object.assign({}, {context: params.conversation.context, input: params.input});
+        var doc = Object.assign({}, {context: params.conversation.context});
         doc._id = params._id;
         doc._rev = params._rev;
         console.log(doc);
+        
+        var output = Object.assign({}, {conversation: params.conversation});
         
         owdb.insert(doc, function(err, body) {
             if (err) {
@@ -44,8 +46,10 @@ function main(params) {
             }
             console.log('You have updated the doc.');
             console.log(body);
-            doc._rev = body.rev;
-            return resolve(doc);
+            
+            output._rev = body.rev;
+            output._id = params._id;
+            return resolve(output);
         });
     });
 }

@@ -1,9 +1,8 @@
-console.log("reading from cloudant");
+console.log('reading from cloudant');
 function main(params) {
-    if (params._rev) {
+    if (params._rev !== null) {
         console.log('Document exists');
-        var output = Object.assign({});
-        output.input = params.input;
+        var output = Object.assign({}, {conversation: params.conversation});
         output._id = params._id;
         output._rev = params._rev;
         return output;
@@ -41,7 +40,7 @@ function main(params) {
     
     return new Promise(function(resolve, reject) {
         console.log('inserting');
-        owdb.insert({"conversation": {"context": {}}}, params._id, function(err, body, header) {
+        owdb.insert({"context": {}}, params._id, function(err, body, header) {
             if (err) {
                 console.log('[db.insert]', err.message)
                 return reject(err);
@@ -49,11 +48,11 @@ function main(params) {
             console.log('You have inserted the doc.');
             console.log(body);
             console.log('ID ', params._id);
+            
             var output = Object.assign({});
-            console.log('Input: ', params.input);
-            output.input = params.input;
             output._id = body.id;
             output._rev = body.rev;
+            output.conversation = params.conversation;
             return resolve(output);
         });
     });
