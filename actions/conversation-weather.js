@@ -4,12 +4,12 @@
  * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.                                            
  * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.                                            
  */
-console.log("doing conversation");
+console.log('starting conversation');
 function main(params) {
-    console.log("calling conversation");
-    
-    if (!params.conversation.context.weather_conditions) {
-        console.log("returning params");
+    console.log('calling conversation');
+    console.log(params.conversation.context.summary);
+    if (!params.conversation.context.weather_conditions /*&& !params.conversation.context.summary === "API failure"*/) {
+        console.log('returning params');
         delete params.CONVERSATION_USERNAME;
         delete params.CONVERSATION_PASSWORD;
         delete params.WORKSPACE_ID;
@@ -49,10 +49,10 @@ function main(params) {
                 console.log("no error");
                 
                 var output = Object.assign({}, params);
-                console.log("OUTPUT");
+                console.log('OUTPUT');
                 console.log(output);
                 output.conversation = response;
-                console.log("RESPONSE");
+                console.log('RESPONSE');
                 console.log(response);
                 
                 delete output.CONVERSATION_USERNAME;

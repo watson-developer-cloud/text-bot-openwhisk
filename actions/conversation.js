@@ -4,9 +4,9 @@
  * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.                                            
  * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.                                            
  */
-console.log("doing conversation");
+console.log('starting conversation');
 function main(params) {
-    console.log("calling conversation");
+    console.log('calling conversation');
 
     return new Promise(function(resolve, reject) {
         var watson = require('watson-developer-cloud');
@@ -36,10 +36,10 @@ function main(params) {
             console.log(today);
             // var tomorrow = daysOfWeek[date.getDay()+1];
             // context.tomorrow = tomorrow;
-            console.log("added date");
+            console.log('added date');
         }
 
-        console.log("CONTEXT");
+        console.log('CONTEXT');
         console.log(context);
         
         conversation.message({
@@ -50,13 +50,13 @@ function main(params) {
                 if (err) {
                     return reject(err);
                 }
-                console.log("no error");
+                console.log('no error');
                 
                 var output = Object.assign({}, params);
-                console.log("OUTPUT");
+                console.log('OUTPUT');
                 console.log(output);
                 output.conversation = response;
-                console.log("RESPONSE");
+                console.log('RESPONSE');
                 console.log(response);
                 
                 delete output.CONVERSATION_USERNAME;

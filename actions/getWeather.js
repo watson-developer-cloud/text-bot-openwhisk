@@ -1,4 +1,4 @@
-console.log("doing weather");
+console.log('getting weather');
 /**
  * Calls the Weather API and returns the Weather for a given city.
  * @param {Object} params The parameters
@@ -8,7 +8,7 @@ console.log("doing weather");
  */
 function main(params) {
     if (!params || params.conversation.context.city.number_of_states !== 1 || params.conversation.context.weather_conditions) {
-        console.log("skipping get weather");
+        console.log('skipping get weather');
         delete params.WEATHER_USERNAME;
         delete params.WEATHER_PASSWORD;
         delete params.WEATHER_URL;
@@ -20,7 +20,6 @@ function main(params) {
         return params;
     } else {
         return new Promise(function(resolve, reject) {
-            console.log("returning promise");
             const request = require('request');
             
             var USERNAME = params.WEATHER_USERNAME;
@@ -127,7 +126,7 @@ function main(params) {
                     reject(error);
                 } else {
                     if (!params.conversation.context.hasOwnProperty("weather_conditions")) {
-                        console.log("adding weather property");
+                        console.log('adding weather property');
                         params.conversation.context.weather_conditions = weather_conditions; 
                     }
                     var output = Object.assign({}, params);

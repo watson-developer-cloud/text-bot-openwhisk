@@ -1,4 +1,4 @@
-console.log("doing geoloc");
+console.log('getting geolocation');
 /**
  * Calls the Weather API and returns the Geolocation for a given city.
  * @param {Object} params The parameters
@@ -7,7 +7,7 @@ console.log("doing geoloc");
  */
 function main(params) {
     if (!params || !params.conversation.context.city.name || params.conversation.context.state) {
-        console.log("No params");
+        console.log('No params');
         delete params.WEATHER_USERNAME;
         delete params.WEATHER_PASSWORD;
         delete params.WEATHER_URL;
@@ -18,7 +18,7 @@ function main(params) {
         }
         return params;
     }else {
-        console.log("There are params");
+        console.log('There are params');
         return new Promise(function(resolve, reject) {
             const request = require('request');
             var method = "/v3/location/search"; 
@@ -92,8 +92,7 @@ function main(params) {
                     delete output.__ow_path;
                 }
                 console.log('test');
-                //console.log(output.conversation.context.abbreviations);
-                
+
                 if (error || response.statusCode != 200) {
                     console.log('error');
                     reject(error);
