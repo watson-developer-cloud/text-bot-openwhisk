@@ -123,11 +123,17 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    wsk action update cloudant-read --param-file config/cloudant-config.json
    wsk action update cloudant-write --param-file config/cloudant-config.json
    ```
-5. Now, create an OpenWhisk sequence to connect the actions:
+4. Finally, create an OpenWhisk sequence to connect all the actions:
    ```none
    wsk action create <sequence name> --sequence cloudant-add,cloudant-read,nlu,getGeoLoc,conversation1,getWeather,conversation2,cloudant-write
    ```
-   
+5. You can test your sequence by copying and pasting the following command in a new terminal window.
+
+   ```none
+   wsk action invoke --blocking openwhisk-textbot-cloudant --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }' --param _id test --param _rev null
+   ```
+   If you get a JSON response with no status error messages, then your sequence has been successfully created. To ensure that your document is saved in your Cloudant DB instance, go to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), click on your Cloudant DB service instance, then click on the **Launch** button. Once you are viewing your list of **Databases**, click on the name of your weather bot database. If you see an entry with the same ID number used in the ```wsk``` command, then your sequence has sucessfully written to the database. If you would like to view the context that has been saved, then check the **Include Docs** box at the top of the page.
+
 ## Create an API
 
 1. Go to the [OpenWhisk API Management Console](https://console.bluemix.net/openwhisk/) and then click on ![Create Managed API](readme_images/createapibutton.png).
