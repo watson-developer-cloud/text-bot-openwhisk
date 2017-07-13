@@ -10,10 +10,11 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 ## Table of Contents
  - [Getting Started](#getting-started)
    - [Setting up Bluemix and the Watson Services](#setting-up-bluemix-and-the-watson-services)
-   - [OpenWhisk Setup](#openwhisk-setup)
-     - [Testing the sequence](#testing-the-sequence)
-     - [Cloudant Integration and Setup](#integrating-cloudant)
- - [Create an API](#create-an-api)
+ - [OpenWhisk Setup](#openwhisk-setup)
+   - [Cloudant Integration and Setup](#cloudant-integration-and-setup)
+     - [Creating the actions](#creating-the-actions)
+     - [Additions to the React app](#additions-to-the-react-app)
+   - [Create an API](#create-an-api)
  - [Future Updates](#future-updates)
 
 ## Getting Started
@@ -35,7 +36,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    ```
 5. Follow the steps in the README [here](https://github.com/watson-developer-cloud/text-bot) to set up the Conversation, NLU, and Weather Company Data services on Bluemix.
 
-### OpenWhisk Setup
+## OpenWhisk Setup
 
 1. Download and install the [OpenWhisk CLI](https://console.bluemix.net/openwhisk/learn/cli), then follow the steps on that page to set up your OpenWhisk Namespace and Authorization Key.
 
@@ -88,15 +89,16 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    wsk action create <sequence name> --sequence nlu,getGeoLoc,conversation1,getWeather,conversation2
    ```
 
-### Testing the sequence
-
-Copy and paste the following command in a terminal window and replace <sequence name> with the name of your OpenWhisk sequence. If you get a JSON response with no status error messages, then your sequence has been successfully created.
-
-  ```bash
-  wsk action invoke --blocking <sequence name> --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }'
-  ```
+6. Copy and paste the following command in a terminal window and replace <sequence name> with the name of your OpenWhisk sequence. If you get a JSON response with no status error messages, then your sequence has been successfully created.
+   ```bash
+   wsk action invoke --blocking <sequence name> --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }'
+   ```
   
-### Cloudant Integration
+### Cloudant Integration and Setup
+
+If you do not intend to have database support for your application, then you can skip to the [Create an API](#create-an-api) section.
+
+### Creating the actions
 
 OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write Watson Conversation contexts to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
 
@@ -132,7 +134,14 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```none
    wsk action invoke --blocking openwhisk-textbot-cloudant --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }' --param _id test --param _rev null
    ```
-   If you get a JSON response with no status error messages, then your sequence has been successfully created. To ensure that your document is saved in your Cloudant DB instance, go to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), click on your Cloudant DB service instance, then click on the **Launch** button. Once you are viewing your list of **Databases**, click on the name of your weather bot database. If you see an entry with the same ID number used in the ```wsk``` command, then your sequence has sucessfully written to the database. If you would like to view the context that has been saved, then check the **Include Docs** box at the top of the page.
+   If you get a JSON response with no status error messages, then your sequence has been successfully created.
+
+6. To ensure that your document is saved in your Cloudant DB instance, go to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), click on your Cloudant DB service instance, then click on the **Launch** button. Once you are viewing your list of **Databases**, click on the name of your weather bot database. If you see an entry with the same ID number used in the ```wsk``` command, then your sequence has sucessfully written to the database. If you would like to view the context that has been saved, then check the **Include Docs** box at the top of the page.
+
+### Additions to the React app
+
+* Cloudant integration requires the DB document's ```_id``` and ```_rev``` to be passed in the UI.
+* The document ID numbers should be UUIDs. Install the Node [UUID Package](https://www.npmjs.com/package/uuid) and follow the instructions on how to generate the IDs.
 
 ## Create an API
 
