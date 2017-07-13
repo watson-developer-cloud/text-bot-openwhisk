@@ -12,6 +12,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    - [Setting up Bluemix and the Watson Services](#setting-up-bluemix-and-the-watson-services)
    - [OpenWhisk Setup](#openwhisk-setup)
      - [Testing the sequence](#testing-the-sequence)
+     - [Cloudant Integration and Setup](#integrating-cloudant)
  - [Create an API](#create-an-api)
  - [Future Updates](#future-updates)
 
@@ -46,7 +47,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    wsk action create getGeoLoc actions/getGeoLoc.js --web true
    wsk action create getWeather actions/getWeather.js --web true
    ```
-3. Change to the config directory and Replace the default parameters with your Watson service credentials. Your credentials can be found by heading to your [dashboard](https://console.bluemix.net/dashboard/apps), clicking on the service name, and then the Service Credentials tab.
+3. Change to the config directory and replace the default parameters with your Watson service credentials. Your credentials can be found by heading to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on the service name, and then the Service Credentials tab.
 
    **Conversation Credentials**
    ```none
@@ -56,7 +57,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
     "WORKSPACE_ID": "<YOUR CONVERSATION SERVICE WORKSPACE_ID>"
    }
    ```
-   Your workspace ID can be found by going to your [dashboard](https://console.bluemix.net/dashboard/apps), clicking on your Conversation service,
+   Your workspace ID can be found by going to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on your Conversation service,
    then clicking on the Launch Tool button.
 
    **NLU Credentials**
@@ -86,6 +87,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    ```none
    wsk action create <sequence name> --sequence nlu,getGeoLoc,conversation1,getWeather,conversation2
    ```
+
 ### Testing the sequence
 
 Copy and paste the following command in a terminal window and replace <sequence name> with the name of your OpenWhisk sequence. If you get a JSON response with no status error messages, then your sequence has been successfully created.
@@ -93,6 +95,34 @@ Copy and paste the following command in a terminal window and replace <sequence 
   ```bash
   wsk action invoke --blocking <sequence name> --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }'
   ```
+  
+### Cloudant Integration
+
+OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
+
+1. Open a terminal window and create the 3 Cloudant actions below:
+   ```none
+   wsk action create cloudant-add actions/cloudant-add.js --web true
+   wsk action create cloudant-read actions/cloudant-read.js --web true
+   wsk action create cloudant-write actions/cloudant-write.js --web true
+   ```
+2. Navigate to the config folder and replace the placeholder text with your Cloudant credentials. 
+
+   **CLOUDANT Credentials**
+   ```none
+   {
+    "CLOUDANT_URL": "<YOUR CLOUDANT URL>"
+   }
+   ```
+   Your credentials can be found by heading to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on the Cloudant service name you created, and then the Service Credentials tab. Then, click on the "View credentials" dropdown
+   associated with the API key you will use. You will need the URL for your Cloudant DB.
+
+3. Next, export your service credentials by doing the following commands:
+   ```none
+   wsk action update cloudant-add --param-file config/cloudant-config.json
+   wsk action update cloudant-read --param-file config/cloudant-config.json
+   wsk action update cloudant-write --param-file config/cloudant-config.json
+   ```
 
 ## Create an API
 
@@ -116,8 +146,8 @@ Copy and paste the following command in a terminal window and replace <sequence 
    ```
 
 ## Future Updates
-* ~~Cloudant DB integration and the creation of actions to get and store information within the database~~
+* Cloudant DB integration and the creation of actions to get and store information within the database
 * ~~Ability to query a certain day within the 7-day forecast for your city~~
-* ~~Build a UI~~
+* Build a UI
 * Output a list of states for the user to choose from should a city name occur in more than one state
 * Improve city detection accuracy
