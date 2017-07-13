@@ -98,7 +98,7 @@ Copy and paste the following command in a terminal window and replace <sequence 
   
 ### Cloudant Integration
 
-OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
+OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write Watson Conversation contexts to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
 
 1. Open a terminal window and create the 3 Cloudant actions below:
    ```none
@@ -123,7 +123,11 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    wsk action update cloudant-read --param-file config/cloudant-config.json
    wsk action update cloudant-write --param-file config/cloudant-config.json
    ```
-
+5. Now, create an OpenWhisk sequence to connect the actions:
+   ```none
+   wsk action create <sequence name> --sequence cloudant-add,cloudant-read,nlu,getGeoLoc,conversation1,getWeather,conversation2,cloudant-write
+   ```
+   
 ## Create an API
 
 1. Go to the [OpenWhisk API Management Console](https://console.bluemix.net/openwhisk/) and then click on ![Create Managed API](readme_images/createapibutton.png).
