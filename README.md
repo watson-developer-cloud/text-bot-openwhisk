@@ -150,8 +150,8 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```
 
 ## Future Updates
-* Cloudant DB integration and the creation of actions to get and store information within the database
+* ~~Cloudant DB integration and the creation of actions to get and store information within the database~~
 * ~~Ability to query a certain day within the 7-day forecast for your city~~
-* Build a UI
+* ~~Build a UI~~
 * Output a list of states for the user to choose from should a city name occur in more than one state
 * Improve city detection accuracy
