@@ -15,7 +15,8 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
      - [Creating the actions](#creating-the-actions)
      - [Additions to the React app](#additions-to-the-react-app)
    - [Create an API](#create-an-api)
- - [Future Updates](#future-updates)
+- [Run the React App](#run-the-react-app)
+- [Future Updates](#future-updates)
 
 ## Getting Started
 
@@ -160,6 +161,21 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 8. To test your API, navigate to the **API Explorer** tab. Copy and paste the following command in a terminal window. Replace the ```--url``` flag with the route and path for your POST request, and replace the ```default``` API key with yours. To generate an ```id```, click on **Try it**, which is to the right of **Examples**, and then click **Generate** under the **Parameters** section to generate an ID.
    ```bash
    curl --request POST --url <YOUR POST PATH> --header 'accept: application/json' --header 'content-type: application/json' --header 'x-ibm-client-key: <YOUR API KEY>' --data '{"id":<GENERATED ID>, "conversation": { "input": { "text": "Hello", "language": "en"}, "context": {}}}'
+   ```
+## Run the React App
+1. Ensure that you have [Node.js](https://nodejs.org/en/download/) installed on your machine. You can also use [Homebrew](https://brew.sh/) to install Node.
+2. Navigate to the web-app directory in your cloned repository.
+3. Install the **node-modules** needed to run the app by typing the following in a terminal window. NPM stands for Node Package Manager and is installed when you install Node.
+   ```none
+   npm install
+   ```
+4. Next, install the Create React App package.
+   ```none
+   npm install create-react-app
+   ```
+5. You should now be able to run the app locally by typing the following:
+   ```none
+   npm start
    ```
 
 ## Future Updates
