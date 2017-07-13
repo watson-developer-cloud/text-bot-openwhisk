@@ -98,7 +98,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
 If you do not intend to have database support for your application, then you can skip to the [Create an API](#create-an-api) section.
 
-### Creating the actions
+#### Creating the actions
 
 OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write Watson Conversation contexts to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
 
@@ -138,7 +138,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 
 6. To ensure that your document is saved in your Cloudant DB instance, go to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), click on your Cloudant DB service instance, then click on the **Launch** button. Once you are viewing your list of **Databases**, click on the name of your weather bot database. If you see an entry with the same ID number used in the ```wsk``` command, then your sequence has sucessfully written to the database. If you would like to view the context that has been saved, then check the **Include Docs** box at the top of the page.
 
-### Additions to the React app
+#### Additions to the React app
 
 * Cloudant integration requires the DB document's ```_id``` and ```_rev``` to be passed in the UI.
 * The document ID numbers should be UUIDs. Install the Node [UUID Package](https://www.npmjs.com/package/uuid) and follow the instructions on how to generate the IDs.
