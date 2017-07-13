@@ -38,7 +38,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
 1. Download and install the [OpenWhisk CLI](https://console.bluemix.net/openwhisk/learn/cli), then follow the steps on that page to set up your OpenWhisk Namespace and Authorization Key.
 
-2. You will be creating 4 actions (not including actions for the Cloudant DB) for the weather chat bot as follows:
+2. You will be creating 5 actions (not including actions for the Cloudant DB) for the weather chat bot as follows:
    ```none
    wsk action create conversation1 actions/conversation.js --web true
    wsk action create conversation2 actions/conversation-weather.js --web true
