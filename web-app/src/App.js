@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Header, Footer, TextInput, Colors } from 'watson-react-components/dist/components';
 import uuidv1 from 'uuid/v1';
-
 import './App.css';
 
 var env = require('./env.json');
+
 const OPENWHISK_BACKEND = env.OPENWHISK_BACKEND;
 const IBM_KEY = env.IBM_KEY;
 
@@ -38,9 +38,6 @@ class App extends Component {
 
   sendMessage(input, context) {
     const self = this;
-    let now = new Date();
-    let hhmmss = now.toISOString().substr(11, 8);
-    console.log(now.full);
     fetch(OPENWHISK_BACKEND, {
       method: 'POST',
       headers: {
@@ -52,10 +49,12 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(function(messageResponse) {
-//        console.log(`Response: ${messageResponse}`);
-        console.log("Text" + messageResponse.conversation.input.text);
-        console.log(messageResponse.conversation.context);
-        console.log(messageResponse.conversation.output.text.join('\n'));
+        console.log(`Text: ${messageResponse.conversation.input.text}`);
+        console.log(`Response: ${messageResponse}`);
+        let now = new Date();
+        let hhmmss = now.toString().substr(4, 20);
+        console.log(now);
+
         self.setState({
           context: messageResponse.conversation.context,
           messages: self.state.messages.concat({
@@ -77,7 +76,8 @@ class App extends Component {
       this.sendMessage(this.state.text, this.state.context);
       event.target.value = '';
       let now = new Date();
-      let hhmmss = now.toISOString().substr(11, 8);
+      let hhmmss = now.toString().substr(4, 20);
+
 
       this.setState({
         context: '',
