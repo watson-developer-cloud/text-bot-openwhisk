@@ -49,13 +49,13 @@ function main(params) {
                 output.conversation.context.date = parameters.text;
                 output.conversation.context.today = parameters.text;
                 // to determine if the day of the week for tomorrow falls at the end of the week
-                var tomorrow = (daysOfWeek.indexOf(parameters.text) < daysOfWeek.length-2 ? daysOfWeek.indexOf(parameters.text) + 1 : 0);
+                let tomorrow = (daysOfWeek.indexOf(parameters.text) < daysOfWeek.length-2 ? daysOfWeek.indexOf(parameters.text) + 1 : 0);
                 output.conversation.context.tomorrow = daysOfWeek[tomorrow];
             }
             
             else if (((context.abbreviations && context.abbreviations[parameters.text]) || (context.city && context.city.states[parameters.text])) && context.city.name) {
                 console.log('detected state');
-                var state = context.abbreviations[parameters.text] ? context.abbreviations[parameters.text].full : params.conversation.input.text;
+                let state = context.abbreviations[parameters.text] ? context.abbreviations[parameters.text].full : params.conversation.input.text;
                 output.conversation.context.state = state;
                 console.log(state);
 
@@ -71,10 +71,10 @@ function main(params) {
             
             else if (response.entities.length > 0 && response.entities[0].disambiguation && response.entities[0].disambiguation.subtype[0] === 'City') {
                 console.log('detected city');
-                var location = response.entities
+                let location = response.entities
                     .filter(e => e.type === 'Location');
                     
-                var city_name = location[0].text;
+                let city_name = location[0].text;
 
                 if (context.city.name !== parameters.text && context.weather_conditions) {
                     console.log('new city');
