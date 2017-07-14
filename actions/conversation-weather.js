@@ -7,27 +7,19 @@
 console.log('starting conversation');
 function main(params) {
     console.log('calling conversation');
-    console.log(params.conversation.context.summary);
     if (!params.conversation.context.weather_conditions /*&& !params.conversation.context.summary === "API failure"*/) {
         console.log('returning params');
-        delete params.CONVERSATION_USERNAME;
-        delete params.CONVERSATION_PASSWORD;
-        delete params.WORKSPACE_ID;
-        if (params.__ow_method) {
-            delete params.__ow_method;
-            delete params.__ow_headers;
-            delete params.__ow_path;
-        }
-        return params;
+        var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
+        return output;
     }
     
     return new Promise(function(resolve, reject) {
-        var watson = require('watson-developer-cloud');
-        var USERNAME = params.CONVERSATION_USERNAME;
-        var PASSWORD = params.CONVERSATION_PASSWORD;
-        var WORKSPACE_ID = params.WORKSPACE_ID;
+        const watson = require('watson-developer-cloud');
+        const USERNAME = params.CONVERSATION_USERNAME;
+        const PASSWORD = params.CONVERSATION_PASSWORD;
+        const WORKSPACE_ID = params.WORKSPACE_ID;
 
-        var conversation = watson.conversation({
+        const conversation = watson.conversation({
             username: USERNAME,
             password: PASSWORD,
             version: 'v1',
@@ -35,7 +27,6 @@ function main(params) {
         });
 
         var city_name = params.conversation.context.city.name;
-        console.log(city_name);
         var context = (params.conversation && params.conversation.context ? params.conversation.context : {});
         
         conversation.message({
@@ -43,28 +34,13 @@ function main(params) {
             input: params.conversation.input,
             context: context
         }, function(err, response) {
-                if (err) {
-                    return reject(err);
-                }
-                console.log("no error");
-                
-                var output = Object.assign({}, params);
-                console.log('OUTPUT');
-                console.log(output);
-                output.conversation = response;
-                console.log('RESPONSE');
-                console.log(response);
-                
-                delete output.CONVERSATION_USERNAME;
-                delete output.CONVERSATION_PASSWORD;
-                delete output.WORKSPACE_ID;
-                if (output.__ow_method) {
-                    delete output.__ow_method;
-                    delete output.__ow_headers;
-                    delete output.__ow_path;
-                }
-                console.log(JSON.stringify(output))
-                return resolve(output);
+            if (err) {
+                return reject(err);
+            }
+            console.log("no error");
+            var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
+            output.conversation = response;
+            return resolve(output);
         });
     });
 }

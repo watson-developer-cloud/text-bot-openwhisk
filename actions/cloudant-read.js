@@ -3,11 +3,10 @@ function main(params) {
     if (!params._id) {
         Promise.reject(new Error('id cannot be null'))
     }
-    //load the package
-    var Cloudant = require('cloudant');
-        
-    var username = params.CLOUDANT_USERNAME;
-    var password = params.CLOUDANT_PASSWORD;
+    const Cloudant = require('cloudant');
+    const username = params.CLOUDANT_USERNAME;
+    const password = params.CLOUDANT_PASSWORD;
+    
     var dbname = 'owtextbotdb';
     var owdb = null;
     //connect to Cloudant
@@ -38,13 +37,8 @@ function main(params) {
                 return reject(err);
             }
             console.log('Got doc');
-            var output = Object.assign({}, {conversation: params.conversation});
-            console.log(output.conversation);
+            var output = Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev});
             output.conversation.context = body.context;
-            console.log('test');
-            console.log(output);
-            output._id = body._id;
-            output._rev = body._rev;
             
             return resolve(output);
         });

@@ -2,9 +2,7 @@ console.log('reading from cloudant');
 function main(params) {
     if (params._rev !== null) {
         console.log('Document exists');
-        var output = Object.assign({}, {conversation: params.conversation});
-        output._id = params._id;
-        output._rev = params._rev;
+        var output = Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev});
         return output;
     }
     else if (!params._id || !params.id) {
@@ -12,14 +10,14 @@ function main(params) {
     }
     
     //load the package
-    var Cloudant = require('cloudant');
-    var username = params.CLOUDANT_USERNAME;
-    var password = params.CLOUDANT_PASSWORD;
+    const Cloudant = require('cloudant');
+    const username = params.CLOUDANT_USERNAME;
+    const password = params.CLOUDANT_PASSWORD;
     var dbname = 'owtextbotdb';
     var owdb = null;
     console.log('connecting to cloudant');
     //connect to Cloudant
-    var cloudant = Cloudant({
+    const cloudant = Cloudant({
         account: username,
         password: password
     });
@@ -46,13 +44,7 @@ function main(params) {
                 return reject(err);
             }
             console.log('You have inserted the doc.');
-            console.log(body);
-            console.log('ID ', params._id);
-            
-            var output = Object.assign({});
-            output._id = body.id;
-            output._rev = body.rev;
-            output.conversation = params.conversation;
+            var output = Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: body.rev});            
             return resolve(output);
         });
     });

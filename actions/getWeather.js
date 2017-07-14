@@ -9,35 +9,24 @@ console.log('getting weather');
 function main(params) {
     if (!params || params.conversation.context.city.number_of_states !== 1 || params.conversation.context.weather_conditions) {
         console.log('skipping get weather');
-        delete params.WEATHER_USERNAME;
-        delete params.WEATHER_PASSWORD;
-        delete params.WEATHER_URL;
-        if (params.__ow_method) {
-            delete params.__ow_method;
-            delete params.__ow_headers;
-            delete params.__ow_path;
-        }
-        return params;
+        var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
+        return output;
     } else {
         return new Promise(function(resolve, reject) {
             const request = require('request');
-            
-            var USERNAME = params.WEATHER_USERNAME;
-            var PASSWORD = params.WEATHER_PASSWORD;
-            var URL = params.WEATHER_URL;
+
+            const USERNAME = params.WEATHER_USERNAME;
+            const PASSWORD = params.WEATHER_PASSWORD;
+            const URL = params.WEATHER_URL;
             
             var city = params.conversation.context.city;
-            console.log(city);
             var state = params.conversation.context.state;
-            console.log(state);
-            
+
             var latitude = city.states[state].latitude;
-            console.log(latitude);
             var longitude = city.states[state].longitude;
-            console.log(longitude);
-            var range = "7day";
-            var method = "/v1/geocode/";
-            var URL = URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json' || params.WEATHER_URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json'
+            const range = "7day";
+            const method = "/v1/geocode/";
+            const URL = URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json' || params.WEATHER_URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json'
 
             request({
                 method: 'GET',
@@ -54,26 +43,12 @@ function main(params) {
                     language: 'en-US'
                 }
             }, function (error, response, body) {
-                console.log(response.statusCode);
-                
-                var forecastList = [];
                 var weather_conditions = {};
 
                 for (var i = 0; i < body.forecasts.length; i++) {
                     var forecastDetail = body.forecasts[i];
                     // check if there are daytime forecasts available
                     if (forecastDetail.hasOwnProperty("day")) {
-                        var forecast = {
-                            [forecastDetail.dow]: {
-                                fullNarrative: forecastDetail.narrative,
-                                day: {
-                                    dayNarrative: forecastDetail.day.narrative
-                                },
-                                night: {
-                                    nightNarrative: forecastDetail.night.narrative
-                                }
-                            }
-                        };
                         weather_conditions[forecastDetail.dow] = {
                             fullNarrative: forecastDetail.narrative,
                             day: {
@@ -97,14 +72,6 @@ function main(params) {
                         }
                     } 
                     else {
-                        var forecast = {
-                            [forecastDetail.dow]: {
-                                fullNarrative: forecastDetail.narrative,
-                                night: {
-                                    nightNarrative: forecastDetail.night.narrative
-                                }
-                            }
-                        };
                         weather_conditions[forecastDetail.dow] = {
                             fullNarrative: forecastDetail.narrative,
                             night: {
@@ -118,26 +85,15 @@ function main(params) {
                             }
                         }
                     }
-                    forecastList[i] = forecast;
-                    console.log(weather_conditions);
                 }
                 
                 if (error || response.statusCode != 200) {
                     reject(error);
                 } else {
+                    var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
                     if (!params.conversation.context.hasOwnProperty("weather_conditions")) {
                         console.log('adding weather property');
-                        params.conversation.context.weather_conditions = weather_conditions; 
-                    }
-                    var output = Object.assign({}, params);
-                    
-                    delete output.WEATHER_USERNAME;
-                    delete output.WEATHER_PASSWORD;
-                    delete output.WEATHER_URL;
-                    if (output.__ow_method) {
-                        delete output.__ow_method;
-                        delete output.__ow_headers;
-                        delete output.__ow_path;
+                        output.conversation.context.weather_conditions = weather_conditions; 
                     }
                     resolve(output);
                 }
