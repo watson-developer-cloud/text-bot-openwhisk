@@ -35,9 +35,7 @@ function main(params) {
         natural_language_understanding.analyze(parameters, function(err, response) {
             var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
             var context = params.conversation.context;
-            console.log(response);
-            console.log('checking');
-
+            
             if (err && parameters.text !== "") {
                 console.log('error');
                 console.log(err);
@@ -82,7 +80,6 @@ function main(params) {
                     output.conversation.context.city.states = {};
                     output.conversation.context.city.number_of_states = null;
                 }
-
                 // replace empty location field with new details of the detected city                                                  
                 output.conversation.context.city.name = city_name;
                 output.conversation.context.city.alternate_name = city_name;
@@ -97,6 +94,7 @@ function main(params) {
                     alternate_name: "",
                     states: {}
                 }
+                output.conversation.context.state = "";
             }
             return resolve(output);
         });

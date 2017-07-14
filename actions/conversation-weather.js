@@ -7,12 +7,12 @@
 console.log('starting conversation');
 function main(params) {
     console.log('calling conversation');
-    if (!params.conversation.context.weather_conditions /*&& !params.conversation.context.summary === "API failure"*/) {
+    var context = params.conversation.context;
+    if (!context.weather_conditions && !context.system.branch_exited) {
         console.log('returning params');
         var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
         return output;
     }
-    
     return new Promise(function(resolve, reject) {
         const watson = require('watson-developer-cloud');
         const USERNAME = params.CONVERSATION_USERNAME;

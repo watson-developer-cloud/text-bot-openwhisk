@@ -17,7 +17,7 @@ function main(params) {
 
             const USERNAME = params.WEATHER_USERNAME;
             const PASSWORD = params.WEATHER_PASSWORD;
-            const URL = params.WEATHER_URL;
+            const url = params.WEATHER_URL;
             
             var city = params.conversation.context.city;
             var state = params.conversation.context.state;
@@ -26,7 +26,7 @@ function main(params) {
             var longitude = city.states[state].longitude;
             const range = "7day";
             const method = "/v1/geocode/";
-            const URL = URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json' || params.WEATHER_URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json'
+            const URL = url + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json' || params.WEATHER_URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json'
 
             request({
                 method: 'GET',
