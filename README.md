@@ -26,7 +26,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 2. Clone this repository and go to the cloned directory.
    ```none
    git clone https://github.com/eakelly/openwhisk-textbot.git
-   cd path/openwhisk-textbot
+   cd openwhisk-textbot
    ```
 3. Download and install the [Cloud-Foundry CLI](https://github.com/cloudfoundry/cli).
    * Alternatively, you can create the necessary services by going to your [Bluemix dashboard](https://console.bluemix.net/dashboard/).
@@ -50,7 +50,10 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
    wsk action create getWeather actions/getWeather.js --web true
    ```
 3. Change to the config directory and replace the default parameters with your Watson service credentials. Your credentials can be found by heading to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on the service name, and then the Service Credentials tab.
-
+   ```none
+   cd config
+   ```
+   
    **Conversation Credentials**
    ```none
    {
@@ -111,6 +114,10 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```
 2. Navigate to the config folder and replace the placeholder text with your Cloudant credentials. 
    ```none
+   cd config
+   ```
+   
+   ```none
    {
     "CLOUDANT_USERNAME": "<YOUR CLOUDANT USERNAME>"
     "CLOUDANT_PASSWORD": "<YOUR CLOUDANT PASSWORD>"
@@ -166,7 +173,10 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```
 ## Run the React App
 1. Ensure that you have [Node.js](https://nodejs.org/en/download/) installed on your machine. You can also use [Homebrew](https://brew.sh/) to install Node.
-2. Navigate to the web-app directory in your cloned repository.
+2. Navigate to the **web-app** directory in your cloned repository.
+   ```none
+   cd web-app
+   ```
 3. Install the **node-modules** needed to run the app by typing the following in a terminal window. NPM stands for Node Package Manager and is installed when you install Node.
    ```none
    npm install
