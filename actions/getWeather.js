@@ -50,7 +50,6 @@ function main(params) {
                     // check if there are daytime forecasts available
                     if (forecastDetail.hasOwnProperty("day")) {
                         weather_conditions[forecastDetail.dow] = {
-                            fullNarrative: forecastDetail.narrative,
                             day: {
                                 temp: forecastDetail.day.temp,
                                 pop: forecastDetail.day.pop,
@@ -59,30 +58,18 @@ function main(params) {
                                 phrase_12char: forecastDetail.day.phrase_12char,
                                 phrase_22char: forecastDetail.day.phrase_22char,
                                 phrase_32char: forecastDetail.day.phrase_32char
-                            },
-                            night: {
-                                temp: forecastDetail.night.temp,
-                                pop: forecastDetail.night.pop,
-                                uv_index: forecastDetail.night.uv_index,
-                                narrative: forecastDetail.night.narrative,
-                                phrase_12char: forecastDetail.night.phrase_12char,
-                                phrase_22char: forecastDetail.night.phrase_22char,
-                                phrase_32char: forecastDetail.night.phrase_32char
                             }
                         }
                     } 
-                    else {
-                        weather_conditions[forecastDetail.dow] = {
-                            fullNarrative: forecastDetail.narrative,
-                            night: {
-                                temp: forecastDetail.night.temp,
-                                pop: forecastDetail.night.pop,
-                                uv_index: forecastDetail.night.uv_index,
-                                narrative: forecastDetail.night.narrative,
-                                phrase_12char: forecastDetail.night.phrase_12char,
-                                phrase_22char: forecastDetail.night.phrase_22char,
-                                phrase_32char: forecastDetail.night.phrase_32char
-                            }
+                    weather_conditions[forecastDetail.dow] = {
+                        night: {
+                            temp: forecastDetail.night.temp,
+                            pop: forecastDetail.night.pop,
+                            uv_index: forecastDetail.night.uv_index,
+                            narrative: forecastDetail.night.narrative,
+                            phrase_12char: forecastDetail.night.phrase_12char,
+                            phrase_22char: forecastDetail.night.phrase_22char,
+                            phrase_32char: forecastDetail.night.phrase_32char
                         }
                     }
                 }
