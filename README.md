@@ -112,11 +112,13 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 2. Navigate to the config folder and replace the placeholder text with your Cloudant credentials. 
    ```none
    {
+    "CLOUDANT_USERNAME": "<YOUR CLOUDANT USERNAME>"
+    "CLOUDANT_PASSWORD": "<YOUR CLOUDANT PASSWORD>"
     "CLOUDANT_URL": "<YOUR CLOUDANT URL>"
    }
    ```
    Your credentials can be found by heading to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on the Cloudant service name you created, and then the Service Credentials tab. Then, click on the "View credentials" dropdown
-   associated with the API key you will use. You will need the URL for your Cloudant DB.
+   associated with the API key you will use. You will need the username, password, and URL of your Cloudant DB.
 
 3. Next, export your service credentials by doing the following commands:
    ```none
