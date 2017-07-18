@@ -3,10 +3,8 @@ import { Header, Footer, TextInput, Colors } from 'watson-react-components/dist/
 import uuidv1 from 'uuid/v1';
 import './App.css';
 
-var env = require('./env.json');
-
-const OPENWHISK_BACKEND = env.OPENWHISK_BACKEND;
-const IBM_KEY = env.IBM_KEY;
+const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
+const IBM_KEY = process.env.REACT_APP_API_KEY;
 
 const Timestamp = require('react-timestamp');
 
