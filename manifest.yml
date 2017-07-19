@@ -1,0 +1,22 @@
+---
+declared-services:
+  conversation-service:
+    label: conversation
+    plan: free
+  cloudantNoSQLDB-service:
+    label: cloudantNoSQLDB
+    plan: Lite
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: openwhisk-weather-bot
+  host: openwhisk-weather-bot
+  buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+  disk_quota: 1024M
+  services:
+  - cloudantNoSQLDB-service
+  - weatherinsights-service
+  - natural-language-understanding
+  - conversation-service
