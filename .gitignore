@@ -2,3 +2,6 @@
 app-test/
 .DS_Store
 test.js
+public/
+node_modules/
+build/
