@@ -16,6 +16,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
      - [Additions to the React app](#additions-to-the-react-app)
    - [Create an API](#create-an-api)
 - [Run the React App](#run-the-react-app)
+- [Cloud Foundry Deployment](#cloud-foundry-deployment)
 - [Future Updates](#future-updates)
 
 ## Getting Started
@@ -190,9 +191,33 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    npm start
    ```
 
+## Cloud Foundry Deployment
+1. Follow the instructions for [Run the React App]](#run-the-react-app) before moving on to this section.
+2. Navigate to the **web-app** directory in your cloned repository.
+   ```none
+   cd web-app/
+   ```
+3. Then build the app for production.
+   ```none
+   npm run build
+   ```
+4. Change back to the root directory of your cloned repo.
+   ```none
+   cd ../
+   ```
+5. You can change the following fields in the ```manifest.yml``` if you like.
+   ```none
+   name: <Your App Name>
+   host: <Your App Host Name>
+   ```
+6. Push the app to Cloud Foundry by doing the following command:
+   ```none
+   cf push
+   ```
+
 ## Future Updates
 * ~~Cloudant DB integration and the creation of actions to get and store information within the database~~
 * ~~Ability to query a certain day within the 7-day forecast for your city~~
 * ~~Build a UI~~
 * Output a list of states for the user to choose from should a city name occur in more than one state
-* Improve city detection accuracy
+* Improve city detection accuracyB
