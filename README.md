@@ -4,6 +4,9 @@ This project gives you the current weather forecast for your city (U.S. only as 
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/eakelly/openwhisk-textbot)
+
+
 ## OpenWhisk Action Architecture
 ![**OpenWhisk Action Architecture**](readme_images/openwhiskflow.png)
 
@@ -174,7 +177,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```
 ## Run the React App
 1. Ensure that you have [Node.js](https://nodejs.org/en/download/) installed on your machine. You can also use [Homebrew](https://brew.sh/) to install Node.
-2. Navigate to the **web-app** directory in your cloned repository.
+2. Navigate to the root directory in your cloned repository.
    ```none
    cd web-app
    ```
@@ -193,7 +196,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 
 ## Cloud Foundry Deployment
 1. Follow the instructions for [Run the React App]](#run-the-react-app) before moving on to this section.
-2. Navigate to the **web-app** directory in your cloned repository.
+2. Navigate to the root directory in your cloned repository.
    ```none
    cd web-app/
    ```
@@ -201,16 +204,12 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```none
    npm run build
    ```
-4. Change back to the root directory of your cloned repo.
-   ```none
-   cd ../
-   ```
-5. You can change the following fields in the ```manifest.yml``` if you like.
+4. You can change the following fields in the ```manifest.yml``` if you like.
    ```none
    name: <Your App Name>
    host: <Your App Host Name>
    ```
-6. Push the app to Cloud Foundry by doing the following command:
+5. Push the app to Cloud Foundry by doing the following command:
    ```none
    cf push
    ```
