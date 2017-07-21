@@ -12,7 +12,6 @@ applications:
   instances: 1
   domain: mybluemix.net
   name: openwhisk-weather-bot
-  host: openwhisk-weather-bot
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   disk_quota: 1024M
   services:
