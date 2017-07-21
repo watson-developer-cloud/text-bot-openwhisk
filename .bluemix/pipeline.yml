@@ -26,5 +26,5 @@ stages:
       application: ${CF_APP}
     script: |-
       #!/bin/bash
-      cf push "${CF_APP}"
-      # cf logs "${CF_APP}" --recent
+      chmod +x ./.bluemix/pipeline-DEPLOY.sh
+      ./.bluemix/pipeline-DEPLOY.sh
