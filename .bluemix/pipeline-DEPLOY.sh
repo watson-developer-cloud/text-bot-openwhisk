@@ -36,10 +36,10 @@ figlet -f small 'Cloudant'
 cf create-service cloudantNoSQLDB Lite cloudant-openwhisk
 cf create-service-key cloudant-openwhisk cloudant-key
 
-CLOUDANT_CREDENTIALS='cf service-key cloudant-openwhisk cloudant-key | tail -n +2'
-export CLOUDANT_username='echo $CLOUDANT_CREDENTIALS | jq -r .username'
-export CLOUDANT_password='echo $CLOUDANT_CREDENTIALS | jq -r .password'
-export CLOUDANT_host='echo $CLOUDANT_CREDENTIALS | jq -r .host'
+CLOUDANT_CREDENTIALS=`cf service-key cloudant-openwhisk cloudant-key | tail -n +2`
+export CLOUDANT_username=`echo $CLOUDANT_CREDENTIALS | jq -r .username`
+export CLOUDANT_password=`echo $CLOUDANT_CREDENTIALS | jq -r .password`
+export CLOUDANT_host=`echo $CLOUDANT_CREDENTIALS | jq -r .host`
 #Cloudant database should be set by the pipeline, else use a default
 if [ -z "$CLOUDANT_db" ]; then
     echo 'CLOUDANT_db was not set in the pipeline. Using a default value.'
@@ -49,3 +49,15 @@ fi
 echo 'Creating '$CLOUDANT_db' database...'
 # ignore the "database already exists error"
 curl -s -X PUT "https://$CLOUDANT_username:$CLOUDANT_password@$CLOUDANT_host/$CLOUDANT_db"
+
+# Create Watson Natural Language Understanding Service
+figlet -f small 'Natural Language Understanding'
+cf create-service natural-language-understanding free nlu-openwhisk
+cf create-service-key nlu-openwhisk nlu-key
+
+NLU_CREDENTIALS=`cf service-key nlu-openwhisk nlu-key | tail -n +2`
+export NLU_USERNAME=`echo $NLU_CREDENTIALS | jq -r .username`
+export NLU_PASSWORD=`echo $NLU_CREDENTIALS | jq -r .password`
+export NLU_URL=`echo $NLU_CREDENTIALS | jq -r .url`
+
+
