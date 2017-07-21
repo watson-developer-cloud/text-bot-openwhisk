@@ -4,7 +4,7 @@ This project gives you the current weather forecast for your city (U.S. only as 
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/eakelly/openwhisk-textbot)
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.com/eakelly/openwhisk-textbot)
 
 
 ## OpenWhisk Action Architecture
