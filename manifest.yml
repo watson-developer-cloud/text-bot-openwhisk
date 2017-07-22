@@ -15,7 +15,7 @@ applications:
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   disk_quota: 1024M
   services:
-  - cloudantNoSQLDB-service
-  - weatherinsights-service
-  - natural-language-understanding
-  - conversation-service
+  - cloudant-openwhisk
+  - weatherinsights-openwhisk
+  - nlu-openwhisk
+  - conversation-openwhisk
