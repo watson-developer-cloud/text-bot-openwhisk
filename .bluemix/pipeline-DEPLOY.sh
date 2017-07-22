@@ -150,4 +150,13 @@ echo 'Creating OpenWhisk API'
 wsk api create /openwhisk-weather-bot-api /submit post openwhisk-weather-bot-sequence --response-type json
 API_URL='wsk api get /openwhisk-weather-bot-api -f | jq -r .gwApiUrl'
 API_URL+="/submit"
+
+################################################################
+# Set the web UI
+################################################################
 export REACT_APP_API_URL=$API_URL
+echo $REACT_APP_API_URL
+
+# Push app
+export CF_APP_NAME="$CF_APP"
+cf push "${CF_APP_NAME}"
