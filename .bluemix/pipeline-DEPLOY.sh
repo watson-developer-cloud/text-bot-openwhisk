@@ -142,21 +142,28 @@ wsk action update $PACKAGE/conversation1 --param CONVERSATION_USERNAME $CONVERSA
 wsk action update $PACKAGE/conversation2 --param CONVERSATION_USERNAME $CONVERSATION_USERNAME --param CONVERSATION_PASSWORD $CONVERSATION_PASSWORD --param WORKSPACE_ID $CONVERSATION_WORKSPACE_ID
 wsk action update $PACKAGE/getGeoLoc --param WEATHER_USERNAME $WEATHER_USERNAME --param WEATHER_PASSWORD $WEATHER_PASSWORD --param WEATHER_URL $WEATHER_URL
 wsk action update $PACKAGE/getWeather --param WEATHER_USERNAME $WEATHER_USERNAME --param WEATHER_PASSWORD $WEATHER_PASSWORD --param WEATHER_URL $WEATHER_URL
+echo $CONVERSATION_WORKSPACE_ID
 
 echo 'Creating OpenWhisk Sequence...'
 wsk action create openwhisk-weather-bot-sequence --sequence $PACKAGE/nlu,$PACKAGE/getGeoLoc,$PACKAGE/conversation1,$PACKAGE/getWeather,$PACKAGE/conversation2 --web true
 
 echo 'Creating OpenWhisk API'
-wsk api create openwhisk-weather-bot-api /submit post openwhisk-weather-bot-sequence --response-type json
-API_URL='wsk api get /openwhisk-weather-bot-api -f | jq -r .gwApiUrl'
+wsk api create /openwhisk-weather-bot-api /submit post openwhisk-weather-bot-sequence --response-type json
+API_URL=`wsk api get /openwhisk-weather-bot-api -f | jq -r .gwApiUrl`
 API_URL+="/submit"
+echo 'API URL'
+echo $API_URL
 
 ################################################################
 # Set the web UI
 ################################################################
+echo 'Setting up the UI...'
 export REACT_APP_API_URL=$API_URL
 echo $REACT_APP_API_URL
+TEST=`cat .env`
+echo $TEST
 
 # Push app
 export CF_APP_NAME="$CF_APP"
+echo $CF_APP_NAME
 cf push "${CF_APP_NAME}"
