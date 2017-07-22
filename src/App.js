@@ -4,7 +4,7 @@ import uuidv1 from 'uuid/v1';
 import './App.css';
 
 const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
-const IBM_KEY = process.env.REACT_APP_API_KEY;
+//const IBM_KEY = process.env.REACT_APP_API_KEY;
 
 const Timestamp = require('react-timestamp');
 
@@ -40,8 +40,8 @@ class App extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-IBM-Client-Key': IBM_KEY,
+        'Content-Type': 'application/json' /*,
+        'X-IBM-Client-Key': IBM_KEY*/
       },
       body: JSON.stringify({ conversation: { input: { text: input, language: 'en' }, context: context/*, _id: self.state._id */} })
     })
