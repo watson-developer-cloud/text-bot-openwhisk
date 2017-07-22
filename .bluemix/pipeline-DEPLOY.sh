@@ -113,6 +113,7 @@ OPENWHISK_AUTH=$SPACE_UUID:$SPACE_KEY
 
 # Configure the OpenWhisk CLI
 wsk property set --apihost $OPENWHISK_API_HOST --auth "${OPENWHISK_AUTH}"
+wsk property get --auth
 
 # To enable the creation of API in Bluemix, inject the CF token in the wsk properties
 echo "APIGW_ACCESS_TOKEN=${CF_ACCESS_TOKEN}" >> ~/.wskprops
@@ -143,10 +144,10 @@ wsk action update $PACKAGE/getGeoLoc --param username $WEATHER_USERNAME --param 
 wsk action update $PACKAGE/getWeather --param username $WEATHER_USERNAME --param password $WEATHER_PASSWORD --param url $WEATHER_URL
 
 echo 'Creating OpenWhisk Sequence...'
-wsk action create openwhisk-weather-bot-sequence --sequence /$PACKAGE/nlu,/$PACKAGE/getGeoLoc,/$PACKAGE/conversation1,/$PACKAGE/getWeather,/$PACKAGE/conversation2
+wsk action create openwhisk-weather-bot-sequence --sequence $PACKAGE/nlu,$PACKAGE/getGeoLoc,$PACKAGE/conversation1,$PACKAGE/getWeather,$PACKAGE/conversation2
 
 echo 'Creating OpenWhisk API'
-wsk api create /openwhisk-weather-bot-api /submit POST $PACKAGE/openwhisk-weather-bot-sequence --response-type json
+wsk api create /openwhisk-weather-bot-api /submit post $PACKAGE/openwhisk-weather-bot-sequence --response-type json
 API_URL='wsk api get /openwhisk-weather-bot-api -f | jq -r .gwApiUrl'
 API_URL+="/submit"
 export REACT_APP_API_URL=$API_URL
