@@ -37,18 +37,18 @@ cf create-service cloudantNoSQLDB Lite cloudant-openwhisk
 cf create-service-key cloudant-openwhisk cloudant-key
 
 CLOUDANT_CREDENTIALS=`cf service-key cloudant-openwhisk cloudant-key | tail -n +2`
-export CLOUDANT_username=`echo $CLOUDANT_CREDENTIALS | jq -r .username`
-export CLOUDANT_password=`echo $CLOUDANT_CREDENTIALS | jq -r .password`
-export CLOUDANT_host=`echo $CLOUDANT_CREDENTIALS | jq -r .host`
+export CLOUDANT_USERNAME=`echo $CLOUDANT_CREDENTIALS | jq -r .username`
+export CLOUDANT_PASSWORD=`echo $CLOUDANT_CREDENTIALS | jq -r .password`
+export CLOUDANT_HOST=`echo $CLOUDANT_CREDENTIALS | jq -r .host`
 #Cloudant database should be set by the pipeline, else use a default
-if [ -z "$CLOUDANT_db" ]; then
-    echo 'CLOUDANT_db was not set in the pipeline. Using a default value.'
-    export CLOUDANT_db=whiskbotdb
+if [ -z "$CLOUDANT_DB" ]; then
+    echo 'CLOUDANT_DB was not set in the pipeline. Using a default value.'
+    export CLOUDANT_DB=whiskbotdb
 fi
 
-echo 'Creating '$CLOUDANT_db' database...'
-# ignore the "database already exists error"
-curl -s -X PUT "https://$CLOUDANT_username:$CLOUDANT_password@$CLOUDANT_host/$CLOUDANT_db"
+echo 'Creating '$CLOUDANT_DB' database...'
+# ignore the "database already exists error
+curl -s -X PUT "https://$CLOUDANT_USERNAME:$CLOUDANT_PASSWORD@$CLOUDANT_HOST/$CLOUDANT_DB"
 
 # Create Watson Natural Language Understanding Service
 figlet -f small 'Natural Language Understanding'
@@ -116,3 +116,37 @@ wsk property set --apihost $OPENWHISK_API_HOST --auth "${OPENWHISK_AUTH}"
 
 # To enable the creation of API in Bluemix, inject the CF token in the wsk properties
 echo "APIGW_ACCESS_TOKEN=${CF_ACCESS_TOKEN}" >> ~/.wskprops
+
+###############################################
+# OpenWhisk Actions
+###############################################
+echo 'Creating the OpenWhisk actions...'
+export PACKAGE="openwhisk-weather-bot"
+wsk package create openwhisk-weather-bot
+wsk action create $PACKAGE/cloudant-add actions/cloudant-add.js
+wsk action create $PACKAGE/cloudant-read actions/cloudant-read.js
+wsk action create $PACKAGE/cloudant-write actions/cloudant-write.js
+wsk action create $PACKAGE/conversation1 actions/conversation.js
+wsk action create $PACKAGE/conversation2 actions/conversation-weather.js
+wsk action create $PACKAGE/nlu actions/nlu.js
+wsk action create $PACKAGE/getGeoLoc actions/getGeoLoc.js
+wsk action create $PACKAGE/getWeather actions/getWeather.js
+
+echo 'Setting default parameters...'
+wsk action update $PACKAGE/cloudant-add --param username $CLOUDANT_USERNAME --param password $CLOUDANT_PASSWORD --param workspace_id $CLOUDANT_HOST
+wsk action update $PACKAGE/cloudant-read --param username $CLOUDANT_USERNAME --param password $CLOUDANT_PASSWORD --param workspace_id $CLOUDANT_HOST
+wsk action update $PACKAGE/cloudant-write --param username $CLOUDANT_USERNAME --param password $CLOUDANT_PASSWORD --param workspace_id $CLOUDANT_HOST
+wsk action update $PACKAGE/nlu --param username $NLU_USERNAME --param password $NLU_PASSWORD
+wsk action update $PACKAGE/conversation1 --param username $CONVERSATION_USERNAME --param password $CONVERSATION_PASSWORD --param workspace_id $CONVERSATION_WORKSPACE_ID
+wsk action update $PACKAGE/conversation2 --param username $CONVERSATION_USERNAME --param password $CONVERSATION_PASSWORD --param workspace_id $CONVERSATION_WORKSPACE_ID
+wsk action update $PACKAGE/getGeoLoc --param username $WEATHER_USERNAME --param password $WEATHER_PASSWORD --param url $WEATHER_URL
+wsk action update $PACKAGE/getWeather --param username $WEATHER_USERNAME --param password $WEATHER_PASSWORD --param url $WEATHER_URL
+
+echo 'Creating OpenWhisk Sequence...'
+wsk action create openwhisk-weather-bot --sequence /$PACKAGE/nlu,/$PACKAGE/getGeoLoc,/$PACKAGE/conversation1,/$PACKAGE/getWeather,/$PACKAGE/conversation2
+
+echo 'Creating OpenWhisk API'
+wsk api create /openwhisk-weather-bot /submit POST $PACKAGE/openwhisk-weather-bot --response-type json
+API_URL='wsk api get /openwhisk-weather-bot -f | jq -r .gwApiUrl'
+API_URL+="/submit"
+export REACT_APP_API_URL=$API_URL
