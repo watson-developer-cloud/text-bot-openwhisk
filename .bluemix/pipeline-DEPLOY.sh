@@ -134,20 +134,20 @@ wsk action create $PACKAGE/getGeoLoc actions/getGeoLoc.js
 wsk action create $PACKAGE/getWeather actions/getWeather.js
 
 echo 'Setting default parameters...'
-wsk action update $PACKAGE/cloudant-add --param username $CLOUDANT_USERNAME --param password $CLOUDANT_PASSWORD --param workspace_id $CLOUDANT_HOST
-wsk action update $PACKAGE/cloudant-read --param username $CLOUDANT_USERNAME --param password $CLOUDANT_PASSWORD --param workspace_id $CLOUDANT_HOST
-wsk action update $PACKAGE/cloudant-write --param username $CLOUDANT_USERNAME --param password $CLOUDANT_PASSWORD --param workspace_id $CLOUDANT_HOST
-wsk action update $PACKAGE/nlu --param username $NLU_USERNAME --param password $NLU_PASSWORD
-wsk action update $PACKAGE/conversation1 --param username $CONVERSATION_USERNAME --param password $CONVERSATION_PASSWORD --param workspace_id $CONVERSATION_WORKSPACE_ID
-wsk action update $PACKAGE/conversation2 --param username $CONVERSATION_USERNAME --param password $CONVERSATION_PASSWORD --param workspace_id $CONVERSATION_WORKSPACE_ID
-wsk action update $PACKAGE/getGeoLoc --param username $WEATHER_USERNAME --param password $WEATHER_PASSWORD --param url $WEATHER_URL
-wsk action update $PACKAGE/getWeather --param username $WEATHER_USERNAME --param password $WEATHER_PASSWORD --param url $WEATHER_URL
+wsk action update $PACKAGE/cloudant-add --param CLOUDANT_USERNAME $CLOUDANT_USERNAME --param CLOUDANT_PASSWORD $CLOUDANT_PASSWORD
+wsk action update $PACKAGE/cloudant-read --param CLOUDANT_USERNAME $CLOUDANT_USERNAME --param CLOUDANT_PASSWORD $CLOUDANT_PASSWORD
+wsk action update $PACKAGE/cloudant-write --param CLOUDANT_USERNAME $CLOUDANT_USERNAME --param CLOUDANT_PASSWORD $CLOUDANT_PASSWORD
+wsk action update $PACKAGE/nlu --param NLU_USERNAME $NLU_USERNAME --param NLU_PASSWORD $NLU_PASSWORD
+wsk action update $PACKAGE/conversation1 --param CONVERSATION_USERNAME $CONVERSATION_USERNAME --param CONVERSATION_PASSWORD $CONVERSATION_PASSWORD --param WORKSPACE_ID $CONVERSATION_WORKSPACE_ID
+wsk action update $PACKAGE/conversation2 --param CONVERSATION_USERNAME $CONVERSATION_USERNAME --param CONVERSATION_PASSWORD $CONVERSATION_PASSWORD --param WORKSPACE_ID $CONVERSATION_WORKSPACE_ID
+wsk action update $PACKAGE/getGeoLoc --param WEATHER_USERNAME $WEATHER_USERNAME --param WEATHER_PASSWORD $WEATHER_PASSWORD --param WEATHER_URL $WEATHER_URL
+wsk action update $PACKAGE/getWeather --param WEATHER_USERNAME $WEATHER_USERNAME --param WEATHER_PASSWORD $WEATHER_PASSWORD --param WEATHER_URL $WEATHER_URL
 
 echo 'Creating OpenWhisk Sequence...'
 wsk action create openwhisk-weather-bot-sequence --sequence $PACKAGE/nlu,$PACKAGE/getGeoLoc,$PACKAGE/conversation1,$PACKAGE/getWeather,$PACKAGE/conversation2 --web true
 
 echo 'Creating OpenWhisk API'
-wsk api create /openwhisk-weather-bot-api /submit post openwhisk-weather-bot-sequence --response-type json
+wsk api create openwhisk-weather-bot-api /submit post openwhisk-weather-bot-sequence --response-type json
 API_URL='wsk api get /openwhisk-weather-bot-api -f | jq -r .gwApiUrl'
 API_URL+="/submit"
 
