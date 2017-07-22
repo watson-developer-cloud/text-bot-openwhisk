@@ -158,10 +158,27 @@ echo $API_URL
 # Set the web UI
 ################################################################
 echo 'Setting up the UI...'
+
+echo 'Installing create-react-app...'
+npm install
+npm install create-react-app
+npm install watson-react-components
+npm run build
+
 export REACT_APP_API_URL=$API_URL
 echo $REACT_APP_API_URL
 TEST=`cat .env`
 echo $TEST
+
+# cd src
+#
+# APP=`cat App.js`
+# echo 'Getting the variable'
+# REACT_API=`echo $APP | jq -r .OPENWHISK_BACKEND`
+# echo 'API URL IN FILE...'
+# echo $REACT_API
+#
+# cd ..
 
 # Push app
 export CF_APP_NAME="$CF_APP"

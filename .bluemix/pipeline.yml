@@ -26,5 +26,4 @@ stages:
       application: ${CF_APP}
     script: |-
       #!/bin/bash
-      export CF_APP_NAME="$CF_APP"
-      cf push "${CF_APP_NAME}"
+      ./.bluemix/pipeline-DEPLOY.sh
