@@ -87,7 +87,7 @@ cf create-service-key weatherinsights-openwhisk weatherinsights-key
 WEATHER_CREDENTIALS=`cf service-key weatherinsights-openwhisk weatherinsights-key | tail -n +2`
 export WEATHER_USERNAME=`echo $WEATHER_CREDENTIALS | jq -r .username`
 export WEATHER_PASSWORD=`echo $WEATHER_CREDENTIALS | jq -r .password`
-export WEATHER_URL=`echo $WEATHER_CREDENTIALS | jq -r .url`
+export WEATHER_URL=`echo $WEATHER_CREDENTIALS | jq -r .host`
 
 ################################################################
 # OpenWhisk artifacts
@@ -163,7 +163,6 @@ echo 'Installing create-react-app...'
 npm install
 npm install create-react-app
 npm install watson-react-components
-# npm run build
 
 export REACT_APP_API_URL=$API_URL
 echo $REACT_APP_API_URL
@@ -178,6 +177,7 @@ echo "$VAR" > "$FILE"
 FILE=`cat .env`
 echo $FILE
 
+npm run build
 
 # Push app
 export CF_APP_NAME="$CF_APP"
