@@ -10,15 +10,16 @@ function main(params) {
         console.log('No needed params');
         var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
         return output;
-        
+
     } else {
         console.log('There are params');
         return new Promise(function(resolve, reject) {
             const request = require('request');
-            const method = "/v3/location/search"; 
+            const method = "/v3/location/search";
+            const url = 'https://twcservice.mybluemix.net/api/weather' || params.WEATHER_URL;
             request({
                 method: 'GET',
-                url: params.WEATHER_URL + method,
+                url: url + method,
                 auth: {
                     username: params.WEATHER_USERNAME,
                     password: params.WEATHER_PASSWORD,
@@ -34,26 +35,26 @@ function main(params) {
                 }
             }, function (error, response, body) {
                 console.log(body);
-                
+
                 var latitudes = body.location.latitude;
                 var longitudes = body.location.longitude;
                 var abbrList = body.location.adminDistrictCode;
                 var statesList = body.location.adminDistrict;
                 // map the latitude and longitude values to each other
                 var coordinates = latitudes.map( (x, i) => {
-                    return {"latitude": x, "longitude": longitudes[i]}        
+                    return {"latitude": x, "longitude": longitudes[i]}
                 });
-                
+
                 var states = {};
                 var abbreviations = {};
-                
+
                 statesList.forEach(function(state, i) {
                     states[state] = {
                         longitude: coordinates[i].longitude,
                         latitude: coordinates[i].latitude
                     };
                 });
-                
+
                 abbrList.forEach(function(abbr, i) {
                     abbreviations[abbr] = {
                         full: statesList[i]
@@ -67,7 +68,7 @@ function main(params) {
                 if (params.conversation.context.city.number_of_states === null) {
                     console.log('num of states null');
                     output.conversation.context.city.number_of_states = body.location.adminDistrict.length;
-                    
+
                     if (params.conversation.context.city.number_of_states === 1) {
                         output.conversation.context.state = body.location.adminDistrict[0];
                     }
