@@ -197,7 +197,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```
 
 ## Cloud Foundry Deployment
-1. Follow the instructions for [Run the React App]](#run-the-react-app) before moving on to this section.
+1. Follow the instructions for [Run the React App](#run-the-react-app) before moving on to this section.
 2. Make sure you are in the root directory in your cloned repository.
 3. Then build the app for production.
    ```none
