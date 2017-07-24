@@ -182,10 +182,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```
 ## Run the React App
 1. Ensure that you have [Node.js](https://nodejs.org/en/download/) installed on your machine. You can also use [Homebrew](https://brew.sh/) to install Node.
-2. Navigate to the root directory in your cloned repository.
-   ```none
-   cd web-app
-   ```
+2. Make sure you are in the root directory in your cloned repository.
 3. Install the **node-modules** needed to run the app by typing the following in a terminal window. NPM stands for Node Package Manager and is installed when you install Node.
    ```none
    npm install
@@ -201,10 +198,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 
 ## Cloud Foundry Deployment
 1. Follow the instructions for [Run the React App]](#run-the-react-app) before moving on to this section.
-2. Navigate to the root directory in your cloned repository.
-   ```none
-   cd web-app/
-   ```
+2. Make sure you are in the root directory in your cloned repository.
 3. Then build the app for production.
    ```none
    npm run build
@@ -224,4 +218,4 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 * ~~Ability to query a certain day within the 7-day forecast for your city~~
 * ~~Build a UI~~
 * Output a list of states for the user to choose from should a city name occur in more than one state
-* Improve city detection accuracyB
+* Improve city detection accuracy
