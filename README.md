@@ -10,6 +10,8 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.com/eakelly/openwhisk-textbot)
 
+**Note: Please ensure that your Bluemix organization has enough space for one web application using 256MB of memory and for 4 services (CloudantDB, Conversation, NLU, and Weather Insights).
+
 ## OpenWhisk Action Architecture
 ![**OpenWhisk Action Architecture**](readme_images/openwhiskflow.png)
 
