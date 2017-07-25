@@ -177,7 +177,7 @@ echo "$VAR" > "$FILE"
 FILE=`cat .env`
 echo $FILE
 
-#npm run build
+npm run build
 
 # Push app
 export CF_APP_NAME="$CF_APP"
