@@ -31,6 +31,18 @@ function main(params) {
             }
         };
         
+        var isLowerCaseState = false;
+        if (params.conversation.context.city && params.conversation.context.city.states) {
+            for (const key of Object.keys(params.conversation.context.city.states)) {
+                let lowercase = key.toLowerCase();
+                console.log(lowercase);
+                if (params.conversation.input.text === lowercase) {
+                    isLowerCaseState = true;
+                    params.conversation.input.text = key;
+                }
+            }
+        }
+        
         console.log('analyzing nlu');
         natural_language_understanding.analyze(parameters, function(err, response) {
             var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
@@ -51,7 +63,7 @@ function main(params) {
                 output.conversation.context.tomorrow = daysOfWeek[tomorrow];
             }
             
-            else if (((context.abbreviations && context.abbreviations[parameters.text]) || (context.city && context.city.states[parameters.text])) && context.city.name) {
+            else if (((context.abbreviations && context.abbreviations[parameters.text]) || (context.city && context.city.states[parameters.text]) || isLowerCaseState) && context.city.name) {              
                 console.log('detected state');
                 let state = context.abbreviations[parameters.text] ? context.abbreviations[parameters.text].full : params.conversation.input.text;
                 output.conversation.context.state = state;
