@@ -162,7 +162,7 @@ echo 'Setting up the UI...'
 echo 'Installing create-react-app...'
 npm install
 npm install create-react-app
-#npm install watson-react-components
+npm install watson-react-components
 
 export REACT_APP_API_URL=$API_URL
 echo $REACT_APP_API_URL
