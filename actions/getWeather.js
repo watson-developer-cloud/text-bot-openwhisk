@@ -17,7 +17,7 @@ function main(params) {
 
             const USERNAME = params.WEATHER_USERNAME;
             const PASSWORD = params.WEATHER_PASSWORD;
-            const url = params.WEATHER_URL;
+	    const url = 'https://twcservice.mybluemix.net/api/weather' || params.WEATHER_URL;
             
             var city = params.conversation.context.city;
             var state = params.conversation.context.state;
