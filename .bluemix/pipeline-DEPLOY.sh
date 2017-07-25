@@ -99,7 +99,7 @@ echo 'Retrieving OpenWhisk authorization key...'
 # Retrieve the OpenWhisk authorization key
 CF_ACCESS_TOKEN=`cat ~/.cf/config.json | jq -r .AccessToken | awk '{print $2}'`
 
-# Docker image should be set by the pipeline, use a default if not set
+# OpenWhisk container should be set by the pipeline, use a default if not set
 if [ -z "$OPENWHISK_API_HOST" ]; then
   echo 'OPENWHISK_API_HOST was not set in the pipeline. Using default value.'
   export OPENWHISK_API_HOST=openwhisk.ng.bluemix.net
