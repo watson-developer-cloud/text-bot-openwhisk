@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Header, TextInput, Colors } from 'watson-react-components/dist/components';
-import uuidv1 from 'uuid/v1';
+//import uuidv1 from 'uuid/v1';
 import './App.css';
 
 const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
-//const IBM_KEY = process.env.REACT_APP_API_KEY;
 
-const Timestamp = require('react-timestamp');
+console.log(process.env);
+console.log(process.env.REACT_APP_API_URL);
 
 const Message = (props) => (
   <div className="segments load">
@@ -40,8 +40,7 @@ class App extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json' /*,
-        'X-IBM-Client-Key': IBM_KEY*/
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ conversation: { input: { text: input, language: 'en' }, context: context/*, _id: self.state._id */} })
     })

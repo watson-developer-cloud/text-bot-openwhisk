@@ -162,7 +162,7 @@ echo 'Setting up the UI...'
 echo 'Installing create-react-app...'
 npm install
 npm install create-react-app
-npm install watson-react-components
+#npm install watson-react-components
 
 export REACT_APP_API_URL=$API_URL
 echo $REACT_APP_API_URL
@@ -177,7 +177,7 @@ echo "$VAR" > "$FILE"
 FILE=`cat .env`
 echo $FILE
 
-npm run build
+#npm run build
 
 # Push app
 export CF_APP_NAME="$CF_APP"
