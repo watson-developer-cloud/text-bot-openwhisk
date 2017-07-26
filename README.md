@@ -102,13 +102,13 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    ```
 
 5. Before moving on, you must train your Conversation service in order to use this application. The training data is provided in the ```.bluemix/workspace.json``` file. To train the Conversation model, follow the steps below:
-  1. Go to your [Bluemix services dashboard](https://console.bluemix.net/dashboard/services).
-  2. Select the Conversation service you created for this application.
-  3. Click on the ![Launch tool](readme_images/launchtool.png) button. This will take you to the Conversation training tool, which you will create a workspace for in the next step.
-  4. Once the page has loaded, you are going to **Import** a workspace by clicking the ![Import](readme_images/importbutton.png) button, which is next to the Create button.
-  5. Click on **Choose a file** and navigate to the ```.bluemix``` folder in your cloned repository. Select the ```workspace.json``` file and make sure the box that says **Everything (Intents, Entities, and Dialog)** is selected.
-  6. Next, click **Import** to upload the training data and create your Conversation workspace.
-  7. After this has completed, you will be able to access your Conversation Workspace ID by clicking the button with the three vertical dots (located in the upper right corner of the Workspace pane), and then selecting **View Details**. You will need the Workspace ID when you create the OpenWhisk actions for Conversation.
+   1. Go to your [Bluemix services dashboard](https://console.bluemix.net/dashboard/services).
+   2. Select the Conversation service you created for this application.
+   3. Click on the ![Launch tool](readme_images/launchtool.png) button. This will take you to the Conversation training tool, which you will create a workspace for in the next step.
+   4. Once the page has loaded, you are going to **Import** a workspace by clicking the ![Import](readme_images/importbutton.png) button, which is next to the Create button.
+   5. Click on **Choose a file** and navigate to the ```.bluemix``` folder in your cloned repository. Select the ```workspace.json``` file and make sure the box that says **Everything (Intents, Entities, and Dialog)** is selected.
+   6. Next, click **Import** to upload the training data and create your Conversation workspace.
+   7. After this has completed, you will be able to access your Conversation Workspace ID by clicking the button with the three vertical dots (located in the upper right corner of the Workspace pane), and then selecting **View Details**. You will need the Workspace ID when you create the OpenWhisk actions for Conversation.
 
 ## OpenWhisk Setup
 
