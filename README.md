@@ -46,29 +46,29 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    cf login
    ```
 5. Open the manifest.yml file located in the root directory of your cloned repository. Replace the content in the ```name: ``` field with a unique name for your application. The name you specify in this field will become your application's URL, <app name>.mybluemix.net.
-  ```none
-  ---
-  declared-services:
-    conversation-service:
-      label: conversation
-      plan: free
-    cloudantNoSQLDB-service:
-      label: cloudantNoSQLDB
-      plan: Lite
-  applications:
-  - path: .
-    memory: 256M
-    instances: 1
-    domain: mybluemix.net
-    name: openwhisk-weather-bot   <======================================= Replace "openwhisk-weather-bot"
-    buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
-    disk_quota: 1024M
-    services:
-    - cloudant-openwhisk
-    - weatherinsights-openwhisk
-    - nlu-openwhisk
-    - conversation-openwhisk
-  ```
+   ```none
+   ---
+   declared-services:
+     conversation-service:
+       label: conversation
+       plan: free
+     cloudantNoSQLDB-service:
+       label: cloudantNoSQLDB
+       plan: Lite
+   applications:
+   - path: .
+     memory: 256M
+     instances: 1
+     domain: mybluemix.net
+     name: openwhisk-weather-bot   <======================================= Replace "openwhisk-weather-bot"
+     buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+     disk_quota: 1024M
+     services:
+     - cloudant-openwhisk
+     - weatherinsights-openwhisk
+     - nlu-openwhisk
+     - conversation-openwhisk
+   ```
 
 ### Creating the Watson services
 
