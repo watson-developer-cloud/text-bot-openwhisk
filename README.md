@@ -122,7 +122,7 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    wsk action create getGeoLoc actions/getGeoLoc.js --web true
    wsk action create getWeather actions/getWeather.js --web true
    ```
-3. Change to the config directory and replace the default parameters with your Watson service credentials. Your credentials can be found by heading to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on the service name, and then the Service Credentials tab.
+3. Change to the config directory and replace the default parameters with your Watson service credentials. Your credentials can be found by heading to your [Bluemix dashboard](https://console.bluemix.net/dashboard/apps), clicking on the service name, and then the **Service Credentials** tab on the left-hand side of the page.
    ```none
    cd config
    ```
