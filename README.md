@@ -17,7 +17,8 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
 
 ## Table of Contents
  - [Getting Started](#getting-started)
-   - [Setting up Bluemix and the Watson Services](#setting-up-bluemix-and-the-watson-services)
+   - [Setting up Bluemix](#setting-up-bluemix)
+   - [Creating the Watson services](#creating-the-watson-services)
  - [OpenWhisk Setup](#openwhisk-setup)
    - [Cloudant Integration and Setup](#cloudant-integration-and-setup)
      - [Creating the actions](#creating-the-actions)
@@ -29,7 +30,7 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
 
 ## Getting Started
 
-### Setting up Bluemix and the Watson Services
+### Setting up Bluemix
 
 1. If you do not already have an existing IBM Bluemix account, sign up [here](https://bluemix.net/).
 2. Clone this repository and go to the cloned directory.
@@ -44,7 +45,70 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    cf api https://api.ng.bluemix.net
    cf login
    ```
-5. Follow the steps in the README [here](https://github.com/watson-developer-cloud/text-bot) to set up the Conversation, NLU, and Weather Company Data services on Bluemix.
+5. Open the manifest.yml file located in the root directory of your cloned repository. Replace the content in the ```name: ``` field with a unique name for your application. The name you specify in this field will become your application's URL, <app name>.mybluemix.net.
+  ```none
+  ---
+  declared-services:
+    conversation-service:
+      label: conversation
+      plan: free
+    cloudantNoSQLDB-service:
+      label: cloudantNoSQLDB
+      plan: Lite
+  applications:
+  - path: .
+    memory: 256M
+    instances: 1
+    domain: mybluemix.net
+    name: openwhisk-weather-bot   <======================================= Replace "openwhisk-weather-bot"
+    buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+    disk_quota: 1024M
+    services:
+    - cloudant-openwhisk
+    - weatherinsights-openwhisk
+    - nlu-openwhisk
+    - conversation-openwhisk
+  ```
+
+### Creating the Watson services
+
+1. Create an instance of the Conversation service and set your credentials by issuing the following commands:
+  ```none
+  cf create-service conversation free conversation-openwhisk
+  cf create-service-key conversation-openwhisk theKey
+  cf service-key conversation-openwhisk theKey
+  ```
+
+2. Create an instance of the Natural Langauge Understanding service and set your credentials by running the following:
+  ```none
+  cf create-service Natural-Language-Understanding free nlu-openwhisk
+  cf create-service-key nlu-openwhisk theKey
+  cf service-key nlu-openwhisk theKey
+  ```
+
+3. Create an instance of the Weather Insights service and set your credentials by running the following:
+  ```none
+  cf create-service weatherinsights Free-v2 weatherinsights-openwhisk
+  cf create-service-key weatherinsights-openwhisk theKey
+  cf service-key weatherinsights-openwhisk theKey
+  ```
+
+4. Create an instance of the Cloudant NoSQL Database and set your credentials by running the following commands:
+
+  ```none
+  cf create-service cloudantNoSQLDB Lite cloudant-openwhisk
+  cf create-service-key cloudant-openwhisk theKey
+  cf service-key cloudant-openwhisk theKey
+  ```
+
+5. Before moving on, you must train your Conversation service in order to use this application. The training data is provided in the ```.bluemix/workspace.json``` file. To train the Conversation model, follow the steps below:
+  1. Go to your [Bluemix services dashboard](https://console.bluemix.net/dashboard/services).
+  2. Select the Conversation service you created for this application.
+  3. Click on the ![Launch tool](readme_images/launchtool.png) button. This will take you to the Conversation training tool, which you will create a workspace for in the next step.
+  4. Once the page has loaded, you are going to **Import** a workspace by clicking the [Import](readme_images/importbutton.png) button, which is next to the Create button.
+  5. Click on **Choose a file** and navigate to the ```.bluemix``` folder in your cloned repository. Select the ```workspace.json``` file and make sure the box that says **Everything (Intents, Entities, and Dialog)** is selected.
+  6. Next, click **Import** to upload the training data and create your Conversation workspace.
+  7. After this has completed, you will be able to access your Conversation Workspace ID by clicking the button with the three vertical dots (located in the upper right corner of the Workspace pane), and then selecting **View Details**. You will need the Workspace ID when you create the OpenWhisk actions for Conversation.
 
 ## OpenWhisk Setup
 
@@ -62,7 +126,7 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    ```none
    cd config
    ```
-   
+
    **Conversation Credentials**
    ```none
    {
@@ -106,7 +170,7 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    ```bash
    wsk action invoke --blocking <sequence name> --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }'
    ```
-  
+
 ### Cloudant Integration and Setup
 
 If you do not intend to have database support for your application, then you can skip to the [Create an API](#create-an-api) section.
@@ -121,11 +185,11 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    wsk action create cloudant-read actions/cloudant-read.js --web true
    wsk action create cloudant-write actions/cloudant-write.js --web true
    ```
-2. Navigate to the config folder and replace the placeholder text with your Cloudant credentials. 
+2. Navigate to the config folder and replace the placeholder text with your Cloudant credentials.
    ```none
    cd config
    ```
-   
+
    ```none
    {
     "CLOUDANT_USERNAME": "<YOUR CLOUDANT USERNAME>"
