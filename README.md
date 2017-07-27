@@ -269,7 +269,6 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 4. You can change the following fields in the ```manifest.yml``` if you like.
    ```none
    name: <Your App Name>
-   host: <Your App Host Name>
    ```
 5. Push the app to Cloud Foundry by doing the following command:
    ```none
