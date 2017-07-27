@@ -5,9 +5,6 @@ import './App.css';
 
 const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
 
-console.log(process.env);
-console.log(process.env.REACT_APP_API_URL);
-
 const Message = (props) => (
   <div className="segments load">
     <div className={`${props.type === 'user' ? 'from-user' : 'from-watson'} top`}>
@@ -114,7 +111,7 @@ class App extends Component {
 
         <div id="chat-column-holder" className="responsive-column content-column">
           <div className="chat-column">
-          <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
+            <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
               {!this.state.error ? JSON.stringify(this.state.error) : null}
               {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} />) : null}
             </div>

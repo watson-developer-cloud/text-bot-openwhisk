@@ -12,7 +12,16 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "mocha tests/**/*",
+    "lint": "eslint .",
+    "autofix": "eslint . --fix",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-plugin-react": "^7.1.0",
+    "mocha": "^3.4.2",
+    "nock": "^9.0.14",
+    "watson-developer-cloud": "^2.36.0"
   }
 }
