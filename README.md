@@ -94,7 +94,6 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
    ```
 
 4. Create an instance of the Cloudant NoSQL Database and set your credentials by running the following commands:
-
    ```none
    cf create-service cloudantNoSQLDB Lite cloudant-openwhisk
    cf create-service-key cloudant-openwhisk theKey
