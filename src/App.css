@@ -2834,7 +2834,8 @@ header h1.base--h1 a {
 
 .scrollingChat {
   padding: 0.625rem;
-  overflow-y: auto;
+  overflow: auto;
+  overflow-y: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;
