@@ -1,54 +1,61 @@
+const assert = require('assert');
+const watson = require('watson-developer-cloud');
+
+const  DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 /**                                                                                                                                   
  * Calls the Conversation service and returns a conversation context.                                                                 
  * @param {Object} params The parameters                                                                                              
  * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.                                            
- * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.                                            
+ * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.
+ * @param {Object} params.conversation The conversation object.
+ * @param {Object} params.conversation.input The user's input message.
  */
-console.log('starting conversation');
 function main(params) {
-    console.log('calling conversation');
+  return new Promise(function (resolve, reject) {
+    assert(params !== null, 'params can not be null');
+    assert(params.CONVERSATION_USERNAME !== null, 'params.CONVERSATION_USERNAME can not be null');
+    assert(params.CONVERSATION_PASSWORD !== null, 'params.CONVERSATION_PASSWORD can not be null');
+    assert(params.conversation !== null && params.conversation.input !== null, 'params.conversation.input can not be null');
 
-    return new Promise(function(resolve, reject) {
-        const watson = require('watson-developer-cloud');
-        const USERNAME = params.CONVERSATION_USERNAME;
-        const PASSWORD = params.CONVERSATION_PASSWORD;
-        const WORKSPACE_ID = params.WORKSPACE_ID;
-
-        const conversation = watson.conversation({
-            username: USERNAME,
-            password: PASSWORD,
-            version: 'v1',
-            version_date: '2017-05-26'
-        });
-
-        var city_name = params.conversation.context.city.name;
-        var context = (params.conversation && params.conversation.context ? params.conversation.context : {});
-
-        if (!context.date) {
-            var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            var date = new Date();
-            console.log(date);
-            var today = daysOfWeek[date.getDay()];
-            context.date = today;
-            context.today = today;
-            console.log(today);
-            var tomorrow = daysOfWeek[date.getDay()+1];
-            context.tomorrow = tomorrow;
-            console.log('added date');
-        }
-        
-        conversation.message({
-            workspace_id: WORKSPACE_ID,
-            input: params.conversation.input,
-            context: context
-        }, function(err, response) {
-            if (err) {
-                return reject(err);
-            }
-            console.log('no error');
-            var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
-            output.conversation = response;
-            return resolve(output);
-        });
+    const conversation = watson.conversation({
+      username: params.CONVERSATION_USERNAME,
+      password: params.CONVERSATION_PASSWORD,
+      version: 'v1',
+      version_date: '2017-05-26'
     });
+
+    var context = (params.conversation && params.conversation.context ? params.conversation.context : {});
+
+    if (!context.date) {
+      const date = new Date();
+      const today = DAYS_OF_WEEK[date.getDay()];
+      context.date = today;
+      context.today = today;
+      const tomorrow = DAYS_OF_WEEK[date.getDay() + 1];
+      context.tomorrow = tomorrow;
+    }
+
+    conversation.message({
+      workspace_id: params.WORKSPACE_ID,
+      input: params.conversation.input,
+      context,
+    }, function (err, response) {
+      if (err) {
+        return reject(err);
+      }
+
+      const output = Object.assign({}, {
+        conversation: response
+      });
+
+      if (params._id) {
+        output._id = params._id;
+        output._rev = params._rev;
+      }
+      return resolve(output);
+    });
+  });
 }
+
+module.exports.main = main;
