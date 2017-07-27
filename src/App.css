@@ -344,7 +344,7 @@ progress {
 }
 
 /**
- * Remove the default vertical scrollbar in IE.
+ * Remove the default vertical llbar in IE.
  */
 
 textarea {
@@ -1715,7 +1715,7 @@ pre[class*="language-"] ::selection, pre[class*="language-"] ::selection, code[c
 .drawer {
   display: none;
   box-shadow: none;
-  overflow-y: scroll;
+  overflow-y: ll;
   padding: 0;
   position: absolute;
   top: 0;
@@ -2835,7 +2835,7 @@ header h1.base--h1 a {
 .scrollingChat {
   padding: 0.625rem;
   overflow: auto;
-  overflow-y: visible;
+  overflow-y: auto;
   height: 100%;
   display: flex;
   flex-direction: column;
