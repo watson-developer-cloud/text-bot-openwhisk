@@ -87,12 +87,22 @@ class App extends Component {
     }
   }
 
+  scrollToBottom() {
+    const scrollHeight = this.messages.scrollHeight;
+    const height = this.messages.clientHeight;
+    const maxScrollTop = scrollHeight - height;
+    this.messages.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  }
+
   componentDidMount() {
     this.sendMessage('Hello', {});
   }
 
-  render() {
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
 
+  render() {
     return (
       <div className="App">
         <Header
@@ -104,7 +114,7 @@ class App extends Component {
 
         <div id="chat-column-holder" className="responsive-column content-column">
           <div className="chat-column">
-            <div id="scrollingChat" className="scrollingChat">
+          <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
               {!this.state.error ? JSON.stringify(this.state.error) : null}
               {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} />) : null}
             </div>
