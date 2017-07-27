@@ -2834,7 +2834,13 @@ header h1.base--h1 a {
 
 .scrollingChat {
   padding: 0.625rem;
-  overflow: auto;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
 }
 
 .message-inner {
