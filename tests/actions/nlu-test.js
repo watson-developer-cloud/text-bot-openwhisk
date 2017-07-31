@@ -22,7 +22,7 @@ describe('[action] NLU', function () {
     return action.main(params).then(function() {
       assert.fail('Missing credentials error was not found');
     }).catch(function(error) {
-      assert(error.message === 'Argument error: username and password are required unless use_unauthenticated is set');
+      assert(error.message === 'params.NLU_USERNAME can not be null');
     });
   });
 
