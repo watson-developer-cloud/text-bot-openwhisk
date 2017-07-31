@@ -1,16 +1,15 @@
-const assert = require('assert');
-const watson = require('watson-developer-cloud');
-
-const  DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-/**                                                                                                                                   
- * Calls the Conversation service and returns a conversation context.                                                                 
- * @param {Object} params The parameters                                                                                              
- * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.                                            
+/**
+ * Calls the Conversation service and returns a conversation context.
+ * @param {Object} params The parameters
+ * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.
  * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.
  * @param {Object} params.conversation The conversation object.
  * @param {Object} params.conversation.input The user's input message.
  */
+const assert = require('assert');
+const watson = require('watson-developer-cloud');
+const  DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 function main(params) {
   return new Promise(function (resolve, reject) {
     assert(params !== null, 'params can not be null');

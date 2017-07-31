@@ -11,7 +11,7 @@ describe('[action] getGeoLoc', function () {
         query: 'City name'
       })
       .reply(200, {
-        location: {}
+        body: {}
       });
   });
 
