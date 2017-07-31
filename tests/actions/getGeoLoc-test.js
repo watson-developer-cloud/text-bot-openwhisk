@@ -13,7 +13,12 @@ describe('[action] getGeoLoc', function () {
         qs: {},
       })
       .reply(200, {
-        body: {}
+        location: {
+          latitude: [],
+          longitude: [],
+          adminDistrictCode: [],
+          adminDistrict: []
+        }
       });
   });
 
@@ -34,12 +39,11 @@ describe('[action] getGeoLoc', function () {
     return action.main(params).then(function() {
       assert.fail('Missing credentials error was not found');
     }).catch(function(error) {
-      console.log(error.message);
       assert(error.message === 'params.WEATHER_USERNAME can not be null');
     });
   });
 
-  it.skip('should call getGeoLoc when parameters are right', function () {
+  it('should call getGeoLoc when parameters are right', function () {
     const params = {
       WEATHER_USERNAME: 'foo',
       WEATHER_PASSWORD: 'bar',
@@ -50,7 +54,7 @@ describe('[action] getGeoLoc', function () {
         },
         context: {
           city: {
-            name: 'asd',
+            name: '',
             number_of_states: null,
             alternate_name: '',
             states: {}
