@@ -12,14 +12,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "mocha tests/**/*",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha tests/**/* -- -R spec",
+    "codecov": "npm run test && ./node_modules/.bin/codecov",
     "lint": "eslint .",
     "autofix": "eslint . --fix",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "codecov": "^2.2.0",
     "eslint": "^4.3.0",
     "eslint-plugin-react": "^7.1.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "nock": "^9.0.14",
     "watson-developer-cloud": "^2.36.0"

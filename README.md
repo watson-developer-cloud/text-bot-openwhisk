@@ -1,5 +1,7 @@
 # Watson Weather Chat Bot using OpenWhisk
 
+[![Build Status](https://travis-ci.org/watson-developer-cloud/text-bot-openwhisk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/text-bot-openwhisk)
+
 This project gives you the current weather forecast for your city (U.S. only as of now). The Weather Bot is based off the [Watson Weather Bot](https://github.com/watson-developer-cloud/text-bot) and uses Conversation, Natural Language Understanding, and The Weather Company Data API. It is run with [OpenWhisk](https://console.bluemix.net/openwhisk/).
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
