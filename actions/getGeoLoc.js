@@ -12,7 +12,7 @@ function main(params) {
     assert(params.WEATHER_USERNAME, 'params.WEATHER_USERNAME can not be null');
     assert(params.WEATHER_PASSWORD, 'params.WEATHER_PASSWORD can not be null');
     assert(params.conversation.context, 'params.conversation.context can not be null');
-    assert(params.conversation.context.city.name, 'params.conversation.context.city.name can not be null');
+    assert(params.conversation.context.city, 'params.conversation.context.city can not be null');
 
     if (!params || !params.conversation.context.city.name || params.conversation.context.state) {
       var output = params._id
