@@ -26,9 +26,11 @@ function main(params) {
     } else {
       const request = require('request');
       const method = '/v3/location/search';
+      const url = 'https://twcservice.mybluemix.net/api/weather' || params.WEATHER_URL;
+
       request({
         method: 'GET',
-        url: params.WEATHER_URL + method,
+        url: url + method,
         auth: {
           username: params.WEATHER_USERNAME,
           password: params.WEATHER_PASSWORD,
