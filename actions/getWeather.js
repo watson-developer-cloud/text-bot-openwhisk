@@ -1,4 +1,3 @@
-console.log('getting weather');
 /**
  * Calls the Weather API and returns the Weather for a given city.
  * @param {Object} params The parameters
@@ -8,7 +7,6 @@ console.log('getting weather');
  */
 function main(params) {
   if (!params || params.conversation.context.city.number_of_states !== 1 || params.conversation.context.weather_conditions) {
-    console.log('skipping get weather');
     var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
     return output;
   } else {
@@ -17,8 +15,8 @@ function main(params) {
 
       const USERNAME = params.WEATHER_USERNAME;
       const PASSWORD = params.WEATHER_PASSWORD;
-	    const url = 'https://twcservice.mybluemix.net/api/weather' || params.WEATHER_URL;
-            
+      const url = 'https://twcservice.mybluemix.net/api/weather' || params.WEATHER_URL;
+
       var city = params.conversation.context.city;
       var state = params.conversation.context.state;
 
@@ -69,7 +67,7 @@ function main(params) {
                 phrase_32char: forecastDetail.night.phrase_32char
               }
             };
-          } 
+          }
           else {
             weather_conditions[forecastDetail.dow] = {
               night: {
@@ -84,14 +82,14 @@ function main(params) {
             };
           }
         }
-                
+
         if (error || response.statusCode != 200) {
           reject(error);
         } else {
           var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
           if (!params.conversation.context.hasOwnProperty('weather_conditions')) {
             console.log('adding weather property');
-            output.conversation.context.weather_conditions = weather_conditions; 
+            output.conversation.context.weather_conditions = weather_conditions;
           }
           resolve(output);
         }
