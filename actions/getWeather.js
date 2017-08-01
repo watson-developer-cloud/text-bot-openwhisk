@@ -37,9 +37,8 @@ function main(params) {
       var latitude = city.states[state].latitude;
       var longitude = city.states[state].longitude;
       const range = '7day';
-      const method = '/v1/geocode/';
-      const URL = url + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json' || params.WEATHER_URL + method + latitude + '/' + longitude + '/' + 'forecast/daily/' + range + '.json';
-
+      const method = 'v1/geocode';
+      const URL = `${url}/${method}/${latitude}/${longitude}/forecast/daily/${range}.json` || `${params.WEATHER_URL}/${method}/${latitude}/${longitude}/forecast/daily/${range}.json`;
       request({
         method: 'GET',
         url: URL,
