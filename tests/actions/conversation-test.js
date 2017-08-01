@@ -16,7 +16,7 @@ describe('[action] Conversation', function () {
         'fake-key': 'fake-value'
       });
   });
-  
+
   it('should throw error if credentials are missing', function () {
     const params = {
       conversation: { input: {} }
@@ -24,7 +24,7 @@ describe('[action] Conversation', function () {
     return action.main(params).then(function() {
       assert.fail('Missing credentials error was not found');
     }).catch(function(error) {
-      assert(error.message === 'Argument error: username and password are required unless use_unauthenticated is set');
+      assert(error.message === 'params.CONVERSATION_USERNAME can not be null');
     });
   });
 
@@ -33,7 +33,7 @@ describe('[action] Conversation', function () {
       CONVERSATION_USERNAME: 'foo',
       CONVERSATION_PASSWORD: 'bar',
       WORKSPACE_ID: workspaceId,
-      conversation: { 
+      conversation: {
         input: {
           text: 'Hi foo'
         },
