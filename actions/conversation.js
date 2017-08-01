@@ -12,10 +12,10 @@ const  DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', '
 
 function main(params) {
   return new Promise(function (resolve, reject) {
-    assert(params !== null, 'params can not be null');
-    assert(params.CONVERSATION_USERNAME !== null, 'params.CONVERSATION_USERNAME can not be null');
-    assert(params.CONVERSATION_PASSWORD !== null, 'params.CONVERSATION_PASSWORD can not be null');
-    assert(params.conversation !== null && params.conversation.input !== null, 'params.conversation.input can not be null');
+    assert(params, 'params can not be null');
+    assert(params.CONVERSATION_USERNAME, 'params.CONVERSATION_USERNAME can not be null');
+    assert(params.CONVERSATION_PASSWORD, 'params.CONVERSATION_PASSWORD can not be null');
+    assert(params.conversation && params.conversation.input, 'params.conversation.input can not be null');
 
     const conversation = watson.conversation({
       username: params.CONVERSATION_USERNAME,
