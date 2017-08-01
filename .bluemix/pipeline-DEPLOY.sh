@@ -123,7 +123,7 @@ echo "APIGW_ACCESS_TOKEN=${CF_ACCESS_TOKEN}" >> ~/.wskprops
 ###############################################
 echo 'Creating the OpenWhisk actions...'
 export PACKAGE="openwhisk-weather-bot"
-wsk package create openwhisk-weather-bot
+wsk package create text-bot-openwhisk
 wsk action create $PACKAGE/cloudant-add actions/cloudant-add.js
 wsk action create $PACKAGE/cloudant-read actions/cloudant-read.js
 wsk action create $PACKAGE/cloudant-write actions/cloudant-write.js
@@ -145,11 +145,11 @@ wsk action update $PACKAGE/getWeather --param WEATHER_USERNAME $WEATHER_USERNAME
 echo $CONVERSATION_WORKSPACE_ID
 
 echo 'Creating OpenWhisk Sequence...'
-wsk action create openwhisk-weather-bot-sequence --sequence $PACKAGE/nlu,$PACKAGE/getGeoLoc,$PACKAGE/conversation1,$PACKAGE/getWeather,$PACKAGE/conversation2 --web true
+wsk action create $PACKAGE/text-bot-openwhisk-sequence --sequence $PACKAGE/nlu,$PACKAGE/getGeoLoc,$PACKAGE/conversation1,$PACKAGE/getWeather,$PACKAGE/conversation2 --web true
 
 echo 'Creating OpenWhisk API'
-wsk api create /openwhisk-weather-bot-api /submit post openwhisk-weather-bot-sequence --response-type json
-API_URL=`wsk api get /openwhisk-weather-bot-api -f | jq -r .gwApiUrl`
+wsk api create /text-bot-openwhisk-api /submit post text-bot-openwhisk-sequence --response-type json
+API_URL=`wsk api get /text-bot-openwhisk-api -f | jq -r .gwApiUrl`
 API_URL+="/submit"
 echo 'API URL'
 echo $API_URL
