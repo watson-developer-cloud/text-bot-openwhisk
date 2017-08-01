@@ -148,7 +148,7 @@ echo 'Creating OpenWhisk Sequence...'
 wsk action create $PACKAGE/text-bot-openwhisk-sequence --sequence $PACKAGE/nlu,$PACKAGE/getGeoLoc,$PACKAGE/conversation1,$PACKAGE/getWeather,$PACKAGE/conversation2 --web true
 
 echo 'Creating OpenWhisk API'
-wsk api create /text-bot-openwhisk-api /submit post text-bot-openwhisk-sequence --response-type json
+wsk api create /text-bot-openwhisk-api /submit post $PACKAGE/text-bot-openwhisk-sequence --response-type json
 API_URL=`wsk api get /text-bot-openwhisk-api -f | jq -r .gwApiUrl`
 API_URL+="/submit"
 echo 'API URL'
