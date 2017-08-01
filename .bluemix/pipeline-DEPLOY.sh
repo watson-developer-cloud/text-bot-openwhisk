@@ -122,7 +122,7 @@ echo "APIGW_ACCESS_TOKEN=${CF_ACCESS_TOKEN}" >> ~/.wskprops
 # OpenWhisk Actions
 ###############################################
 echo 'Creating the OpenWhisk actions...'
-export PACKAGE="openwhisk-weather-bot"
+export PACKAGE="text-bot-openwhisk"
 wsk package create text-bot-openwhisk
 wsk action create $PACKAGE/cloudant-add actions/cloudant-add.js
 wsk action create $PACKAGE/cloudant-read actions/cloudant-read.js
