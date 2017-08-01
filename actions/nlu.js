@@ -3,25 +3,20 @@
  * @param {Object} params The parameters
  * @param {String} params.NLU_USERNAME The username for the NLU service.
  * @param {String} params.NLU_PASSWORD The password for the NLU service.
- * @param {Object} params.conversation The conversation object.
- * @param {Object} params.conversation.input The user's input message.
  */
+
 const assert = require('assert');
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 function main(params) {
   return new Promise(function(resolve, reject) {
-    assert(params, 'params can not be null');
-    assert(params.NLU_USERNAME, 'params.NLU_USERNAME can not be null');
-    assert(params.NLU_PASSWORD, 'params.NLU_PASSWORD can not be null');
-    assert(params.conversation && params.conversation.input, 'params.conversation.input can not be null');
+    assert(params !== null, 'params can not be null');
+    assert(params.NLU_USERNAME !== null, 'params.NLU_USERNAME can not be null');
+    assert(params.NLU_PASSWORD !== null, 'params.NLU_PASSWORD can not be null');
+    assert(params.conversation !== null && params.conversation.input !== null, 'params.conversation.input can not be null');
 
-    const natural_language_understanding = new NaturalLanguageUnderstandingV1({
-      username: params.NLU_USERNAME,
-      password: params.NLU_PASSWORD,
-      version_date: '2017-02-27'
-    });
+    const natural_language_understanding = new NaturalLanguageUnderstandingV1({username: params.NLU_USERNAME, password: params.NLU_PASSWORD, version_date: '2017-02-27'});
 
     var parameters = {
       text: params.conversation.input.text,
@@ -46,23 +41,29 @@ function main(params) {
     }
 
     natural_language_understanding.analyze(parameters, function(err, response) {
-      var output = params._id ? Object.assign({}, {conversation: params.conversation}, {_id: params._id}, {_rev: params._rev}) : Object.assign({}, {conversation: params.conversation});
+      var output = params._id
+        ? Object.assign({}, {
+          conversation: params.conversation
+        }, {
+          _id: params._id
+        }, {_rev: params._rev})
+        : Object.assign({}, {conversation: params.conversation});
       var context = params.conversation.context;
 
       if (err && parameters.text !== '') {
         return reject(err);
-      }
-
-      else if (DAYS_OF_WEEK.indexOf(parameters.text) >= 0) {
+      } else if (DAYS_OF_WEEK.indexOf(parameters.text) >= 0) {
         output.conversation.context.date = parameters.text;
         output.conversation.context.today = parameters.text;
         // to determine if the day of the week for tomorrow falls at the end of the week
-        let tomorrow = (DAYS_OF_WEEK.indexOf(parameters.text) < DAYS_OF_WEEK.length-2 ? DAYS_OF_WEEK.indexOf(parameters.text) + 1 : 0);
+        let tomorrow = (DAYS_OF_WEEK.indexOf(parameters.text) < DAYS_OF_WEEK.length - 2
+          ? DAYS_OF_WEEK.indexOf(parameters.text) + 1
+          : 0);
         output.conversation.context.tomorrow = DAYS_OF_WEEK[tomorrow];
-      }
-
-      else if (((context.abbreviations && context.abbreviations[parameters.text]) || (context.city && context.city.states[parameters.text]) || isLowerCaseState) && context.city.name) {
-        let state = context.abbreviations[parameters.text] ? context.abbreviations[parameters.text].full : params.conversation.input.text;
+      } else if (((context.abbreviations && context.abbreviations[parameters.text]) || (context.city && context.city.states[parameters.text]) || isLowerCaseState) && context.city.name) {
+        let state = context.abbreviations[parameters.text]
+          ? context.abbreviations[parameters.text].full
+          : params.conversation.input.text;
         output.conversation.context.state = state;
 
         output.conversation.context.city.states = {
@@ -73,16 +74,14 @@ function main(params) {
         };
         output.conversation.context.city.number_of_states = 1;
         output.conversation.context.abbreviations = {};
-      }
-
-      else if (response.entities.length > 0 && response.entities[0].disambiguation && response.entities[0].disambiguation.subtype[0] === 'City') {
-        let location = response.entities
-          .filter(e => e.type === 'Location');
+      } else if (response.entities.length > 0 && response.entities[0].disambiguation && response.entities[0].disambiguation.subtype[0] === 'City') {
+        let location = response.entities.filter(e => e.type === 'Location');
 
         let city_name = location[0].text;
 
         if (context.city.name !== parameters.text && context.weather_conditions) {
           delete output.conversation.context.weather_conditions;
+          delete output.conversation.context.date;
           output.conversation.context.city.states = {};
           output.conversation.context.city.number_of_states = null;
         }
@@ -90,9 +89,7 @@ function main(params) {
         output.conversation.context.city.name = city_name;
         output.conversation.context.city.alternate_name = city_name;
         output.conversation.context.state = '';
-      }
-
-      else {
+      } else {
         output.conversation.context.city = {
           name: '',
           number_of_states: null,
