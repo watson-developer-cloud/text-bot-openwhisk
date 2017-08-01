@@ -11,10 +11,10 @@ const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'F
 
 function main(params) {
   return new Promise(function(resolve, reject) {
-    assert(params !== null, 'params can not be null');
-    assert(params.NLU_USERNAME !== null, 'params.NLU_USERNAME can not be null');
-    assert(params.NLU_PASSWORD !== null, 'params.NLU_PASSWORD can not be null');
-    assert(params.conversation !== null && params.conversation.input !== null, 'params.conversation.input can not be null');
+    assert(params, 'params can not be null');
+    assert(params.NLU_USERNAME, 'params.NLU_USERNAME can not be null');
+    assert(params.NLU_PASSWORD, 'params.NLU_PASSWORD can not be null');
+    assert(params.conversation && params.conversation.input, 'params.conversation.input can not be null');
 
     const natural_language_understanding = new NaturalLanguageUnderstandingV1({username: params.NLU_USERNAME, password: params.NLU_PASSWORD, version_date: '2017-02-27'});
 
