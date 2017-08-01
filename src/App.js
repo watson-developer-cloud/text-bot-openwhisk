@@ -43,11 +43,8 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(function(messageResponse) {
-        console.log(`Text: ${messageResponse.conversation.input.text}`);
-        console.log(`Response: ${messageResponse}`);
         let now = new Date();
         let hhmmss = now.toString().substr(4, 20);
-        console.log(now);
 
         self.setState({
           context: messageResponse.conversation.context,
@@ -65,8 +62,6 @@ class App extends Component {
 
   handleKeyPress(event) {
     if(event.key === 'Enter') {
-      console.log(this.state.text);
-      console.log(this.state.context);
       this.sendMessage(this.state.text, this.state.context);
       event.target.value = '';
       let now = new Date();
