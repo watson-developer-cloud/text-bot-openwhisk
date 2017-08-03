@@ -3190,7 +3190,9 @@ html, body, #root {
   max-width: 40rem;
   min-width: 30rem;
   width: 100%;
-  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+  margin-right: auto;
+  margin-left: auto;
   display: inline-block;
   overflow: visible;
   padding-left: 0rem;
