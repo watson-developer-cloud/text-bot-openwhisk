@@ -3187,6 +3187,7 @@ html, body, #root {
 }
 
 .text-input[for="text-input-1"] {
+  font-size: 1.5rem;
   max-width: 40rem;
   min-width: 30rem;
   width: 100%;
