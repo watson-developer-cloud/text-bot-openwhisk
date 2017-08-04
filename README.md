@@ -6,6 +6,10 @@ This project gives you the current weather forecast for your city (U.S. only as 
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
+<p align="center">
+  <img src="http://g.recordit.co/elIkFacj1X.gif" alt="demo" width="300" height="400" />
+</p>
+
 ## Deploy to Bluemix
 
 To deploy this application to Bluemix, click the **Deploy to Bluemix** button below.
