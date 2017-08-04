@@ -830,7 +830,7 @@ body *+* {
 .base--input, .base--color-input, .base--date-input, .base--datetime-local-input, .base--email-input, .base--file-input, .base--hidden-input, .base--month-input, .base--number-input, .base--password-input, .base--range-input, .base--search-input, .base--tel-input, .base--text-input, .base--time-input, .base--url-input, .base--week-input, .base--select {
   width: 100%;
   padding: 0.6em 1em;
-  font-size: 1em;
+  font-size: 20em;
   font-weight: 300;
   border: 2px solid #464646;
   background-color: #fff;
@@ -2803,6 +2803,32 @@ header h1.base--h1 a {
   outline: none;
 }
 
+/*.fixed-column{
+  font-family: Monaco, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  line-height: 1.125rem;
+  background-color: #855ca7;
+  color: #fff;
+  overflow-x: auto;
+  margin-top: 0;
+  width: 45%;
+  max-width: 28rem;
+  min-width: 27rem;
+}
+
+.fixed-column .header-text, .fixed-column .payload-initial-message {
+  font-family: Helvetica Neue for IBM, Helvetica N, Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.01875rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 3rem;
+  margin-top: 0;
+  width: 100%;
+  background-color: #000000;
+}*/
+
 .responsive-columns-wrapper {
   display: -ms-flexbox;
   display: -webkit-box;
@@ -2819,24 +2845,29 @@ header h1.base--h1 a {
   -ms-flex: 1;
   -webkit-box-flex: 1;
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
   text-align: center;
+}
+
+.chat-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .chat-column {
   height: 100%;
-  padding: 0 0 0.625rem 0;
-  margin: auto;
   text-align: left;
-  max-width: 40rem;
-  min-width: 9.375rem;
+  width: 100%;
+  overflow: auto;
 }
 
 .scrollingChat {
-  padding: 0.625rem;
+  height: 100%;
   overflow: auto;
   overflow-y: auto;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -3044,14 +3075,6 @@ input[type=text]:focus {
   font-size: 1.375rem;
 }
 
-.textInputDummy {
-  position: absolute;
-  white-space: pre;
-  top: 0;
-  left: -1000%;
-  opacity: 0;
-}
-
 .fixed-column {
   font-family: Monaco, monospace;
   font-size: 0.75rem;
@@ -3188,9 +3211,8 @@ html, body, #root {
 
 .text-input[for="text-input-1"] {
   font-size: 1.5rem;
-  max-width: 40rem;
-  min-width: 30rem;
-  width: 100%;
+  background: transparent;
+  width: 40rem;
   margin-bottom: 3rem;
   margin-right: auto;
   margin-left: auto;
@@ -3200,27 +3222,25 @@ html, body, #root {
   padding-right: 0rem;
 }
 
+.text-input[for="text-input-1"].empty {
+  border-bottom: none;
+  box-shadow: none;
+}
+
 .text-input--input.base--input {
-  max-width: 40rem;
-  min-width: 30rem;
   width: 100%;
+  max-width: none;
   border: none;
   padding-left: 0rem;
   padding-right: 0rem;
-  box-shadow: 0px 2px 0px 0px color('purple', 40);
   overflow: visible;
-  border-bottom: 0.0625rem solid;
 }
 
 .text-input--input.base--input.empty {
-  max-width: 40rem;
-  min-width: 30rem;
-  width: 100%;
   border: none;
   display: inline-block;
   padding-left: 0rem;
   padding-right: 0rem;
-  box-shadow: 0px 2px 0px 0px color('purple', 40);
   overflow: visible;
   border-bottom: 0.0625rem solid;
 }

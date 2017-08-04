@@ -67,7 +67,6 @@ class App extends Component {
       let now = new Date();
       let hhmmss = now.toString().substr(4, 20);
 
-
       this.setState({
         context: '',
         messages: this.state.messages.concat({
@@ -103,24 +102,26 @@ class App extends Component {
           color={Colors.gray_90}
           hasWordmark={false}
         />
-
-        <div id="chat-column-holder" className="responsive-column content-column">
-          <div className="chat-column">
-            <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
-              {!this.state.error ? JSON.stringify(this.state.error) : null}
-              {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} />) : null}
+        <div className="_container chat-container">
+          <div id="chat-column-holder" className="responsive-column content-column">
+            <div className="chat-column">
+              <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
+                {!this.state.error ? JSON.stringify(this.state.error) : null}
+                {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} />) : null}
+              </div>
             </div>
           </div>
-        </div>
+          <input
+            id="text-input-1"
+            class="base--input input responsive-column underline"
+            placeholder="Type here"
+            onInput={(e) => {
+              this.setState({ text: e.target.value });
+            }}
+            onKeyPress={this.handleKeyPress}
 
-        <TextInput
-          id="text-input-1"
-          placeholder="Type here"
-          onInput={(e) => {
-            this.setState({ text: e.target.value });
-          }}
-          onKeyPress={this.handleKeyPress}
-        />
+          />
+        </div>
       </div>
     );
   }
