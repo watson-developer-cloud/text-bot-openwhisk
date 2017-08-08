@@ -2803,32 +2803,6 @@ header h1.base--h1 a {
   outline: none;
 }
 
-/*.fixed-column{
-  font-family: Monaco, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0;
-  line-height: 1.125rem;
-  background-color: #855ca7;
-  color: #fff;
-  overflow-x: auto;
-  margin-top: 0;
-  width: 45%;
-  max-width: 28rem;
-  min-width: 27rem;
-}
-
-.fixed-column .header-text, .fixed-column .payload-initial-message {
-  font-family: Helvetica Neue for IBM, Helvetica N, Helvetica, Arial, sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.01875rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-top: 3rem;
-  margin-top: 0;
-  width: 100%;
-  background-color: #000000;
-}*/
-
 .responsive-columns-wrapper {
   display: -ms-flexbox;
   display: -webkit-box;
@@ -2855,6 +2829,7 @@ header h1.base--h1 a {
   flex-direction: column;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  overflow: hidden;
 }
 
 .chat-column {
