@@ -18,10 +18,8 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
 
 **Note**: Please ensure that your Bluemix organization has enough space for one web application using 256MB of memory and for 4 services (CloudantDB, Conversation, NLU, and Weather Insights) and that you have enough space for another Conversation workspace (up to 6 total).
 
-## OpenWhisk Action Architecture
-![**OpenWhisk Action Architecture**](readme_images/openwhiskflow.png)
-
 ## Table of Contents
+ - [Architecture](#Architecture)
  - [Getting Started](#getting-started)
    - [Setting up Bluemix](#setting-up-bluemix)
    - [Creating the Watson services](#creating-the-watson-services)
@@ -33,6 +31,9 @@ To deploy this application to Bluemix, click the **Deploy to Bluemix** button be
 - [Run the React App](#run-the-react-app)
 - [Cloud Foundry Deployment](#cloud-foundry-deployment)
 - [Future Updates](#future-updates)
+
+## Architecture
+![**Architecture**](readme_images/openwhiskflow.png)
 
 ## Getting Started
 
