@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-promise": "^3.5.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.10",
@@ -14,13 +16,14 @@
     "build": "react-scripts build",
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha tests/**/* -- -R spec",
     "codecov": "npm run test && ./node_modules/.bin/codecov",
-    "lint": "eslint .",
+    "lint": "node_modules/.bin/eslint .",
     "autofix": "eslint . --fix",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "codecov": "^2.2.0",
     "eslint": "^4.3.0",
+    "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",

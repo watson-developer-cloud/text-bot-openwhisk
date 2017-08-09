@@ -1,1 +1,5 @@
 build
+app-test
+coverage
+node_modules
+public
