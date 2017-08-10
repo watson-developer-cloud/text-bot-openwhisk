@@ -44,7 +44,7 @@ class App extends Component {
       .then(response => response.json())
       .then(function(messageResponse) {
         let now = new Date();
-        let hhmmss = now.toString().substr(4, 20);
+        let hhmmss = now.toString().substr(16, 8);
 
         self.setState({
           context: messageResponse.conversation.context,
@@ -65,7 +65,7 @@ class App extends Component {
       this.sendMessage(this.state.text, this.state.context);
       event.target.value = '';
       let now = new Date();
-      let hhmmss = now.toString().substr(4, 20);
+      let hhmmss = now.toString().substr(16, 8);
 
       this.setState({
         context: '',
