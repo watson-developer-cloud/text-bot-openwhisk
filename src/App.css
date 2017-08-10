@@ -2829,7 +2829,7 @@ header h1.base--h1 a {
   flex-direction: column;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 .chat-column {
