@@ -2819,7 +2819,7 @@ header h1.base--h1 a {
   -ms-flex: 1;
   -webkit-box-flex: 1;
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
   text-align: center;
 }
 
