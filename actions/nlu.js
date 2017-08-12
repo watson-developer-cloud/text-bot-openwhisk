@@ -7,7 +7,7 @@
 
 const assert = require('assert');
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 function main(params) {
   return new Promise(function(resolve, reject) {
@@ -52,7 +52,7 @@ function main(params) {
 
       if (err && parameters.text !== '') {
         return reject(err);
-      } else if (DAYS_OF_WEEK.indexOf(parameters.text) >= 0) {
+      } else if (DAYS_OF_WEEK.indexOf(parameters.text.toLowerCase()) >= 0) {
         output.conversation.context.date = parameters.text;
         output.conversation.context.today = parameters.text;
         // to determine if the day of the week for tomorrow falls at the end of the week
