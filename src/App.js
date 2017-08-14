@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, TextInput, Colors, Alert } from 'watson-react-components/dist/components';
+import { Header, Colors, Alert } from 'watson-react-components/dist/components';
 //import uuidv1 from 'uuid/v1';
 import './App.css';
 
