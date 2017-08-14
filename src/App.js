@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Header, TextInput, Colors, Alert } from 'watson-react-components/dist/components';
+import { Header, Colors, Alert } from 'watson-react-components/dist/components';
 //import uuidv1 from 'uuid/v1';
 import './App.css';
+
+const orange = require('./images/dot-orange.svg');
+const purple = require('./images/dot-purple.svg');
 
 const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
 
 const Message = (props) => (
   <div className="segments load">
     <div className={`${props.type === 'user' ? 'from-user' : 'from-watson'} top`}>
-      <div className="summary">{props.summary}</div>
+      <div className="summary"><img className="dots" width={10} height={10} mode='fit' alt="" src={props.dots}/> {props.summary}</div>
       <div className="message-inner">
         <p>{props.message}</p>
       </div>
@@ -45,14 +48,14 @@ class App extends Component {
       .then(function(messageResponse) {
         let now = new Date();
         let hhmmss = now.toString().substr(16, 8);
-
         self.setState({
           context: messageResponse.conversation.context,
           messages: self.state.messages.concat({
             message: messageResponse.conversation.output.text.join('\n'),
             type: 'watson',
             time: hhmmss,
-            summary: messageResponse.conversation.context.summary
+            summary: messageResponse.conversation.context.summary,
+            dots: purple
           })});
       })
       .catch(error => {
@@ -73,16 +76,14 @@ class App extends Component {
           message: this.state.text,
           type: 'user',
           time: hhmmss,
-          summary: 'from user'
+          summary: 'from user',
+          dots: orange
         })});
     }
   }
 
   scrollToBottom() {
-    const scrollHeight = this.messages.scrollHeight;
-    const height = this.messages.clientHeight;
-    const maxScrollTop = scrollHeight - height;
-    this.messages.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+    this.messages.scrollTop = this.messages.scrollHeight;
   }
 
   componentDidMount() {
@@ -112,7 +113,7 @@ class App extends Component {
             <div className="chat-column">
               <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
                 {!this.state.error ? JSON.stringify(this.state.error) : null}
-                {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} />) : null}
+                {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} dots={m.dots} />) : null}
               </div>
             </div>
           </div>
