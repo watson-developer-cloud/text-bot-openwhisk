@@ -261,7 +261,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```none
    npm install create-react-app
    ```
-5. You should now be able to run the app locally on localhost:3000 by typing the following:
+5. You should now be able to run the app locally on **localhost:3000** by typing the following:
    ```none
    npm start
    ```
