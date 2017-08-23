@@ -1,0 +1,40 @@
+{
+  "name": "Watson Serverless Text Bot",
+  "description": "Watson Serverless Text Bot",
+  "thumbnailURL": "blueprint/thumbnail.svg",
+  "appIconURL": "blueprint/appicon.svg",
+  "previewURLs": [],
+  "type": "WEB",
+  "tags": [],
+  "generators": {
+    "node": [
+      "generator-starterkit-content-downloader",
+      "generator-cloud-enablement"
+    ]
+  },
+  "generatorOptions": {
+    "generator-starterkit-content-downloader": {
+      "registry": "https://npm-registry.whitewater.ibm.com",
+      "scope": "@arf",
+      "version": "latest"
+    },
+    "generator-cloud-enablement": {
+      "registry": "https://npm-registry.whitewater.ibm.com",
+      "scope": "@arf",
+      "version": "latest"
+    }
+  },
+  "requiredCapabilities": [
+    "conversation",
+    "naturalLanguageUnderstanding"
+  ],
+  "requiredCapabilitiesURLs": {
+    "conversation": "https://www.ibm.com/watson/services/conversation/",
+    "naturalLanguageUnderstanding": "https://www.ibm.com/watson/services/natural-language-understanding/"
+  },
+  "servicePlans": {
+    "conversation": "Free",
+    "naturalLanguageUnderstanding": "Lite"
+  },
+  "email": "cloud@us.ibm.com"
+}
