@@ -1,0 +1,40 @@
+{
+  "name": "Watson Serverless Weather Bot",
+  "description": "Create an intuitive natural language conversation chatbot that forecasts the weather.",
+  "thumbnailURL": "blueprint/thumbnail.svg",
+  "appIconURL": "blueprint/appicon.svg",
+  "previewURLs": ["https://github.com/watson-developer-cloud/text-bot-openwhisk"],
+  "type": "WEB",
+  "tags": ["watson"],
+  "generators": {
+    "node": [
+      "generator-starterkit-content-downloader",
+      "generator-cloud-enablement"
+    ]
+  },
+  "generatorOptions": {
+    "generator-starterkit-content-downloader": {
+      "registry": "https://npm-registry.whitewater.ibm.com",
+      "scope": "@arf",
+      "version": "latest"
+    },
+    "generator-cloud-enablement": {
+      "registry": "https://npm-registry.whitewater.ibm.com",
+      "scope": "@arf",
+      "version": "latest"
+    }
+  },
+  "requiredCapabilities": [
+    "conversation",
+    "naturalLanguageUnderstanding"
+  ],
+  "requiredCapabilitiesURLs": {
+    "conversation": "https://www.ibm.com/watson/services/conversation/",
+    "naturalLanguageUnderstanding": "https://www.ibm.com/watson/services/natural-language-understanding/"
+  },
+  "servicePlans": {
+    "conversation": "free",
+    "naturalLanguageUnderstanding": "lite"
+  },
+  "email": "mamoon.raja@ibm.com"
+}
