@@ -10,7 +10,6 @@ applications:
 - path: .
   memory: 256M
   instances: 1
-  domain: mybluemix.net
   name: text-bot-openwhisk
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   disk_quota: 1024M

@@ -103,11 +103,9 @@ class App extends Component {
           color={Colors.gray_90}
           hasWordmark={false}
         />
-
         <Alert type="info" color="blue">
           <p className="base--p">The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.</p>
         </Alert>
-
         <div className="_container chat-container">
           <div id="chat-column-holder" className="responsive-column content-column">
             <div className="chat-column">
