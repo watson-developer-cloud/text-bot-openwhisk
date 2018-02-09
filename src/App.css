@@ -227,3 +227,10 @@ html, body, #root {
   padding-left: 0rem;
   background-size: 0.625rem;
 }
+
+.alert-container {
+  margin-top: 1rem;
+  max-width: 768px;
+  width: 100%;
+  padding: 0 1rem;
+}

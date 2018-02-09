@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Colors, Alert } from 'watson-react-components/dist/components';
+import { Colors, Alert } from 'watson-react-components/dist/components';
 //import uuidv1 from 'uuid/v1';
 import './App.css';
+import TopNav from './TopNav';
 
 const orange = require('./images/dot-orange.svg');
 const purple = require('./images/dot-purple.svg');
@@ -97,17 +98,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header
-          mainBreadcrumbs="Weather Bot with OpenWhisk"
-          mainBreadcrumbsUrl=""
-          color={Colors.gray_90}
-          hasWordmark={false}
+        <TopNav
+          title="Weather Bot with OpenWhisk"
+          urlGithub="https://github.com/watson-developer-cloud/text-bot-openwhisk/"
         />
-
-        <Alert type="info" color="blue">
-          <p className="base--p">The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.</p>
-        </Alert>
-
+        <div className="alert-container">
+          <Alert type="info" color="blue">
+            <p className="base--p">The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.</p>
+          </Alert>
+        </div>
         <div className="_container chat-container">
           <div id="chat-column-holder" className="responsive-column content-column">
             <div className="chat-column">
