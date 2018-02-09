@@ -1,0 +1,25 @@
+
+.footer {
+  background: none;
+  text-align: center;
+}
+
+.bottom-nav-bar--copy-right,
+.footer .base--a,
+.footer .base--a:visited {
+  color: #121212;
+  border-bottom: none;
+  font-weight: 400;
+  font-size: .875rem;
+  margin-right: 1rem;
+}
+
+.footer .base--a:hover,
+.footer .base--a:focus {
+  color: #9855d4;
+  border-bottom: 2px solid #9855d4;
+}
+
+.bottom-nav-bar--row {
+  margin-top: 0;
+}
