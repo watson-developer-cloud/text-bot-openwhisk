@@ -113,13 +113,12 @@ class App extends Component {
               <div className="chat-column">
                 <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
                   {!this.state.error ? JSON.stringify(this.state.error) : null}
-                  {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} dots={m.dots} />) : null}
+                  {!this.state.error ? this.state.messages.map(m => <Message key={m.time} type={m.type} message={m.message} time={m.time} summary={m.summary} dots={m.dots} />) : null}
                 </div>
               </div>
             </div>
             <input
               id="text-input-1"
-              class="base--input input responsive-column underline"
               placeholder="Type here"
               onInput={(e) => {
                 this.setState({ text: e.target.value });
