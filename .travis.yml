@@ -1,7 +1,5 @@
 language: node_js
 node_js:
-  - "6"
-  - "7"
   - "8"
 cache:
   directories:
@@ -9,4 +7,5 @@ cache:
 
 script:
   - npm run lint
+  - npm run build
   - npm run codecov

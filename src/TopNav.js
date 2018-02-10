@@ -30,14 +30,14 @@ export default class TopNav extends Component {
             </a>
           </h1>
           <div className="top-bar--spacer"></div>
-          <nav className="top-bar homepage" role="navigation">
+          <nav className="top-bar homepage">
             <div className="top-bar-menu">
               <ul className="main-nav">
                 <li>
                   <a href={this.props.urlGithub}>Fork on GitHub</a>
                 </li>
                 <li>
-                  <a href="https://developer.ibm.com/watson/">Community</a>
+                  <a rel="noopener noreferrer" href="https://developer.ibm.com/watson/">Community</a>
                 </li>
               </ul>
               <ul className="mobile-nav">
@@ -50,7 +50,7 @@ export default class TopNav extends Component {
               <div className="drawer-title">
                 <h3>Menu</h3>
                 <a className="close-drawer" onClick={this.onToggle}>
-                  <img src={xIcon}/>
+                  <img alt="close drawer" src={xIcon}/>
                 </a>
               </div>
               <div>
@@ -59,7 +59,7 @@ export default class TopNav extends Component {
                     <a href={this.props.urlGithub}>Fork on GitHub</a>
                   </li>
                   <li className="has-dropdown">
-                    <a href="https://developer.ibm.com/watson/">Community</a>
+                    <a rel="noopener noreferrer" href="https://developer.ibm.com/watson/">Community</a>
                   </li>
                 </ul>
               </div>
