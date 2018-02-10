@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Colors, Alert } from 'watson-react-components/dist/components';
-//import uuidv1 from 'uuid/v1';
+import { Alert } from 'watson-react-components/dist/components';
 import './App.css';
+import TopNav from './TopNav';
+import Footer from './Footer';
 
 const orange = require('./images/dot-orange.svg');
 const purple = require('./images/dot-purple.svg');
@@ -97,35 +98,38 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header
-          mainBreadcrumbs="Weather Bot with OpenWhisk"
-          mainBreadcrumbsUrl=""
-          color={Colors.gray_90}
-          hasWordmark={false}
-        />
-        <Alert type="info" color="blue">
-          <p className="base--p">The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.</p>
-        </Alert>
-        <div className="_container chat-container">
-          <div id="chat-column-holder" className="responsive-column content-column">
-            <div className="chat-column">
-              <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
-                {!this.state.error ? JSON.stringify(this.state.error) : null}
-                {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} dots={m.dots} />) : null}
+        <div className="App--main">
+          <TopNav
+            title="Weather Bot with OpenWhisk"
+            urlGithub="https://github.com/watson-developer-cloud/text-bot-openwhisk/"
+          />
+          <div className="alert-container">
+            <Alert type="info" color="blue">
+              <p className="base--p">The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.</p>
+            </Alert>
+          </div>
+          <div className="_container chat-container">
+            <div id="chat-column-holder" className="responsive-column content-column">
+              <div className="chat-column">
+                <div id="scrollingChat" className="scrollingChat" ref={(div) => { this.messages = div;}}>
+                  {!this.state.error ? JSON.stringify(this.state.error) : null}
+                  {!this.state.error ? this.state.messages.map(m => <Message type={m.type} message={m.message} time={m.time} summary={m.summary} dots={m.dots} />) : null}
+                </div>
               </div>
             </div>
-          </div>
-          <input
-            id="text-input-1"
-            class="base--input input responsive-column underline"
-            placeholder="Type here"
-            onInput={(e) => {
-              this.setState({ text: e.target.value });
-            }}
-            onKeyPress={this.handleKeyPress}
+            <input
+              id="text-input-1"
+              class="base--input input responsive-column underline"
+              placeholder="Type here"
+              onInput={(e) => {
+                this.setState({ text: e.target.value });
+              }}
+              onKeyPress={this.handleKeyPress}
 
-          />
+            />
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
