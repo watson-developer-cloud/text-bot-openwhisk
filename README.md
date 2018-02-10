@@ -70,48 +70,48 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
      buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
      disk_quota: 1024M
      services:
-     - cloudant-openwhisk
-     - weatherinsights-openwhisk
-     - nlu-openwhisk
-     - conversation-openwhisk
+     - cloudant-text-bot
+     - weather-text-bot
+     - nlu-text-bot
+     - conversation-text-bot
    ```
 
 ### Creating the Watson services
 
 1. Create an instance of the **Conversation** service and set your credentials by issuing the following commands:
    ```sh
-   cf create-service conversation free conversation-openwhisk
-   cf create-service-key conversation-openwhisk theKey
-   cf service-key conversation-openwhisk theKey
+   cf create-service conversation free conversation-text-bot
+   cf create-service-key conversation-text-bot theKey
+   cf service-key conversation-text-bot theKey
    ```
 
 2. Create an instance of the **Natural Langauge Understanding** service and set your credentials by running the following:
    ```sh
-   cf create-service Natural-Language-Understanding free nlu-openwhisk
-   cf create-service-key nlu-openwhisk theKey
-   cf service-key nlu-openwhisk theKey
+   cf create-service Natural-Language-Understanding free nlu-text-bot
+   cf create-service-key nlu-text-bot theKey
+   cf service-key nlu-text-bot theKey
    ```
 
 3. Create an instance of the **Weather Insights** service and set your credentials by running the following:
    ```sh
-   cf create-service weatherinsights Free-v2 weatherinsights-openwhisk
-   cf create-service-key weatherinsights-openwhisk theKey
-   cf service-key weatherinsights-openwhisk theKey
+   cf create-service weatherinsights Free-v2 weather-text-bot
+   cf create-service-key weather-text-bot theKey
+   cf service-key weather-text-bot theKey
    ```
 
 4. Create an instance of the **Cloudant NoSQL** Database and set your credentials by running the following commands:
    ```sh
-   cf create-service cloudantNoSQLDB Lite cloudant-openwhisk
-   cf create-service-key cloudant-openwhisk theKey
-   cf service-key cloudant-openwhisk theKey
+   cf create-service cloudantNoSQLDB Lite cloudant-text-bot
+   cf create-service-key cloudant-text-bot theKey
+   cf service-key cloudant-text-bot theKey
    ```
 
-5. Before moving on, you must train your Conversation service in order to use this application. The training data is provided in the ```.bluemix/workspace.json``` file. To train the Conversation model, follow the steps below:
+5. Before moving on, you must train your Conversation service in order to use this application. The training data is provided in the `.bluemix/workspace.json` file. To train the Conversation model, follow the steps below:
    1. Go to your [IBM Cloud services dashboard](https://console.bluemix.net/dashboard/services).
    2. Select the Conversation service you created for this application.
    3. Click on the ![Launch tool](readme_images/launchtool.png) button. This will take you to the Conversation training tool, which you will create a workspace for in the next step.
    4. Once the page has loaded, you are going to **Import** a workspace by clicking the ![Import](readme_images/importbutton.png) button, which is next to the Create button.
-   5. Click on **Choose a file** and navigate to the ```.bluemix``` folder in your cloned repository. Select the ```workspace.json``` file and make sure the box that says **Everything (Intents, Entities, and Dialog)** is selected.
+   5. Click on **Choose a file** and navigate to the `.bluemix` folder in your cloned repository. Select the `workspace.json` file and make sure the box that says **Everything (Intents, Entities, and Dialog)** is selected.
    6. Next, click **Import** to upload the training data and create your Conversation workspace.
    7. After this has completed, you will be able to access your Conversation Workspace ID by clicking the button with the three vertical dots (located in the upper right corner of the Workspace pane), and then selecting **View Details**. You will need the Workspace ID when you create the OpenWhisk actions for Conversation.
 
@@ -137,6 +137,7 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    {
     "CONVERSATION_USERNAME": "<YOUR CONVERSATION SERVICE USERNAME>",
     "CONVERSATION_PASSWORD": "<YOUR CONVERSATION SERVICE PASSWORD>",
+    "CONVERSATION_URL": "https://gateway.watsonplatform.net/conversation/api",
     "WORKSPACE_ID": "<YOUR CONVERSATION SERVICE WORKSPACE_ID>"
    }
    ```
@@ -147,7 +148,8 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    ```json
    {
     "NLU_USERNAME": "<YOUR NLU SERVICE USERNAME>",
-    "NLU_PASSWORD": "<YOUR NLU SERVICE PASSWORD>"
+    "NLU_PASSWORD": "<YOUR NLU SERVICE PASSWORD>",
+    "NLU_URL": "https://gateway.watsonplatform.net/natural-language-understanding/api",
    }
    ```
    **Weather Company Data Credentials**
@@ -218,15 +220,15 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
 5. You can test your sequence by copying and pasting the following command in a new terminal window.
 
    ```sh
-   wsk action invoke --blocking openwhisk-textbot-cloudant --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }' --param _id test --param _rev null
+   wsk action invoke --blocking <sequence name> --param conversation '{ "input": { "text": "Hello", "language": "en" }, "context": {} }' --param _id test --param _rev null
    ```
    If you get a JSON response with no status error messages, then your sequence has been successfully created.
 
-6. To ensure that your document is saved in your Cloudant DB instance, go to your [IBM Cloud dashboard](https://console.bluemix.net/dashboard/apps), click on your Cloudant DB service instance, then click on the **Launch** button. Once you are viewing your list of **Databases**, click on the name of your weather bot database. If you see an entry with the same ID number used in the ```wsk``` command, then your sequence has sucessfully written to the database. If you would like to view the context that has been saved, then check the **Include Docs** box at the top of the page.
+6. To ensure that your document is saved in your Cloudant DB instance, go to your [IBM Cloud dashboard](https://console.bluemix.net/dashboard/apps), click on your Cloudant DB service instance, then click on the **Launch** button. Once you are viewing your list of **Databases**, click on the name of your weather bot database. If you see an entry with the same ID number used in the `wsk` command, then your sequence has sucessfully written to the database. If you would like to view the context that has been saved, then check the **Include Docs** box at the top of the page.
 
 #### Additions to the React app
 
-* Cloudant integration requires the DB document's ```_id``` and ```_rev``` to be passed in the UI.
+* Cloudant integration requires the DB document's `_id` and `_rev` to be passed in the UI.
 * The document ID numbers should be UUIDs. Install the Node [UUID Package](https://www.npmjs.com/package/uuid) and follow the instructions on how to generate the IDs.
 
 ## Create an API
@@ -245,7 +247,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ![CORS](readme_images/cors.png)
 6. Then, click **Save and expose**.
 7. Now, create API keys for sharing within IBM Cloud and outside of IBM Cloud by clicking ![Keys](readme_images/createkey.png).
-8. To test your API, navigate to the **API Explorer** tab. Copy and paste the following command in a terminal window. Replace the ```--url``` flag with the route and path for your POST request, and replace the ```default``` API key with yours. To generate an ```id```, click on **Try it**, which is to the right of **Examples**, and then click **Generate** under the **Parameters** section to generate an ID.
+8. To test your API, navigate to the **API Explorer** tab. Copy and paste the following command in a terminal window. Replace the `--url` flag with the route and path for your POST request, and replace the `default` API key with yours. To generate an `id`, click on **Try it**, which is to the right of **Examples**, and then click **Generate** under the **Parameters** section to generate an ID.
    ```bash
    curl --request POST --url <YOUR POST PATH> --header 'accept: application/json' --header 'content-type: application/json' --header 'x-ibm-client-key: <YOUR API KEY>' --data '{"id":<GENERATED ID>, "conversation": { "input": { "text": "Hello", "language": "en"}, "context": {}}}'
    ```
@@ -272,7 +274,7 @@ OpenWhisk actions to use the Cloudant Database have been included, and allow you
    ```none
    npm run build
    ```
-4. You can change the following fields in the ```manifest.yml``` if you like.
+4. You can change the following fields in the `manifest.yml` if you like.
    ```none
    name: <Your App Name>
    ```

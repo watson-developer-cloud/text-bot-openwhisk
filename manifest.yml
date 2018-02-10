@@ -1,6 +1,6 @@
 ---
 declared-services:
-  conversation-service:
+  conversation-text-bot:
     label: conversation
     plan: free
   cloudantNoSQLDB-service:
@@ -14,7 +14,7 @@ applications:
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   disk_quota: 1024M
   services:
-  - cloudant-openwhisk
-  - weatherinsights-openwhisk
-  - nlu-openwhisk
-  - conversation-openwhisk
+  - cloudant-text-bot
+  - weather-text-bot
+  - nlu-text-bot
+  - conversation-text-bot

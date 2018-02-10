@@ -1,1 +1,9 @@
-public/
+public
+tests
+readme_images
+coverage
+actions
+.bluemix
+config
+node_modules
+src
