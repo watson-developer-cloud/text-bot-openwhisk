@@ -78,7 +78,7 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
 
 ### Creating the Watson services
 
-1. Create an instance of the **Watson Assistant** service (formerly Conversation) and set your credentials by issuing the following commands:
+1. Create an instance of the **Watson Assistant (formerly Conversation)** service and set your credentials by issuing the following commands (our CLI is being updated, for now, use the `create-service conversation` command): 
    ```sh
    cf create-service conversation free watson-assistant-text-bot
    cf create-service-key watson-assistant-text-bot theKey
@@ -138,11 +138,11 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
     "WATSON_ASSISTANT_USERNAME": "<YOUR WATSON ASSISTANT SERVICE USERNAME>",
     "WATSON_ASSISTANT_PASSWORD": "<YOUR WATSON ASSISTANT SERVICE PASSWORD>",
     "WATSON_ASSISTANT_URL": "https://gateway.watsonplatform.net/conversation/api",
-    "WORKSPACE_ID": "<YOUR CONVERSATION SERVICE WORKSPACE_ID>"
+    "WORKSPACE_ID": "<YOUR WATSON ASSISTANT SERVICE WORKSPACE_ID>"
    }
    ```
    Your workspace ID can be found by going to your [IBM Cloud dashboard](https://console.bluemix.net/dashboard/apps), clicking on your Watson Assistant service,
-   then clicking on the Launch Tool button.
+   then clicking on the Launch Tool button. 
 
    **NLU Credentials**
    ```json
