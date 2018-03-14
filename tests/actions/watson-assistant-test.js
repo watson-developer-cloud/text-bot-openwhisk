@@ -1,4 +1,4 @@
-const action = require('../../actions/conversation');
+const action = require('../../actions/watson-assistant');
 const assert = require('assert');
 const nock = require('nock');
 
@@ -28,7 +28,7 @@ describe('[action] Conversation', function () {
     });
   });
 
-  it('should call conversation when parameters are right', function () {
+  it('should call watson-assistant when parameters are right', function () {
     const params = {
       WATSON_ASSISTANT_USERNAME: 'foo',
       WATSON_ASSISTANT_PASSWORD: 'bar',
