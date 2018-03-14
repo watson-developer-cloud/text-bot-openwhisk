@@ -24,7 +24,7 @@ describe('[action] Conversation', function () {
     return action.main(params).then(function() {
       assert.fail('Missing credentials error was not found');
     }).catch(function(error) {
-      assert(error.message === 'params.CONVERSATION_USERNAME can not be null');
+      assert(error.message === 'params.WATSON_ASSISTANT_USERNAME can not be null');
     });
   });
 
