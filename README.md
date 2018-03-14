@@ -121,8 +121,8 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
 
 2. You will be creating 5 actions (not including actions for the Cloudant DB) for the weather chat bot as follows:
    ```none
-   wsk action create conversation1 actions/conversation.js --web true
-   wsk action create conversation2 actions/conversation-weather.js --web true
+   wsk action create conversation1 actions/watson-assistant.js --web true
+   wsk action create conversation2 actions/watson-assistant-weather.js --web true
    wsk action create nlu actions/nlu.js --web true
    wsk action create getGeoLoc actions/getGeoLoc.js --web true
    wsk action create getWeather actions/getWeather.js --web true
@@ -162,8 +162,8 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    ```
 4. Export your service credentials by performing the following:
    ```sh
-   wsk action update conversation1 --param-file config/conversation-config.json
-   wsk action update conversation2 --param-file config/conversation-config.json
+   wsk action update conversation1 --param-file config/watson-assistant-config.json
+   wsk action update conversation2 --param-file config/watson-assistant-config.json
    wsk action update nlu --param-file config/nlu-config.json
    wsk action update getGeoLoc --param-file config/weather-config.json
    wsk action update getWeather --param-file config/weather-config.json
