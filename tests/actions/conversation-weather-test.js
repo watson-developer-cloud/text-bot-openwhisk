@@ -27,14 +27,14 @@ describe('[action] Conversation', function () {
     return action.main(params).then(function() {
       assert.fail('Missing credentials error was not found');
     }).catch(function(error) {
-      assert(error.message === 'params.CONVERSATION_USERNAME can not be null');
+      assert(error.message === 'params.WATSON_ASSISTANT_USERNAME can not be null');
     });
   });
 
   it('should call conversation-weather when parameters are right', function () {
     const params = {
-      CONVERSATION_USERNAME: 'foo',
-      CONVERSATION_PASSWORD: 'bar',
+      WATSON_ASSISTANT_USERNAME: 'foo',
+      WATSON_ASSISTANT_PASSWORD: 'bar',
       WORKSPACE_ID: workspaceId,
       conversation: {
         input: {
