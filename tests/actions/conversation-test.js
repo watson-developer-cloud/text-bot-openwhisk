@@ -30,8 +30,8 @@ describe('[action] Conversation', function () {
 
   it('should call conversation when parameters are right', function () {
     const params = {
-      CONVERSATION_USERNAME: 'foo',
-      CONVERSATION_PASSWORD: 'bar',
+      WATSON_ASSISTANT_USERNAME: 'foo',
+      WATSON_ASSISTANT_PASSWORD: 'bar',
       WORKSPACE_ID: workspaceId,
       conversation: {
         input: {
