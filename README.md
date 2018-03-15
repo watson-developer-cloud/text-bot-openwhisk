@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/watson-developer-cloud/text-bot-openwhisk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/text-bot-openwhisk) [![codecov](https://codecov.io/gh/watson-developer-cloud/text-bot-openwhisk/branch/master/graph/badge.svg)](https://codecov.io/gh/watson-developer-cloud/text-bot-openwhisk)
 
-This project gives you the current weather forecast for your city (U.S. only as of now). The Weather Bot is based off the [Watson Weather Bot](https://github.com/watson-developer-cloud/text-bot) and uses Conversation, Natural Language Understanding, and The Weather Company Data API. It is run with [OpenWhisk](https://console.bluemix.net/openwhisk/).
+This project gives you the current weather forecast for your city (U.S. only as of now). The Weather Bot is based off the [Watson Weather Bot](https://github.com/watson-developer-cloud/text-bot) and uses Watson Assistant (formerly Conversation), Natural Language Understanding, and The Weather Company Data API. It is run with [OpenWhisk](https://console.bluemix.net/openwhisk/).
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
@@ -16,7 +16,7 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
 
 [![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.com/watson-developer-cloud/text-bot-openwhisk)
 
-**Note**: Please ensure that your IBM Cloud organization has enough space for one web application using 256MB of memory and for 4 services (CloudantDB, Conversation, NLU, and Weather Insights) and that you have enough space for another Conversation workspace (up to 6 total).
+**Note**: Please ensure that your IBM Cloud organization has enough space for one web application using 256MB of memory and for 4 services (CloudantDB, Watson Assistant (Conversation), NLU, and Weather Insights) and that you have enough space for another Watson Assistant workspace (up to 6 total).
 
 ## Table of Contents
  - [The Architecture](#the-architecture)
@@ -56,7 +56,7 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    ```yml
    ---
    declared-services:
-     conversation-service:
+     watson-assistant-service:
        label: conversation
        plan: free
      cloudantNoSQLDB-service:
@@ -73,16 +73,16 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
      - cloudant-text-bot
      - weather-text-bot
      - nlu-text-bot
-     - conversation-text-bot
+     - watson-assistant-text-bot
    ```
 
 ### Creating the Watson services
 
-1. Create an instance of the **Conversation** service and set your credentials by issuing the following commands:
+1. Create an instance of the **Watson Assistant (formerly Conversation)** service and set your credentials by issuing the following commands (our CLI is being updated, for now, use the `create-service conversation` command): 
    ```sh
-   cf create-service conversation free conversation-text-bot
-   cf create-service-key conversation-text-bot theKey
-   cf service-key conversation-text-bot theKey
+   cf create-service conversation free watson-assistant-text-bot
+   cf create-service-key watson-assistant-text-bot theKey
+   cf service-key watson-assistant-text-bot theKey
    ```
 
 2. Create an instance of the **Natural Langauge Understanding** service and set your credentials by running the following:
@@ -106,14 +106,14 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    cf service-key cloudant-text-bot theKey
    ```
 
-5. Before moving on, you must train your Conversation service in order to use this application. The training data is provided in the `.bluemix/workspace.json` file. To train the Conversation model, follow the steps below:
+5. Before moving on, you must train your Watson Assistant service in order to use this application. The training data is provided in the `.bluemix/workspace.json` file. To train the Watson Assistant model, follow the steps below:
    1. Go to your [IBM Cloud services dashboard](https://console.bluemix.net/dashboard/services).
-   2. Select the Conversation service you created for this application.
-   3. Click on the ![Launch tool](readme_images/launchtool.png) button. This will take you to the Conversation training tool, which you will create a workspace for in the next step.
+   2. Select the Watson Assistant service you created for this application.
+   3. Click on the ![Launch tool](readme_images/launchtool.png) button. This will take you to the Watson Assistant training tool, which you will create a workspace for in the next step.
    4. Once the page has loaded, you are going to **Import** a workspace by clicking the ![Import](readme_images/importbutton.png) button, which is next to the Create button.
    5. Click on **Choose a file** and navigate to the `.bluemix` folder in your cloned repository. Select the `workspace.json` file and make sure the box that says **Everything (Intents, Entities, and Dialog)** is selected.
-   6. Next, click **Import** to upload the training data and create your Conversation workspace.
-   7. After this has completed, you will be able to access your Conversation Workspace ID by clicking the button with the three vertical dots (located in the upper right corner of the Workspace pane), and then selecting **View Details**. You will need the Workspace ID when you create the OpenWhisk actions for Conversation.
+   6. Next, click **Import** to upload the training data and create your Watson Assistant workspace.
+   7. After this has completed, you will be able to access your Watson Assistant Workspace ID by clicking the button with the three vertical dots (located in the upper right corner of the Workspace pane), and then selecting **View Details**. You will need the Workspace ID when you create the OpenWhisk actions for Watson Assistant (formerly Conversation).
 
 ## OpenWhisk Setup
 
@@ -121,8 +121,8 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
 
 2. You will be creating 5 actions (not including actions for the Cloudant DB) for the weather chat bot as follows:
    ```none
-   wsk action create conversation1 actions/conversation.js --web true
-   wsk action create conversation2 actions/conversation-weather.js --web true
+   wsk action create conversation1 actions/watson-assistant.js --web true
+   wsk action create conversation2 actions/watson-assistant-weather.js --web true
    wsk action create nlu actions/nlu.js --web true
    wsk action create getGeoLoc actions/getGeoLoc.js --web true
    wsk action create getWeather actions/getWeather.js --web true
@@ -132,17 +132,17 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    cd config
    ```
 
-   **Conversation Credentials**
+   **Watson Assistant Credentials**
    ```json
    {
-    "CONVERSATION_USERNAME": "<YOUR CONVERSATION SERVICE USERNAME>",
-    "CONVERSATION_PASSWORD": "<YOUR CONVERSATION SERVICE PASSWORD>",
-    "CONVERSATION_URL": "https://gateway.watsonplatform.net/conversation/api",
-    "WORKSPACE_ID": "<YOUR CONVERSATION SERVICE WORKSPACE_ID>"
+    "WATSON_ASSISTANT_USERNAME": "<YOUR WATSON ASSISTANT SERVICE USERNAME>",
+    "WATSON_ASSISTANT_PASSWORD": "<YOUR WATSON ASSISTANT SERVICE PASSWORD>",
+    "WATSON_ASSISTANT_URL": "https://gateway.watsonplatform.net/conversation/api",
+    "WORKSPACE_ID": "<YOUR WATSON ASSISTANT SERVICE WORKSPACE_ID>"
    }
    ```
-   Your workspace ID can be found by going to your [IBM Cloud dashboard](https://console.bluemix.net/dashboard/apps), clicking on your Conversation service,
-   then clicking on the Launch Tool button.
+   Your workspace ID can be found by going to your [IBM Cloud dashboard](https://console.bluemix.net/dashboard/apps), clicking on your Watson Assistant service,
+   then clicking on the Launch Tool button. 
 
    **NLU Credentials**
    ```json
@@ -162,8 +162,8 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    ```
 4. Export your service credentials by performing the following:
    ```sh
-   wsk action update conversation1 --param-file config/conversation-config.json
-   wsk action update conversation2 --param-file config/conversation-config.json
+   wsk action update conversation1 --param-file config/watson-assistant-config.json
+   wsk action update conversation2 --param-file config/watson-assistant-config.json
    wsk action update nlu --param-file config/nlu-config.json
    wsk action update getGeoLoc --param-file config/weather-config.json
    wsk action update getWeather --param-file config/weather-config.json
@@ -184,7 +184,7 @@ If you do not intend to have database support for your application, then you can
 
 #### Creating the actions
 
-OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write Watson Conversation contexts to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
+OpenWhisk actions to use the Cloudant Database have been included, and allow your application to insert, read, and write Watson Assistant contexts to the database. Once set up, the actions will be ready to use but require some additions to the UI to handle database IDs and Revision numbers (for updating documents). Follow the instructions below to create the Cloudant OpenWhisk actions.
 
 1. Open a terminal window and create the 3 Cloudant actions below:
    ```none
