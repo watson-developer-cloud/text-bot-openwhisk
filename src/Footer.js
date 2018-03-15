@@ -6,7 +6,7 @@ const Footer = () => (
     <div className="_container">
       <div className="bottom-nav-bar--row bottom-nav-bar--row_1">
         <a rel="noopener noreferrer" href="https://www.ibm.com/watson/developer/" className="base--a bottom-nav-bar--nav-link" target="_blank">Built with IBM Watson</a>
-        <a rel="noopener noreferrer" href="https://www.ibm.com/watson/services/conversation/" className="base--a bottom-nav-bar--nav-link" target="_blank">Conversational API</a>
+        <a rel="noopener noreferrer" href="https://www.ibm.com/watson/services/conversation/" className="base--a bottom-nav-bar--nav-link" target="_blank">Assistant API</a>
       </div>
       <div className="bottom-nav-bar--row bottom-nav-bar--row_2">
         <a rel="noopener noreferrer" href="#ibm-com" className="base--a bottom-nav-bar--nav-link" target="_blank">ibm.com</a>

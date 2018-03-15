@@ -1,8 +1,8 @@
 /**
- * Calls the Conversation service and returns a conversation context.
+ * Calls the Watson Assistant (Conversation) service and returns a conversation context.
  * @param {Object} params The parameters
- * @param {String} params.CONVERSATION_USERNAME The username for the Conversation service.
- * @param {String} params.CONVERSATION_PASSWORD The password for the Conversation service.
+ * @param {String} params.WATSON_ASSISTANT_USERNAME The username for the Conversation service.
+ * @param {String} params.WATSON_ASSISTANT_PASSWORD The password for the Conversation service.
  * @param {Object} params.conversation The conversation object.
  * @param {Object} params.conversation.input The user's input message.
  */
@@ -13,13 +13,13 @@ const  DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', '
 function main(params) {
   return new Promise(function (resolve, reject) {
     assert(params, 'params can not be null');
-    assert(params.CONVERSATION_USERNAME, 'params.CONVERSATION_USERNAME can not be null');
-    assert(params.CONVERSATION_PASSWORD, 'params.CONVERSATION_PASSWORD can not be null');
+    assert(params.WATSON_ASSISTANT_USERNAME, 'params.WATSON_ASSISTANT_USERNAME can not be null');
+    assert(params.WATSON_ASSISTANT_PASSWORD, 'params.WATSON_ASSISTANT_PASSWORD can not be null');
     assert(params.conversation && params.conversation.input, 'params.conversation.input can not be null');
 
     const conversation = watson.conversation({
-      username: params.CONVERSATION_USERNAME,
-      password: params.CONVERSATION_PASSWORD,
+      username: params.WATSON_ASSISTANT_USERNAME,
+      password: params.WATSON_ASSISTANT_PASSWORD,
       version: 'v1',
       version_date: '2017-05-26'
     });
