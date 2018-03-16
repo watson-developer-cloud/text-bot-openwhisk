@@ -5,3 +5,4 @@ test.js
 public/
 node_modules/
 coverage
+.env

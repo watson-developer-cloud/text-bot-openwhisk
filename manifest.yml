@@ -1,6 +1,6 @@
 ---
 declared-services:
-  conversation-service:
+  watson-assistant-text-bot:
     label: conversation
     plan: free
   cloudantNoSQLDB-service:
@@ -10,12 +10,11 @@ applications:
 - path: .
   memory: 256M
   instances: 1
-  domain: mybluemix.net
   name: text-bot-openwhisk
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   disk_quota: 1024M
   services:
-  - cloudant-openwhisk
-  - weatherinsights-openwhisk
-  - nlu-openwhisk
-  - conversation-openwhisk
+  - cloudant-text-bot
+  - weather-text-bot
+  - nlu-text-bot
+  - watson-assistant-text-bot
