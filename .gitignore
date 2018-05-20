@@ -6,3 +6,4 @@ public/
 node_modules/
 coverage
 .env
+build
