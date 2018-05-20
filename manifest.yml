@@ -17,4 +17,4 @@ applications:
   - cloudant-text-bot
   - weather-text-bot
   - nlu-text-bot
-  - watson-assistant-text-bot
+  - conversation-text-bot
