@@ -130,7 +130,6 @@ class App extends Component {
               * The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.
             </div>
           </div>
-
         </div>
         <Footer />
       </div>
