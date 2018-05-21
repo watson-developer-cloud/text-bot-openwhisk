@@ -105,7 +105,7 @@ class App extends Component {
           />
           <div className="alert-container">
             <Alert type="info" color="blue">
-              <p className="base--p">The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.</p>
+              <p className="base--p">This system is for demonstration purposes only and is not intended to process Personal Data. No Personal Data is to be entered into this system as it may not have the necessary controls in place to meet the requirements of the General Data Protection Regulation (EU) 2016/679.</p>
             </Alert>
           </div>
           <div className="_container chat-container">
@@ -126,7 +126,11 @@ class App extends Component {
               onKeyPress={this.handleKeyPress}
 
             />
+            <div className="disclaimer-message">
+              * The Weather Bot provides forecasts for <b>U.S. cities</b> at this moment.
+            </div>
           </div>
+
         </div>
         <Footer />
       </div>
