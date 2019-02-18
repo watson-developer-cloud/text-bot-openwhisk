@@ -14,7 +14,7 @@ To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
 
 To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** button below.
 
-[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.com/watson-developer-cloud/text-bot-openwhisk)
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.com/watson-developer-cloud/text-bot-openwhisk) [![Greenkeeper badge](https://badges.greenkeeper.io/watson-developer-cloud/text-bot-openwhisk.svg)](https://greenkeeper.io/)
 
 **Note**: Please ensure that your IBM Cloud organization has enough space for one web application using 256MB of memory and for 4 services (CloudantDB, Watson Assistant (Conversation), NLU, and Weather Insights) and that you have enough space for another Watson Assistant workspace (up to 6 total).
 
