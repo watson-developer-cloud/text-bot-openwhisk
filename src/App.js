@@ -7,6 +7,8 @@ import Footer from './Footer';
 const orange = require('./images/dot-orange.svg');
 const purple = require('./images/dot-purple.svg');
 
+const TERMS_OF_USE_URL = 'https://watson-developer-cloud.github.io/terms?name=OpenWhisk%20Text%20Bot%20Demo';
+
 const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
 
 const Message = (props) => (
@@ -106,6 +108,12 @@ class App extends Component {
           <div className="alert-container">
             <Alert type="info" color="blue">
               <p className="base--p">This system is for demonstration purposes only and is not intended to process Personal Data. No Personal Data is to be entered into this system as it may not have the necessary controls in place to meet the requirements of the General Data Protection Regulation (EU) 2016/679.</p>
+              <p className="base--p">
+                  By using this application, you agree to the&nbsp;
+                <a target="_blank" rel="noreferrer noopener" href={TERMS_OF_USE_URL}>
+                      Terms of Use
+                </a>
+              </p>
             </Alert>
           </div>
           <div className="_container chat-container">
