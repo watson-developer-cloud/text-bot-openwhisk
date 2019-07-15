@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/watson-developer-cloud/text-bot-openwhisk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/text-bot-openwhisk) [![codecov](https://codecov.io/gh/watson-developer-cloud/text-bot-openwhisk/branch/master/graph/badge.svg)](https://codecov.io/gh/watson-developer-cloud/text-bot-openwhisk)
 
+## DEPRECATED: this repo is no longer actively maintained. It can still be used as reference, but may contain outdated or unpatched code. 
+
 This project gives you the current weather forecast for your city (U.S. only as of now). The Weather Bot uses Watson Assistant (formerly Conversation), Natural Language Understanding, and The Weather Company Data API. It is run with [OpenWhisk](https://console.bluemix.net/openwhisk/).
 
 To see a list of IBM Services, visit here: https://console.bluemix.net/catalog/
